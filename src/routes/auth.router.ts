@@ -1,7 +1,6 @@
 import express from "express";
 
 const router = express.Router();
-const passport = require("passport");
 
 router.get("/login", (req, res) => {
 	res.render("auth/login");
@@ -15,13 +14,14 @@ router.get("/logout", function (req, res) {
 });
 
 router.post("/login", (req, res, next) => {
-	passport.authenticate("local", (err, user, info) => {
-		console.log(err);
-		req.login(user, (err) => {
-			console.log(err);
-			return res.redirect("/suppliers");
-		});
-	})(req, res, next);
+
+	const users = [ { id: "2f24vvg", email: "test@test.com", password: "password" } ];
+	const user = users[ 0 ];
+	if (req.body.email === user.email && req.body.password === user.password) {
+		req.session.uid = user.id;
+		res.redirect("/");
+	}
+	res.render("auth/login", { err: true });
 });
 
 export const AuthRouter = router;
