@@ -31,8 +31,7 @@ route.get("/", async (req, res) => {
 	};
 
 	// Object.assign(params, req.query);
-	console.log(params);
-	let [ items, count ] = await req.orm.em.findAndCount(
+	let [items, count] = await req.orm.em.findAndCount(
 		Supplier,
 		{},
 		{ limit: params.size, offset: params.page * params.size, orderBy: { id: "ASC" } }
@@ -40,7 +39,7 @@ route.get("/", async (req, res) => {
 	res.render("supplier/home", { items, total: count, ...params });
 });
 route.get("/list", async (req, res) => {
-	let [ items, count ] = await req.orm.em.findAndCount(
+	let [items, count] = await req.orm.em.findAndCount(
 		Supplier,
 		{},
 		{ orderBy: { displayName: "ASC" } }

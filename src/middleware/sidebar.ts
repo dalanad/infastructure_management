@@ -6,12 +6,13 @@ function SideBar(req, res, next) {
 				{ label: "Locations", href: "/assets-location/" },
 				{ label: "Category", href: "/assets-category/" },
 				{ label: "Manufacturer", href: "/assets-manufacturer/" },
+				{ label: "Suppliers", href: "/suppliers/" },
 			],
 		},
 		{
-			label: "Suppliers",
-			href: "/suppliers/",
-			icon: "fa fa-truck",
+			label: "Support",
+			href: "/support/",
+			icon: "fa fa-headset",
 			links: undefined,
 		},
 	].map((x) => ({
@@ -22,4 +23,4 @@ function SideBar(req, res, next) {
 	next();
 }
 
-export { SideBar }; 
+export { SideBar };

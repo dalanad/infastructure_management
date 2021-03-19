@@ -7,8 +7,14 @@ import { InjectORM } from "./db/init";
 import { Logger } from "./lib/logging";
 import { SideBar } from "./middleware/sidebar";
 import { addAuth } from "./middleware/authentication";
-import { AuthRouter, SuppliersRouter, AssetsRouter, AssetCategoryRouter, AssetLocationRouter, AssetManufacturerRouter } from "./routes";
-
+import {
+	AuthRouter,
+	SuppliersRouter,
+	AssetsRouter,
+	AssetCategoryRouter,
+	AssetLocationRouter,
+	AssetManufacturerRouter,
+} from "./routes";
 
 async function bootstrap() {
 	const app = express();
@@ -17,12 +23,26 @@ async function bootstrap() {
 
 	// configure views
 	app.set("view engine", "njk");
-	nunjucks.configure(join(__dirname, "views"), { autoescape: true, express: app, watch: true });
 
+	var env = nunjucks.configure(join(__dirname, "views"), {
+		autoescape: false,
+		express: app,
+		watch: true,
+	});
+
+	function DateFilter(value: Date) {
+		return value.toISOString().substr(0, 10);
+	}
+
+	env.addFilter("date", DateFilter);
 	app.use(compression());
 
-	app.use(express.static(join(__dirname, "../", "public") /* {cacheControl: true, immutable: true,  maxAge: 3600000}*/));
-	addAuth(app)
+	app.use(
+		express.static(
+			join(__dirname, "../", "public") /* {cacheControl: true, immutable: true,  maxAge: 3600000}*/
+		)
+	);
+	addAuth(app);
 
 	app.use(AddTailingSlash);
 	app.use(InjectORM);
@@ -35,17 +55,19 @@ async function bootstrap() {
 	app.use("/assets-location", AssetLocationRouter);
 	app.use("/assets", AssetsRouter);
 
-	app.all("/home", (req, res) => { res.render("home"); });
+	app.all("/home", (req, res) => {
+		res.render("home");
+	});
 	app.all("/", (req, res) => res.redirect("/home"));
 
 	app.use(function (req, res) {
-		res.status(404).render('error', { status_code: 404 });
+		res.status(404).render("error", { status_code: 404 });
 	});
 
 	app.use(function (err, req, res, next) {
-		console.error(err.stack)
-		res.status(500).send('Something broke!')
-	})
+		console.error(err.stack);
+		res.status(500).send("Something broke!");
+	});
 
 	app.listen(process.env.PORT || 3000, () => {
 		Logger.info("Listening");

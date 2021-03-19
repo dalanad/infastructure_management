@@ -20,7 +20,8 @@
                     <label for="inputPassword">Password</label>
                     <input type="password" id="inputPassword" class="ctrl" name="password" required="">
                 </div>
-                <p><a class=" btn link text-sm my-1 " href="#">Forgot Password ?</a></p>
+                <div class="text-center text-danger">{{ "Wrong Credentilas" if err}}</div>
+                <p><a class="btn link text-sm my-1 " href="#">Forgot Password ?</a></p>
                 <button class="btn" type="submit">Sign in</button>
             </form>
         </div>

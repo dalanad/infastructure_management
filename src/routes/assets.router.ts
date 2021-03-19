@@ -10,7 +10,7 @@ route.get("/", async (req, res) => {
 	};
 
 	// Object.assign(params, req.query);
-	let [ items, count ] = await req.orm.em.findAndCount(
+	let [items, count] = await req.orm.em.findAndCount(
 		Asset,
 		{},
 		{ limit: params.size, offset: params.page * params.size }
@@ -20,11 +20,10 @@ route.get("/", async (req, res) => {
 
 // create-device
 route.get("/create", async (req, res) => {
-
-	res.locals.asset_categories = await req.orm.em.find(Category, {})
-	res.locals.asset_locations = await req.orm.em.find(AssetLocation, {})
-	res.locals.asset_suppliers = await req.orm.em.find(Supplier, {})
-	res.locals.asset_manufacturers = await req.orm.em.find(Manufacturer, {})
+	res.locals.asset_categories = await req.orm.em.find(Category, {});
+	res.locals.asset_locations = await req.orm.em.find(AssetLocation, {});
+	res.locals.asset_suppliers = await req.orm.em.find(Supplier, {});
+	res.locals.asset_manufacturers = await req.orm.em.find(Manufacturer, {});
 
 	res.render("asset/asset-form");
 });
@@ -38,7 +37,13 @@ route.post("/create", async (req, res) => {
 // edit
 route.get("/edit/:id", async (req: any, res) => {
 	let asset = await req.orm.em.findOne(Asset, req.params.id);
-	res.render("asset/asset-form", { asset: asset });
+
+	res.locals.asset_categories = await req.orm.em.find(Category, {});
+	res.locals.asset_locations = await req.orm.em.find(AssetLocation, {});
+	res.locals.asset_suppliers = await req.orm.em.find(Supplier, {});
+	res.locals.asset_manufacturers = await req.orm.em.find(Manufacturer, {});
+
+	res.render("asset/asset-form", { ...asset });
 });
 
 route.post("/edit/:id", async (req, res) => {

@@ -9,8 +9,7 @@ route.get("/", async (req, res) => {
 		size: parseInt(String(req.query.size || "10")),
 	};
 
-	// Object.assign(params, req.query);
-	let [ items, count ] = await req.orm.em.findAndCount(
+	let [items, count] = await req.orm.em.findAndCount(
 		Category,
 		{},
 		{ limit: params.size, offset: params.page * params.size }
@@ -37,7 +36,11 @@ route.get("/edit/:id", async (req: any, res) => {
 
 route.post("/edit/:id", async (req, res) => {
 	let supplier = await req.orm?.em.findOne<Category>(Category, Number(req.params.id));
-	supplier?.assign({ name: req.body.name, computer: Boolean(req.body.computer), networked: Boolean(req.body.networked) });
+	supplier?.assign({
+		name: req.body.name,
+		computer: Boolean(req.body.computer),
+		networked: Boolean(req.body.networked),
+	});
 	await req.orm?.em.flush();
 	res.redirect(303, req.baseUrl);
 });

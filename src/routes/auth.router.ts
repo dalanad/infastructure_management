@@ -7,21 +7,21 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/logout", function (req, res) {
-	req.logout();
 	req.session.destroy(function (err) {
 		res.redirect("/auth/login");
 	});
 });
 
 router.post("/login", (req, res, next) => {
-
-	const users = [ { id: "2f24vvg", email: "test@test.com", password: "password" } ];
-	const user = users[ 0 ];
-	if (req.body.email === user.email && req.body.password === user.password) {
+	const users = [{ id: "2f24vvg", email: "test@test.com", password: "password" }];
+	const user = users[0];
+	if (req.body.username === user.email && req.body.password === user.password) {
 		req.session.uid = user.id;
+		req.session.save()
 		res.redirect("/");
+	} else {
+		res.render("auth/login", { err: true });
 	}
-	res.render("auth/login", { err: true });
 });
 
 export const AuthRouter = router;
