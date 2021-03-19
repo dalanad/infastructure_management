@@ -1,0 +1,35 @@
+{% extends "layout/admin-base.njk" %}
+
+{% block content %}
+    <h2 class="mb-3">Assets Catogories
+        <a class="btn btn-primary float-end" href="create">New Category</a>
+    </h2>
+
+    <div  >
+        <table class="table" role="grid">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">computer</th>
+                    <th scope="col">network</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.id  }}</td>
+                        <td>{{ item.name  }}</td>
+                        <td>{{ item.computer }}</td>
+                        <td>{{ item.networked }}</td>
+                        <td>
+                            <a class="btn-link" href="edit/{{ item.id }}"> Edit </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

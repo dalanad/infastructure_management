@@ -1,0 +1,29 @@
+{% extends "layout/admin-base.njk" %}
+{% block body %}
+<style>
+    body {
+        display: grid;
+        place-items: center;
+    }
+</style>
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
+            <form class="p-4" method="post">
+                <h2 class="h3 mb-3">IT Management</h2>
+                <h3 class="h3 mb-3">Sign In</h3>
+                <div class="field  ">
+                    <label for="inputEmail">Email address</label>
+                    <input type="email" id="inputEmail" class="ctrl" name="username" required="" autofocus="">
+                </div>
+                <div class="field ">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" id="inputPassword" class="ctrl" name="password" required="">
+                </div>
+                <p><a class=" btn link text-sm my-1 " href="#">Forgot Password ?</a></p>
+                <button class="btn" type="submit">Sign in</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

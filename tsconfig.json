@@ -1,0 +1,16 @@
+{
+	"ts-node": {
+		"files": true
+	},
+	"files": ["src/main.ts"],
+	"compilerOptions": {
+		"target": "es2016",
+		"module": "commonjs",
+		"outDir": "./dist",
+		"esModuleInterop": true,
+		"inlineSourceMap": true,
+		"experimentalDecorators": true,
+		"typeRoots": ["@types", "./node_modules/@types"],
+		"emitDecoratorMetadata": true
+	}
+}

@@ -1,0 +1,76 @@
+{% extends "layout/admin-base.njk" %}
+
+{% block content %}
+    <h2 class="mb-3">Suppliers
+        <a class="btn btn-primary float-end" href="/suppliers/create">New Supplier</a>
+    </h2>
+
+    <div class="align-items-center p-2 g-2 justify-content-end row align-items-center">
+        <div class="col-auto">
+            <span>Search </span> &nbsp;
+        </div>
+        <div class="col-auto">
+            <input type="search" class="ctrl" placeholder=""/>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table" role="grid">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Contact Name</th>
+                    <th scope="col">Tel</th>
+                    <th scope="col">Email</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.id  }}</td>
+                        <td>{{ item.displayName  }}</td>
+                        <td>{{ item.contactName }}</td>
+                        <td>{{ item.contactInfo.mobile }}
+                        </td>
+                        <td>{{ item.contactInfo.email }}</td>
+                        <td>
+                            <a class="btn-link" href="edit/{{ item.id }}">                                 Edit                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="row justify-content-between m-0 mt-3 align-items-baseline">
+        <div class="col-auto align-items-baseline row">
+            <div class="col-auto">
+                <label class="col-form-label">Show</label>
+            </div>
+            <form class="col-auto">
+                <select class="ctrl sm" name="size" onchange="submit()">
+                    {% for i in [5,10,25,50,100] -%}
+                        <option value="{{i}}" {{"selected" if i==size}}>{{i}}</option>
+                    {% endfor %}
+                </select>
+            </form>
+            <div class="col-auto">
+                <label class="col-form-label">{{total}} total</label>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="pagination">
+                <a href="?page={{page-1}}&size={{size}}" tabindex="0" class="paginate_button {{" disabled" if page==0}}">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+                {% for i in range(0, total/size) -%}
+                    <a href="?page={{i}}&size={{size}}" tabindex="0" class="paginate_button {{" active" if page==i}}">{{ i+1 }}</a>
+                {% endfor %}
+                <a href="?page={{page+1}}&size={{size}}" tabindex="0" class="paginate_button {{" disabled" if (page)>= (total//size)}}">
+                    <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
