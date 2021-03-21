@@ -1,5 +1,5 @@
 import { BaseEntity } from "../base.entity";
-import { Collection, Entity, ManyToMany, PrimaryKey, Property } from "@mikro-orm/core";
+import { Cascade, Collection, Entity, ManyToMany, PrimaryKey, Property } from "@mikro-orm/core";
 
 @Entity()
 export class AuthRole extends BaseEntity {
@@ -15,7 +15,7 @@ export class AuthRole extends BaseEntity {
 	@Property({ nullable: true })
 	description: string;
 
-	@ManyToMany({ entity: () => AuthTask })
+	@ManyToMany({ entity: () => AuthTask, cascade: [ Cascade.ALL ] })
 	tasks = new Collection<AuthTask>(this);
 }
 

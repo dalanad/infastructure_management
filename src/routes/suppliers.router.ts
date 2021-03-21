@@ -36,7 +36,7 @@ route.get("/", async (req, res) => {
 		{},
 		{ limit: params.size, offset: params.page * params.size, orderBy: { id: "ASC" } }
 	);
-	res.render("supplier/home", { items, total: count, ...params });
+	res.render("asset/supplier/home", { items, total: count, ...params });
 });
 route.get("/list", async (req, res) => {
 	let [items, count] = await req.orm.em.findAndCount(
@@ -48,7 +48,7 @@ route.get("/list", async (req, res) => {
 });
 // create-device
 route.get("/create", (req, res) => {
-	res.render("supplier/create-supplier", { form: SupplierForm().toObject() });
+	res.render("asset/supplier/create-supplier", { form: SupplierForm().toObject() });
 });
 
 route.post("/create", async (req, res) => {
@@ -63,7 +63,7 @@ route.post("/create", async (req, res) => {
 route.get("/edit/:id", async (req: any, res) => {
 	let form = SupplierForm();
 	form.value = await req.orm.em.findOne(Supplier, req.params.id);
-	res.render("supplier/create-supplier", { form: form.toObject() });
+	res.render("asset/supplier/create-supplier", { form: form.toObject() });
 });
 
 route.post("/edit/:id", async (req, res) => {

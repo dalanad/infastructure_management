@@ -1,5 +1,6 @@
 import express from "express";
-
+import { AuthUser } from "../db/entity";
+import { encrypt, hash } from "../lib/core";
 const router = express.Router();
 
 router.get("/login", (req, res) => {
@@ -7,17 +8,14 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/logout", function (req, res) {
-	req.session.destroy(function (err) {
-		res.redirect("/auth/login");
-	});
+	res.cookie('id_token', '', { expires: new Date() });
+	res.redirect("/auth/login");
 });
 
-router.post("/login", (req, res, next) => {
-	const users = [{ id: "2f24vvg", email: "test@test.com", password: "password" }];
-	const user = users[0];
-	if (req.body.username === user.email && req.body.password === user.password) {
-		req.session.uid = user.id;
-		req.session.save()
+router.post("/login", async (req, res, next) => {
+	const user = await req.orm.em.findOne(AuthUser, { uid: String(req.body.uid).toLowerCase().trim() });
+	if (user && hash(req.body.password) === user.password) {
+		res.cookie('id_token', await encrypt(JSON.stringify({ uid: user.uid })));
 		res.redirect("/");
 	} else {
 		res.render("auth/login", { err: true });

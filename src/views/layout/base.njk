@@ -13,12 +13,14 @@
         <link href="/css/main.css" rel="stylesheet" data-turbo-track="reload">
         <script src="https://cdn.jsdelivr.net/gh/dalanad/helix/dist/main.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@7.0.0-beta.4/dist/turbo.es5-umd.min.js"></script>
-        <script src="https://unpkg.com/vue@next"></script>
+        {# <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script> #}
         <script src="/js/main.js" crossorigin="anonymous" data-turbo-track="reload"></script>
     </head>
 
     <body data-sidebar-behavior="sticky">
-        {% block body %}{% endblock %}
+        <div style="display:contents" id="app-main">
+            {% block body %}{% endblock %}
+        </div>
         <div class="modal fade " id="model-id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">

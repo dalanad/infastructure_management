@@ -46,8 +46,8 @@ export class Asset extends BaseEntity {
     @Property()
     spec: string;
 
-    @ManyToOne(() => Supplier, { eager: true  })
-    supplier: Supplier; 
+    @ManyToOne(() => Supplier, { eager: true })
+    supplier: Supplier;
 
     @Property({ default: 0 })
     warranty: number;
@@ -73,7 +73,7 @@ export class Asset extends BaseEntity {
     @Property({ nullable: true, default: '' })
     owner: string;
 
-    @Property({ nullable: true, default: "[]" })
+    @Property({ columnType: "jsonb", nullable: true, default: "[]" })
     software: string;
 
     @Enum(() => AssetStatus)

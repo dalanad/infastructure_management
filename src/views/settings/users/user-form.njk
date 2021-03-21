@@ -1,0 +1,48 @@
+{% extends "layout/admin-base.njk" %}
+
+{% block content %}
+
+    <form action="" method="post"  id="user-form">
+        <h3>User</h4>
+        <div class="row g-2">
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label>UID / Username </label>
+                <input class="ctrl" name="uid" onkeyup="return validate(this)" value="{{uid}}" {{"disabled" if uid}}>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label>Name</label>
+                <input class="ctrl" name="name" value="{{name}}" required>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label>Email</label>
+                <input class="ctrl" name="email" type="email" value="{{email}}" required>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label>Password</label>
+                <input class="ctrl" name="password" type="password" value="{{password}}" >
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label>Role</label>
+                <select class="ctrl" name="role">
+                    {% for item in roles %}
+                        <option {{ "selected" if role.id == item.id }} value="{{item.id}}">{{item.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 ">
+                <label><input name="isActive" type="radio" value="1" {{"checked" if isActive }} required>&nbsp;Active</label>
+                <label><input name="isActive" type="radio" value="0" {{"checked" if not isActive }} required>&nbsp;Inactive</label>
+            </div>
+        </div>
+        <button type="submit" class="btmt-3">Submit</button>
+        <a type="button" class="btn outline danger mt-3" href="/settings/users/">Back</a>
+    </form>
+    <script>
+        function validate(e) {
+            e.value = e
+                .value
+                .toLowerCase();
+            e.value = String(e.value).replace(/\ /g, "");
+        }
+    </script>
+{% endblock %}

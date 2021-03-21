@@ -1,4 +1,5 @@
 {% extends "./base.njk" %}
+
 {% block body %}
 
     <header class="header">
@@ -23,25 +24,25 @@
                             </span>
                         </a>
                         {% if item.links %}
-                        <div class="ml-5 mb-3 font-weight-normal sub-list">
-                            {% for link in item.links %}
-                                <a class="d-block text-body{{ "x text-decoration-underline" if link.active}}" href="{{link.href}}">{{link.label}}</a>
-                            {% endfor %}
+                            <div class="font-weight-normal sub-list">
+                                {% for link in item.links %}
+                                    <a class="nav-item {{ "active" if link.active}}" href="{{link.href}}">{{link.label}}</a>
+                                {% endfor %}
+                            </div>
+                            {% endif%}
                         </div>
-                        {% endif%}
-                    </div>
-                {% endfor %}
+                    {% endfor %}
 
+                </div>
+            </div>
+            <div class="p-3 w-100 px-lg-5 p-lg-4 overflow-scroll" >
+                {% if frame %}
+                    <turbo-frame id="{{frame}}">
+                    {% endif %}
+                    {% block content %}{% endblock %}
+                    {% if frame %}
+                    </turbo-frame>
+                {% endif %}
             </div>
         </div>
-        <div class="p-3 w-100">
-            {% if frame %}
-                <turbo-frame id="{{frame}}">
-                {% endif %}
-                {% block content %}{% endblock %}
-                {% if frame %}
-                </turbo-frame>
-            {% endif %}
-        </div>
-    </div>
-{% endblock %}
+    {% endblock %}

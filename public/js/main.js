@@ -2,7 +2,7 @@ document.addEventListener("turbo:load", () => afterLoad(), false);
 
 function afterLoad() {
 	validateForms();
-
+	init();
 	var t = document.getElementsByClassName("sidebar")[0];
 	document.getElementsByClassName("sidebar-toggle")[0].addEventListener("click", function () {
 		t.classList.toggle("collapsed"),
@@ -31,4 +31,13 @@ function validateForms() {
 			false
 		);
 	});
+}
+
+function init() {
+	// let app = new Vue({
+	// 	el: "#app-main",
+	// 	data: {
+	// 		message: "Hello Vue!",
+	// 	},
+	// });
 }

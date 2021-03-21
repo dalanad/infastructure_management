@@ -1,0 +1,25 @@
+{% extends "layout/admin-base.njk" %}
+
+{% block content %}
+
+    <form action="" method="post"  id="user-form">
+        <h3>User</h4>
+        <div class="row g-2">
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label>Name</label>
+                <input class="ctrl" name="name" value="{{name}}" required>
+            </div>
+        </div>
+        <table class="compact">
+            {% for item in tasks_list %}
+                <tr>
+                    <td>{{item.name}}</td>
+                    <td><input {{ "checked" if active_task_ids and item.id in active_task_ids }} type="checkbox" name="tasks[]" value="{{item.id}}"/></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <button type="submit" class="btmt-3">Submit</button>
+        <a type="button" class="btn outline danger mt-3" href="/settings/users/">Back</a>
+    </form>
+
+{% endblock %}

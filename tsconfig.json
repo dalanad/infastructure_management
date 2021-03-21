@@ -2,7 +2,11 @@
 	"ts-node": {
 		"files": true
 	},
-	"files": ["src/main.ts"],
+	"files": [
+		"src/main.ts",
+		"./src/lib/core/parseCookies.ts",
+		"./src/lib/core/collapseRange.ts"
+	],
 	"compilerOptions": {
 		"target": "es2016",
 		"module": "commonjs",

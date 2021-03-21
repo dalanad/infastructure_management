@@ -9,10 +9,10 @@ route.get("/", async (req, res) => {
 		size: parseInt(String(req.query.size || "10")),
 	};
 
-	let [items, count] = await req.orm.em.findAndCount(
+	let [ items, count ] = await req.orm.em.findAndCount(
 		Category,
 		{},
-		{ limit: params.size, offset: params.page * params.size }
+		{ limit: params.size, offset: params.page * params.size, orderBy: { id: "ASC" } }
 	);
 	res.render("asset/category/category-home", { items, total: count, ...params });
 });

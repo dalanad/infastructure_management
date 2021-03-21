@@ -50,7 +50,7 @@ async function InitORM() {
 	await migrator.up();
 
 	let migration = await migrator.createMigration("temp");
-	if (false && migration.diff.length > 0 && migration.diff[0] != "") {
+	if (false && migration.diff.length > 0 && migration.diff[ 0 ] != "") {
 		let migration = await migrator.createMigration();
 		await migrator.up();
 	}

@@ -2,7 +2,8 @@ function SideBar(req, res, next) {
 	res.locals.sidebar = [
 		{ label: "Dashboard", href: "/home/", icon: "fa fa-home" },
 		{
-			label: "Assets", href: "/assets/", icon: "fa fa-sitemap", links: [
+			label: "Assets", href: "/assets/", icon: "fa fa-sitemap",
+			links: [
 				{ label: "Locations", href: "/assets-location/" },
 				{ label: "Category", href: "/assets-category/" },
 				{ label: "Manufacturer", href: "/assets-manufacturer/" },
@@ -14,6 +15,13 @@ function SideBar(req, res, next) {
 			href: "/support/",
 			icon: "fa fa-headset",
 			links: undefined,
+		},
+		{
+			label: "Settings", href: "/settings/", icon: "fa fa-cog",
+			links: [
+				{ label: "Users", href: "/settings/users/" },
+				{ label: "Roles", href: "/settings/roles/" },
+			],
 		},
 	].map((x) => ({
 		...x,
