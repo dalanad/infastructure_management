@@ -38,7 +38,7 @@ function addAuth(app) {
 				return res.redirect("/auth/login/");
 			}
 		}
-		res.locals.title = "Application";
+		res.locals.title = "IT Management";
 		res.locals.tag = function name(type: string, str: string) {
 			return `<span class="tag ${status[ type ][ str ]}">${String(str).replace(/_/g, " ")}</span>`;
 		};

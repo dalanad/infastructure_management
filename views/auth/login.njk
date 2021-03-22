@@ -1,0 +1,55 @@
+{% extends "layout/admin-base.njk" %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
+                <form class="p-4 mx-auto" method="post" style="max-width: 300px;">
+                    <h3 class="m-0 text-center">IT Asset Management</h3>
+                    <h2 class="mb-3 text-center">Sign In</h2>
+                    <button class="btn  w-100"  type="button" disabled>Sign in using SSO</button>
+                    <div class="align-items-center mt-4 mb-3 d-flex flex-row"  >
+                        <div style="background:var(--muted);height:1px;flex:1"></div>
+                        <small class="mx-2">or using user id and password</small>
+                        <div style="background:var(--muted);height:1px;flex:1"></div>
+                    </div>
+                    <div class="field">
+                        <label for="uid">User ID</label>
+                        <input type="text" id="uid" class="ctrl" name="uid" required="" autofocus="">
+                    </div>
+                    <div class="field ">
+                        <label for="password" class="d-flex align-items-center justify-content-between">Password
+                            <small>
+                                <a class="float-end" tabindex="3" href="#">Forgot Password ?</a>
+                            </small>
+                        </label>
+                        <input type="password" id="password" class="ctrl" name="password" required="">
+                    </div>
+                    <div class="text-center text-danger">{{ "Wrong Credentilas" if err}}</div>
+                    <button class="btn success mt-4 ml-0 w-100" type="submit">Sign in</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <img src="/img/auth-bg.png" style="">
+{% endblock %}
+
+{% block style %}
+    <style>
+        .container {
+            z-index: 100;
+            margin-bottom: 12em;
+        }
+        body {
+            display: grid;
+            place-items: center;
+        }
+        img {
+            max-width: 300px;
+            position: absolute;
+            right: 0;
+            bottom: 10px;
+            opacity: 0.6;
+        }
+    </style>
+{% endblock %}

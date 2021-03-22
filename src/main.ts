@@ -17,39 +17,32 @@ async function bootstrap() {
 	// configure views
 	app.set("view engine", "njk");
 
-	var env = nunjucks.configure(join(__dirname, "./views"), {
-		autoescape: false,
-		express: app,
-		watch: true,
-	});
+	let view_opts = { autoescape: false, express: app, watch: true }
+	var env = nunjucks.configure(join(__dirname, "../views"), view_opts);
 
 	function DateFilter(value: Date) {
+		if (!value) return ""
 		return value.toISOString().substr(0, 10);
 	}
 
 	env.addFilter("date", DateFilter);
 
 	app.use(CompressionMiddleware);
+	let staticOpts = { cacheControl: true, immutable: true, maxAge: 3600000 }
+	app.use(express.static(join(__dirname, "../public")));
 
-	app.use(
-		express.static(
-			join(__dirname, "../public") /* {cacheControl: true, immutable: true,  maxAge: 3600000}*/
-		)
-	);
 	addAuth(app);
 	app.use(AddTailingSlash, InjectORM, SideBar);
-	app.use(AppRouter)
-
-
+	app.use(AppRouter) 
 
 	app.use(function (req, res) {
 		res.status(404).render("error", { status_code: 404 });
 	});
 
-	// app.use(function (err, req, res, next) {
-	// 	console.error(err.stack);
-	// 	res.status(500).send("Something broke!");
-	// });
+	app.use(function (err, req, res, next) {
+		console.error(err.stack);
+		res.status(500).render("error", { status_code: 500 });
+	});
 
 	app.listen(process.env.PORT || 3000, () => {
 		Logger.info("Listening");

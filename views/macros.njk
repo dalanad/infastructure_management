@@ -1,0 +1,26 @@
+{% macro link(text, link, class, icon) -%}
+    <a href="{{link}}" class="{{class}}">
+        {%- if icon -%}
+            <i class="{{icon}} mr-2"></i>
+        {%- endif -%}
+        {{- text -}}</a>
+{%-  endmacro %}
+
+{% macro page_header(title) %}
+    <div class="d-flex justify-content-between">
+        <div>
+            <div class="lh-1">
+                Asset Manamgent /
+                <a href="/assets/all/">Assets</a>
+                /
+                <a href="/assets/{{asset.id}}/">{{asset.assetCode}}</a>
+            </div>
+            <h2>{{title}}</h2>
+        </div>
+        {% if caller -%}
+            <div>
+                <span style="white-space: nowrap;margin-top: .5em;">{{ caller()  }}</span>
+            </div>
+        {%- endif %}
+    </div>
+{% endmacro %}

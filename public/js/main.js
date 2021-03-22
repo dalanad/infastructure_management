@@ -1,7 +1,13 @@
-document.addEventListener("turbo:load", () => afterLoad(), false);
+import "https://cdn.jsdelivr.net/gh/dalanad/helix/dist/main.js";
+import "https://cdn.jsdelivr.net/npm/@hotwired/turbo@7.0.0-beta.4/dist/turbo.es5-umd.min.js";
+import "https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js";
+import "https://unpkg.com/vue-select@3.11/dist/vue-select.js";
+import "./helpers.js";
+import "./components.js";
 
+document.addEventListener("turbo:load", () => afterLoad(), false);
+let app;
 function afterLoad() {
-	validateForms();
 	init();
 	var t = document.getElementsByClassName("sidebar")[0];
 	document.getElementsByClassName("sidebar-toggle")[0].addEventListener("click", function () {
@@ -33,11 +39,40 @@ function validateForms() {
 	});
 }
 
+function InitSortHeader(e) {
+	e.classList.add("sort-header");
+	e.dataset.dir = new URLSearchParams(window.location.search).getAll(`sort[${e.dataset.field}]`);
+	e.innerHTML += `&nbsp; <i class='fa'></i>`;
+	e.querySelector("i").classList = e.dataset.dir
+		? `fa fa-arrow-${e.dataset.dir == "ASC" ? "down" : "up"}`
+		: "";
+	console.log("SS");
+	e.addEventListener("click", () => {
+		console.log("SS");
+		if (e.dataset.dir == "DESC") {
+			delete e.dataset.dir;
+		} else {
+			e.dataset.dir = e.dataset.dir == "ASC" ? "DESC" : "ASC";
+		}
+		const urlParams = new URLSearchParams(window.location.search);
+		if (e.dataset.dir) {
+			urlParams.set(`sort[${e.dataset.field}]`, e.dataset.dir);
+		} else {
+			urlParams.delete(`sort[${e.dataset.field}]`);
+		}
+		if ("Turbo" in window) {
+			let url = new URL(window.location.href);
+			url.search = urlParams;
+			Turbo.visit(url.href);
+		} else {
+			window.location.search = urlParams;
+		}
+	});
+}
+
 function init() {
-	// let app = new Vue({
-	// 	el: "#app-main",
-	// 	data: {
-	// 		message: "Hello Vue!",
-	// 	},
-	// });
+	app = new Vue({ el: "#mount" });
+	for (let element of document.querySelectorAll("th[data-field]")) {
+		InitSortHeader(element);
+	}
 }

@@ -12,3 +12,4 @@ export * from "./asset/serviceJob";
 export * from "./asset/network.entity";
 export * from "./asset/serviceDoneBy";
 export * from "./asset/serviceJob";
+export * from "./auth/config.entity"

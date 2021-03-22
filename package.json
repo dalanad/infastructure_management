@@ -4,9 +4,9 @@
 	"description": "",
 	"main": "src\\main.ts",
 	"scripts": {
-		"start": "ts-node ./src/main.ts",
+		"start": "node dist/main",
 		"start:dev": "nodemon",
-		"tsc": "tsc",
+		"build": "tsc",
 		"debug": "export DEBUG=* && npm run start",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

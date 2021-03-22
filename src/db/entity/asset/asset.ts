@@ -74,7 +74,7 @@ export class Asset extends BaseEntity {
     owner: string;
 
     @Property({ columnType: "jsonb", nullable: true, default: "[]" })
-    software: string;
+    software: any;
 
     @Enum(() => AssetStatus)
     status: AssetStatus = AssetStatus.NOT_IN_USE;

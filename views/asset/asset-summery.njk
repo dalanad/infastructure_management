@@ -1,0 +1,147 @@
+{% extends "layout/admin-base.njk" %}
+
+{% block content %}
+<div class="d-flex justify-content-between">
+    <div>
+        <div class="lh-1">
+            <a href="/assets/">Asset Manamgent</a> / <a href="/assets/all/">Assets</a> / <a href="/assets/{{asset.id}}/">{{asset.assetCode}}</a>
+        </div>
+        <h2>Asset Summery</h2>
+    </div>
+    <div>
+        <span style="white-space: nowrap;margin-top: .5em;">
+            <a class="btn  link" href="edit"> <i class="fas fa-pen"></i> &nbsp; &nbsp;Edit </a>
+            <a routerLink="../print-sticker" [queryParams]="{assetCode:asset.assetCode}" class="btn link warn"> <i class="fas fa-qrcode"></i> &nbsp; &nbsp; Print Sticker </a>
+            <a [queryParams]="{assetCode:asset.assetCode}" class="btn success" routerLink="../../service-jobs/new"> Service Job </a>
+        </span>
+    </div>
+</div>
+<div>
+    <div class="row">
+        <div class="col-lg-6">
+            <b class="m-0">
+                <code>{{ asset.assetCode }}</code>
+            </b> - {{ asset.model }}<br>
+            <code>{{ asset.serialNo }}</code>
+            <br>
+            <span class="text-uppercase text-nowrap">
+                status : {{ tag("asset_status",asset.status) }}
+                condition : {{ tag("asset_condition",asset.condition) }}
+            </span>
+            <p> Location : <b>{{ asset.location.name }}</b><br />
+                Category : {{ asset.category.name }}<br />
+                Manufacturer : {{ asset.manufacturer.name }}<br />
+            </p>
+        </div>
+        <div class="col-lg-6">
+            Supplier : {{asset.supplier.displayName}}
+            <br />
+            Date Purchased : {{ asset.datePurchased | date }}
+            <br />
+            Warranty Expiry : {{ asset.warrantyEnd | date }}
+            <span class="tag {{'success' if asset.onWarranty else 'danger'}}">Warranty {{ 'Available' if asset.onWarranty else 'Expired'}}
+            </span>
+            <br />
+
+            Date Commissioned : {{ asset.dateCommissioned | date }}
+        </div>
+    </div>
+    <helix-ui-tabs>
+        <ng-template helixUiTab label="Facts">
+            <table style="border: none">
+                <thead>
+                    <tr>
+                        <th>Param</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Specification</td>
+                        <td>
+                            <div style="white-space: pre-wrap;">{{ asset.spec }}</div>
+                        </td>
+                    </tr>
+                    <ng-container *ngIf="asset.computer?.cpu">
+                        <tr>
+                            <td>CPU</td>
+                            <td>{{asset.computer.cpu}}</td>
+                        </tr>
+                        <tr>
+                            <td>RAM</td>
+                            <td>{{asset.computer.ram}}GB</td>
+                        </tr>
+                        <tr>
+                            <td>HDD / SSD</td>
+                            <td>{{asset.computer.hddCapacity}}GB</td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="asset.net.ip">
+                        <tr>
+                            <td>IP</td>
+                            <td>{{asset.net.ip}}</td>
+                        </tr>
+                        <tr>
+                            <td>Gateway</td>
+                            <td>{{asset.net.gateway}}</td>
+                        </tr>
+                        <tr>
+                            <td>Subnet</td>
+                            <td>{{asset.net.subnet.cidr}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+
+        </ng-template>
+        <ng-template helixUiTab label="Device Timeline">
+            <div class="px">
+                <helix-ui-activity-feed [ID]="asset.timeline?.id" [types]="['SERVICE','REPAIR','PART_REPLACEMENT']"></helix-ui-activity-feed>
+            </div>
+        </ng-template>
+        <ng-template helixUiTab label="Jobs  ">
+            <h3 class="m-0 p">Services / Jobs Schedule</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Interval</th>
+                        <th>Active</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let shed of asset.schedule">
+                        <td>{{shed.description}}</td>
+                        <td>{{shed.interval}} Months</td>
+                        <td>
+                            <span class="tag {{  'success' if shed.active else 'danger' }}">{{ 'YES' if shed.active else 'NO' }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3 class="m-0 p">Recent Services / Jobs</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of asset.serviceJobs">
+                        <td>{{item.doneOn | date }}</td>
+                        <td>{{ item.done }}</td>
+                        <td>
+                            <span *ngFor="let user of item.doneBy">{{ user.user.displayName }} , </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-template>
+    </helix-ui-tabs>
+    </ng-container>
+
+</div>
+<pre>{{asset|dump(1)}}</pre>
+{% endblock %}

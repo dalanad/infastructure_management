@@ -46,3 +46,13 @@ export function hash(s: string) {
 export * from './collapseRange';
 export * from './parseCookies';
 
+let getPairs = (obj, keys = []) =>
+    Object.entries(obj).reduce((pairs, [ key, value ]) => {
+        if (typeof value === 'object')
+            pairs.push(...getPairs(value, [ ...keys, key ]));
+        else
+            pairs.push([ [ ...keys, key ], value ]);
+        return pairs;
+    }, []);
+
+export function objToQueryString(obj) { return getPairs(obj).map(([ [ key0, ...keysRest ], value ]) => `${key0}${keysRest.map(a => `[${a}]`).join('')}=${value}`).join('&'); }

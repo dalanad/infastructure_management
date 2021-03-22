@@ -1,4 +1,4 @@
-import { MikroORM, RequestContext } from "@mikro-orm/core";
+import { MemoryCacheAdapter, MikroORM, RequestContext } from "@mikro-orm/core";
 import {
 	Asset,
 	AssetLocation,
@@ -7,6 +7,7 @@ import {
 	AuthUser,
 	Category,
 	ComputerSpecifications,
+	Config,
 	Contact,
 	Manufacturer,
 	Network,
@@ -20,7 +21,7 @@ import {
 
 let orm: MikroORM;
 
-async function InitORM() {
+async function getORM() {
 	if (orm) return orm;
 	orm = await MikroORM.init({
 		entities: [
@@ -39,7 +40,7 @@ async function InitORM() {
 			ServiceSchedule,
 			Network,
 			ServiceJob,
-			ServiceDoneBy,
+			ServiceDoneBy, Config
 		],
 		type: "postgresql",
 		clientUrl: "postgres://postgres:abc123@127.0.0.1:5432/itim",
@@ -56,10 +57,10 @@ async function InitORM() {
 	}
 	return orm;
 }
-InitORM();
+getORM();
 async function InjectORM(req: any, res, next) {
-	req.orm = await InitORM();
+	req.orm = await getORM();
 	RequestContext.create(req.orm.em, next);
 }
 
-export { InjectORM };
+export { InjectORM, getORM };

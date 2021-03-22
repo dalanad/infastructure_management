@@ -1,0 +1,150 @@
+{% extends "layout/admin-base.njk" %}
+
+{% import "forms.njk" as forms %}
+{% import "macros.njk" as "m" %}
+
+{% block content %}
+    <form action="" method="post">
+        {{ m.page_header("Asset" , assetCode) }}
+
+        {# {% if errors.length > 0 %}
+            <div class="alert text-danger danger">
+                Failed with errors : 
+                <ul class="m-0">
+                    {% for error in errors %}
+                        <li>{{error.message}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %} #}
+        <div class="row g-2">
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="model">Model</label>
+                <input class="ctrl" name="model" id="model" type="" value="{{model}}">
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="serialNo">Serial Number</label>
+                <input class="ctrl {{'invalid' if errors.serialNo }}" name="serialNo" id="serialNo" type="" value="{{serialNo}}">
+                {% if errors.serialNo %}
+                    <span class="field-msg text-danger">{{errors.serialNo}}</span>
+                {% endif %}
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label>Manufacturer</label>
+                <select class="ctrl" name="manufacturer">
+                    {% for item in asset_manufacturers %}
+                        <option {{ "selected" if manufacturer.id == item.id }} value="{{item.id}}">{{item.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label>Category</label>
+                <select class="ctrl" name="category">
+                    {% for item in asset_categories %}
+                        <option {{ "selected" if category.id == item.id }} value="{{item.id}}">{{item.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label>Location</label>
+                <select class="ctrl" name="location">
+                    {% for item in asset_locations %}
+                        <option {{ "selected" if location.id == item.id }} value="{{item.id}}">{{item.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="owner">Owner / User</label>
+                <input class="ctrl" name="owner" id="owner" value="{{ owner }}">
+            </div>
+
+            <h4>Purchase Information</h4>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label>Supplier</label>
+                <select class="ctrl" name="supplier">
+                    {% for item in asset_suppliers %}
+                        <option {{ "selected" if supplier.id == item.id }} value="{{item.id}}">{{item.displayName}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="datePurchased">Date Purchased</label>
+                <input class="ctrl" name="datePurchased" id="datePurchased" type="date" value="{{  datePurchased | date }}">
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="warranty">Warranty Duration</label>
+                <div class="ctrl group">
+                    <input class="ctrl" name="warranty" id="warranty" type="number" value="{{warranty}}">
+                    <span class="static">Months</span>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="dateCommissioned">Date Commissioned</label>
+                <input class="ctrl" name="dateCommissioned" id="dateCommissioned" type="date" value="{{dateCommissioned | date}}">
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="expectedLifespan">Expected Lifespan</label>
+                <div class="ctrl group">
+                    <input class="ctrl" name="expectedLifespan" id="expectedLifespan" type="number" value="{{expectedLifespan}}">
+                    <span class="static">Months</span>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="purchaseCost">Purchase Cost</label>
+                <div class="ctrl group">
+                    <span class="static">Rs.</span>
+                    <input class="ctrl" name="purchaseCost" id="purchaseCost" type="number" value="{{purchaseCost}}">
+                    <span class="static">.00</span>
+                </div>
+            </div>
+
+            <h3 class="mb-1 mt-3">Specifications</h3>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="computer[ram]">RAM</label>
+                <div class="ctrl group">
+                    <input class="ctrl" name="computer[ram]" id="computer[ram]" type="number" value="{{computer.ram}}">
+                    <span class="static">GB</span>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="computer[cpu]">CPU</label>
+
+                <input class="ctrl" name="computer[cpu]" id="computer[cpu]" value="{{computer.cpu}}">
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="computer[hddCapacity]">HDD Capacity</label>
+                <div class="ctrl group">
+                    <input class="ctrl" name="computer[hddCapacity]" id="computer[hddCapacity]" type="number" value="{{computer.hddCapacity}}">
+                    <span class="static">GB</span>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="spec">Other</label>
+                <textarea class="ctrl" name="spec"></textarea>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="software">software Specs</label>
+                <input class="ctrl" name="software" id="software" type="hidden" value="[]">
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="net">NetworkConfigurations</label>
+                <input class="ctrl" name="net" id="net" type="" value="">
+            </div>
+        </div>
+        <div class="py-3">
+            <button type="submit" class="btn">Submit</button>
+            <a type="button" class="btn outline danger " href="/assets/all/">Back</a>
+        </div>
+    </form>
+    <pre>{{e|dump(1)}}</pre>
+{% endblock %}

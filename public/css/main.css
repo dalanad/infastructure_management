@@ -33,8 +33,19 @@
 
 .btn:hover,
 button:hover {
-	opacity: 0.8;
+	/* opacity: 1; */
 	color: var(--bg);
+	/* box-shadow: var(--shadow); */
+	/* transition: box-shadow 0.1s ease-in-out; */
+}
+.btn:active,
+button:active {
+	/* box-shadow: none; */
+}
+
+.btn.link:hover,
+button.link:hover {
+	color: var(--primary);
 }
 
 .sub-list {
@@ -62,6 +73,16 @@ button:hover {
 	animation-duration: 0.5s;
 	animation-name: slidein;
 }
+.sidebar .nav-list {
+	padding: 0 1em;
+}
+.sidebar > .nav-list > .nav-item {
+	margin-bottom: 0.5em;
+}
+
+.nav-link {
+	transition: background 1s ease;
+}
 
 @keyframes slidein {
 	from {
@@ -71,4 +92,67 @@ button:hover {
 	to {
 		border-left: 0.2em solid var(--success);
 	}
+}
+
+.sort-header {
+	cursor: pointer;
+}
+
+.sort-header:hover {
+	background-color: var(--bg-hover);
+}
+.ctrl.invalid {
+	--muted: var(--danger);
+}
+.field {
+	justify-content: start;
+}
+
+.turbo-progress-bar {
+	background: var(--orange);
+}
+
+.style-chooser .vs__search::placeholder,
+.style-chooser .vs__dropdown-toggle,
+.style-chooser .vs__dropdown-menu {
+	color: var(--color);
+	border-color: var(--muted);
+}
+
+.style-chooser .vs__clear,
+.style-chooser .vs__open-indicator {
+	fill: #394066;
+}
+.style-chooser button {
+	min-height: unset;
+}
+.style-chooser {
+	min-width: 180px;
+}
+.style-chooser .vs__dropdown-menu {
+}
+.style-chooser .vs__selected {
+	background-color: var(--gray-2);
+	border: none;
+	color: unset;
+	line-height: 1.2;
+}
+
+.style-chooser .vs__dropdown-option--highlight {
+	background: var(--gray-2);
+	color: var(--color);
+	/* font-weight: bold; */
+}
+.style-chooser .vs__dropdown-option {
+	white-space: unset;
+	color: var(--color);
+}
+button :disabled,
+.btn:disabled {
+	opacity: 0.5;
+}
+
+.ctrl {
+	padding: 0.4rem 0.6em;
+	line-height: 1;
 }

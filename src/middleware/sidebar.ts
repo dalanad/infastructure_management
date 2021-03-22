@@ -4,18 +4,15 @@ function SideBar(req, res, next) {
 		{
 			label: "Assets", href: "/assets/", icon: "fa fa-sitemap",
 			links: [
+				{ label: "Assets", href: "/assets/all/" },
 				{ label: "Locations", href: "/assets-location/" },
 				{ label: "Category", href: "/assets-category/" },
 				{ label: "Manufacturer", href: "/assets-manufacturer/" },
 				{ label: "Suppliers", href: "/suppliers/" },
 			],
 		},
-		{
-			label: "Support",
-			href: "/support/",
-			icon: "fa fa-headset",
-			links: undefined,
-		},
+		{ label: "Support", href: "/support/", icon: "fa fa-headset", links: undefined },
+		{ label: "Servicing", href: "/support/", icon: "fa fa-tools", links: undefined },
 		{
 			label: "Settings", href: "/settings/", icon: "fa fa-cog",
 			links: [

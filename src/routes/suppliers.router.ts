@@ -74,3 +74,4 @@ route.post("/edit/:id", async (req, res) => {
 });
 
 export const SuppliersRouter = route;
+ 

@@ -4,7 +4,7 @@ export function collapseRange(
     current: number,
     max: number
 ) {
-    const pages = Object.keys(Array.apply(0, Array(pagesCount))).map(Number);
+    const pages = Object.keys(Array.apply(0, Array(Math.ceil(pagesCount)))).map(Number);
     const total = pages.length;
     // only need ellipsis if we have more pages than we can display
     const needEllipsis = total > max;
