@@ -5,6 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
                 <form class="p-4 mx-auto" method="post" style="max-width: 300px;">
+                    <img src="/img/logo-03.png" class="logo">
                     <h3 class="m-0 text-center">IT Asset Management</h3>
                     <h2 class="mb-3 text-center">Sign In</h2>
                     <button class="btn  w-100"  type="button" disabled>Sign in using SSO</button>
@@ -25,26 +26,31 @@
                         </label>
                         <input type="password" id="password" class="ctrl" name="password" required="">
                     </div>
-                    <div class="text-center text-danger">{{ "Wrong Credentilas" if err}}</div>
+                    <div class="text-center text-danger">{{ "Incorrect Username or Password" if err}}</div>
                     <button class="btn success mt-4 ml-0 w-100" type="submit">Sign in</button>
                 </form>
             </div>
         </div>
     </div>
-    <img src="/img/auth-bg.png" style="">
+    <img class="bg-img" src="/img/auth-bg.png" style="">
 {% endblock %}
 
 {% block style %}
     <style>
+        .logo {
+            max-height: 25px;
+            margin: 1em auto;
+            display: block;
+        }
         .container {
             z-index: 100;
-            margin-bottom: 12em;
+            margin-bottom: 14em;
         }
         body {
             display: grid;
             place-items: center;
         }
-        img {
+        .bg-img {
             max-width: 300px;
             position: absolute;
             right: 0;

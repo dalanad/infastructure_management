@@ -1,7 +1,4 @@
-import "https://cdn.jsdelivr.net/gh/dalanad/helix/dist/main.js";
-import "https://cdn.jsdelivr.net/npm/@hotwired/turbo@7.0.0-beta.4/dist/turbo.es5-umd.min.js";
-import "https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js";
-import "https://unpkg.com/vue-select@3.11/dist/vue-select.js";
+import "https://cdn.jsdelivr.net/npm/vue-select@3.11.2/dist/vue-select.min.js";
 import "./helpers.js";
 import "./components.js";
 
@@ -9,15 +6,40 @@ document.addEventListener("turbo:load", () => afterLoad(), false);
 let app;
 function afterLoad() {
 	init();
-	var t = document.getElementsByClassName("sidebar")[0];
-	document.getElementsByClassName("sidebar-toggle")[0].addEventListener("click", function () {
-		t.classList.toggle("collapsed"),
-			t.addEventListener("transitionend", function () {
-				window.dispatchEvent(new Event("resize"));
-			});
+}
+function InitSidebar() {
+	const sidebar = document.querySelector(".sidebar");
+	if (!sidebar) return;
+	if (!localStorage.getItem("sidebar-mode")) {
+		localStorage.setItem("sidebar-mode", "open");
+	} else {
+		sidebar.classList.add(localStorage.getItem("sidebar-mode"));
+	}
+
+	let toggle = document.querySelector(".sidebar-toggle");
+	if (toggle) {
+		toggle.addEventListener("click", function () {
+			localStorage.setItem(
+				"sidebar-mode",
+				localStorage.getItem("sidebar-mode") == "open" ? "collapsed" : "open"
+			);
+			sidebar.classList.toggle("collapsed");
+		});
+	}
+	sidebar.addEventListener("mouseenter", function name(params) {
+		if (localStorage.getItem("sidebar-mode") == "collapsed") {
+			sidebar.classList.remove("collapsed");
+		}
+	});
+	sidebar.addEventListener("mouseleave", function name(params) {
+		if (localStorage.getItem("sidebar-mode") == "collapsed") {
+			sidebar.classList.add("collapsed");
+		}
+	});
+	sidebar.addEventListener("transitionend", function () {
+		window.dispatchEvent(new Event("resize"));
 	});
 }
-
 function validateForms() {
 	// Fetch all the forms we want to apply custom Bootstrap validation styles to
 	var forms = document.querySelectorAll(".needs-validation");
@@ -72,6 +94,7 @@ function InitSortHeader(e) {
 
 function init() {
 	app = new Vue({ el: "#mount" });
+	InitSidebar();
 	for (let element of document.querySelectorAll("th[data-field]")) {
 		InitSortHeader(element);
 	}

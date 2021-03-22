@@ -18,7 +18,7 @@ router.post("/login", async (req, res, next) => {
 		res.cookie('id_token', await encrypt(JSON.stringify({ uid: user.uid })));
 		res.redirect("/");
 	} else {
-		res.render("auth/login", { err: true });
+		res.status(401).render("auth/login", { err: true });
 	}
 });
 

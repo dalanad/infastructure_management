@@ -48,6 +48,10 @@ button.link:hover {
 	color: var(--primary);
 }
 
+.sidebar {
+	transition: width 0.5s cubic-bezier(0.34, 0.64, 0.52, 0.99);
+}
+
 .sub-list {
 	margin-left: 2em;
 	margin-bottom: 0.5em;
@@ -79,9 +83,14 @@ button.link:hover {
 .sidebar > .nav-list > .nav-item {
 	margin-bottom: 0.5em;
 }
-
-.nav-link {
-	transition: background 1s ease;
+.sidebar.collapsed .nav-link {
+	text-align: left;
+}
+.sidebar .nav-link {
+	white-space: nowrap;
+}
+.nav-list {
+	transition: padding 0.1s cubic-bezier(0.34, 0.64, 0.52, 0.99);
 }
 
 @keyframes slidein {

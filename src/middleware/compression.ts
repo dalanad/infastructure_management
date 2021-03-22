@@ -166,7 +166,7 @@ function compressible(type) {
     var match = EXTRACT_TYPE_REGEXP.exec(type)
     var mime = match && match[ 1 ].toLowerCase()
     // fallback to regexp or unknown
-    return COMPRESSIBLE_TYPE_REGEXP.test(mime) || undefined
+    return COMPRESSIBLE_TYPE_REGEXP.test(mime) || mime == 'application/javascript' || undefined
 }
 
 function createWriteHead(prevWriteHead, listener) {
