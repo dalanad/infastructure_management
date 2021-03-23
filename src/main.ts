@@ -13,6 +13,7 @@ async function bootstrap() {
 	const app = express();
 
 	app.use(express.urlencoded({ extended: true }));
+	app.disable('x-powered-by')
 
 	// configure views
 	app.set("view engine", "njk");
@@ -34,7 +35,6 @@ async function bootstrap() {
 	addAuth(app);
 	app.use(AddTailingSlash, InjectORM, SideBar);
 	app.use(AppRouter) 
-
 	app.use(function (req, res) {
 		res.status(404).render("error", { status_code: 404 });
 	});

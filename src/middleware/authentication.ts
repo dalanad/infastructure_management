@@ -34,7 +34,7 @@ function addAuth(app) {
 		try {
 			req.user = await decrypt(parseCookies(req)[ "id_token" ])
 		} catch {
-			if (req.originalUrl != "/auth/login/") {
+			if (![ "/auth/login/", "/auth/forgot/" ].includes(req.originalUrl)) {
 				return res.redirect("/auth/login/");
 			}
 		}

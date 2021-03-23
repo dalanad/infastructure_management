@@ -93,6 +93,12 @@ button.link:hover {
 	transition: padding 0.1s cubic-bezier(0.34, 0.64, 0.52, 0.99);
 }
 
+.ctrl.group .static {
+	padding: 0em 0.5em;
+	font-weight: normal;
+	display: flex;
+	align-items: center;
+}
 @keyframes slidein {
 	from {
 		border-left: 0.2em solid var(--bg);

@@ -7,6 +7,10 @@ router.get("/login", (req, res) => {
 	res.render("auth/login");
 });
 
+router.get("/forgot", (req, res) => { res.render("auth/forgot"); });
+
+router.post("/forgot", (req, res) => { res.render("auth/forgot"); });
+
 router.get("/logout", function (req, res) {
 	res.cookie('id_token', '', { expires: new Date() });
 	res.redirect("/auth/login");

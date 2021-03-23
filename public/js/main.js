@@ -68,9 +68,7 @@ function InitSortHeader(e) {
 	e.querySelector("i").classList = e.dataset.dir
 		? `fa fa-arrow-${e.dataset.dir == "ASC" ? "down" : "up"}`
 		: "";
-	console.log("SS");
 	e.addEventListener("click", () => {
-		console.log("SS");
 		if (e.dataset.dir == "DESC") {
 			delete e.dataset.dir;
 		} else {

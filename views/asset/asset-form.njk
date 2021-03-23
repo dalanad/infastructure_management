@@ -1,4 +1,4 @@
-{% extends "layout/admin-base.njk" %}
+{% extends "_layout/admin-base.njk" %}
 
 {% import "forms.njk" as forms %}
 {% import "macros.njk" as "m" %}
@@ -68,6 +68,14 @@
                         <option {{ "selected" if supplier.id == item.id }} value="{{item.id}}">{{item.displayName}}</option>
                     {% endfor %}
                 </select>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="purchaseOrderNo">Purchase Order No</label>
+                <input class="ctrl" name="purchaseOrderNo" id="purchaseOrderNo" value="{{purchaseOrderNo}}">
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label for="grnNo">GRN No</label>
+                <input class="ctrl" name="grnNo" id="grnNo"  value="{{grnNo}}">
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 field">
                 <label for="datePurchased">Date Purchased</label>

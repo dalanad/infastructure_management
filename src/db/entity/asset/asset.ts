@@ -73,6 +73,12 @@ export class Asset extends BaseEntity {
     @Property({ nullable: true, default: '' })
     owner: string;
 
+    @Property({ nullable: false, default: '' })
+    purchaseOrderNo: string;
+
+    @Property({ nullable: false, default: '' })
+    grnNo: string;
+
     @Property({ columnType: "jsonb", nullable: true, default: "[]" })
     software: any;
 
