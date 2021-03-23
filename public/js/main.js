@@ -74,18 +74,10 @@ function InitSortHeader(e) {
 		} else {
 			e.dataset.dir = e.dataset.dir == "ASC" ? "DESC" : "ASC";
 		}
-		const urlParams = new URLSearchParams(window.location.search);
 		if (e.dataset.dir) {
-			urlParams.set(`sort[${e.dataset.field}]`, e.dataset.dir);
+			params({ [`sort[${e.dataset.field}]`]: e.dataset.dir });
 		} else {
-			urlParams.delete(`sort[${e.dataset.field}]`);
-		}
-		if ("Turbo" in window) {
-			let url = new URL(window.location.href);
-			url.search = urlParams;
-			Turbo.visit(url.href);
-		} else {
-			window.location.search = urlParams;
+			params({ [`sort[${e.dataset.field}]`]: null });
 		}
 	});
 }
@@ -97,3 +89,28 @@ function init() {
 		InitSortHeader(element);
 	}
 }
+
+function params(data) {
+	let url = new URL(window.location.href);
+	for (const key in data) {
+		if (Object.prototype.hasOwnProperty.call(data, key)) {
+			const element = data[key];
+			url.searchParams.set(key, element);
+			if (element == null) {
+				url.searchParams.delete(key);
+			}
+		}
+	}
+	visit(url.href);
+}
+
+function visit(url) {
+	if ("Turbo" in window) {
+		Turbo.visit(url);
+	} else {
+		window.location = url;
+	}
+}
+
+window.visit = visit;
+window.params = params;

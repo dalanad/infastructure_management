@@ -2,16 +2,13 @@
 {% import "macros.njk" as "m" %}
 
 {% block content %}
+
     {% call m.page_header("Assets & Devices") %}
     {{ m.link("New Asset","/assets/create","btn") }}
     {% endcall %}
-    <filter-bar :fields='{{ filterConfig | dump | replace("'", "")}}'>
-        <div class=" mb-2" style="height: 66px;max-width: 180px;" >
-                <div class="shine lh-1 mb-1" style="width:65%">&nbsp;</div>
-            <input class="ctrl shine" readonly/>
-        </div>
-    </filter-bar>
-
+    <filter-bar :fields='{{ filterConfig | dump | replace("'", "")}}'><div class=" mb-2" style="height: 66px;max-width: 180px;" ><div class="shine lh-1 mb-1" style="width:65%">&nbsp;</div><input class="ctrl shine" readonly/>
+</div>
+</filter-bar>
 <div class="table-responsive">
 <table class="table compact" role="grid">
     <thead>
@@ -29,7 +26,11 @@
     <tbody>
         {%- for item in items -%}
             <tr>
-                <td>{{ m.link(item.assetCode, "../" + item.id) }}</td>
+                <td>
+                    <a href="{{withParam({selected : item.id })}}">
+                        {{item.assetCode}}
+                    </a>
+                </td>
                 <td>{{ item.category.name  }}</td>
                 <td>{{ item.model  }}</td>
                 <td>{{ item.location.name }}</td>
@@ -37,7 +38,8 @@
                 <td>{{ tag("asset_status", item.status) }}</td>
                 <td>{{ tag("asset_condition", item.condition) }}</td>
                 <td>
-                    {{ m.link("View","../" + item.id) }}
+                    <a href="{{withParam({selected : item.id })}}">View
+                    </a>
                     &nbsp;| &nbsp;
                     {{ m.link("Edit","../" + item.id + "/edit/" ) }}
                 </td>
@@ -45,7 +47,8 @@
         {%- endfor -%}
     </tbody>
 </table>
-{% include "../layout/paginate.njk" %}
+{% include "../_layout/paginate.njk" %}
+</div>
 </div>
 
 {% endblock %}

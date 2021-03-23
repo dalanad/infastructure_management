@@ -1,0 +1,29 @@
+<div class="p-2"><a href="#" class="btn link" onclick="params({selected:null})"><i class="fa fa-arrow-left"></i>&nbsp; View All</a></div>
+<div class="list">
+    {%- for item in items -%}
+        <div onclick="params({selected:{{item.id}}})" class="list-item  {{"active" if item.id == asset.id else "hover" }}">
+            <div class="line lh-1" >
+
+                <code>{{item.assetCode}}</code>
+                {{ item.category.name  }}
+                -
+                {{ item.model  }}
+                <small class="float-end " style="line-height: 1.2;">{{ tag("asset_condition", item.condition) }}</small>
+            </div>
+            <div class="line">
+
+                <small>{{ tag("asset_status", item.status) }}
+                    {{ item.location.name }}
+                    -
+                    {{ item.owner  }}</small>
+            </div>
+
+        </div>
+    {%- endfor -%}
+
+</div>
+{% include "../_layout/paginate.njk" %}
+
+{% block styles %}
+    <style></style>
+{% endblock %}

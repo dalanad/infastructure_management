@@ -13,7 +13,7 @@
 	display: flex;
 }
 
-.paginate_button:hover {
+.paginate_button:hover {cursor: pointer;
 	color: var(--color);
 	background-color: var(--bg-hover);
 }
@@ -75,7 +75,7 @@ button.link:hover {
 	border-color: var(--success);
 	font-weight: 500;
 	animation-duration: 0.5s;
-	animation-name: slidein;
+	/* animation-name: slidein; */
 }
 .sidebar .nav-list {
 	padding: 0 1em;
@@ -107,6 +107,20 @@ button.link:hover {
 	to {
 		border-left: 0.2em solid var(--success);
 	}
+}
+.list-item.active {
+	border-top: 2px solid var(--primary);
+	border-bottom: 2px solid var(--primary);
+	font-weight: 500;
+}
+.list-item {
+	border-top: var(--border);
+	padding: 5px 10px;
+}
+.line {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .sort-header {

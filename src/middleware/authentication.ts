@@ -1,3 +1,4 @@
+import { url } from "inspector";
 import { collapseRange, decrypt, parseCookies } from "../lib/core";
 
 const status = {
@@ -42,10 +43,27 @@ function addAuth(app) {
 		res.locals.tag = function name(type: string, str: string) {
 			return `<span class="tag ${status[ type ][ str ]}">${String(str).replace(/_/g, " ")}</span>`;
 		};
+		console.log(req)
 		res.locals.collapseRange = collapseRange;
+		res.locals.withParam = getWithParam(req.url, req.protocol + "://" + req.headers.host);
 		next();
 	});
 }
+function getWithParam(urlstr: string, base) {
+	let url = new URL(urlstr, base)
 
+	return function (data) {
+		for (const key in data) {
+			if (Object.prototype.hasOwnProperty.call(data, key)) {
+				const element = data[ key ];
+				url.searchParams.set(key, element)
+				if (element == null) {
+					url.searchParams.delete(key)
+				}
+			}
+		}
+		return url.pathname + url.search
+	}
+}
 export { addAuth };
 

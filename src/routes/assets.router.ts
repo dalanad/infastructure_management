@@ -16,6 +16,13 @@ route.get("/all", async (req, res) => {
 		filter: Object.assign({}, req.query.filter)
 	};
 
+	let [ items, count ] = await req.orm.em.findAndCount(Asset, params.filter, { limit: params.size, offset: params.page * params.size, orderBy: { ...params.sort } });
+
+	if (req.query.selected) {
+		res.locals.asset = await req.orm.em.findOne(Asset, parseInt(String(req.query.selected || "-1")));
+		return res.render("asset/asset-summery", { items, total: count, ...params, sort: objToQueryString({ ...params, sort: params.sort, filter: params.filter, }) });
+	}
+
 	if (params.filter.category) {
 		params.filter.category = params.filter.category.map(x => Number(x))
 	}
@@ -32,7 +39,6 @@ route.get("/all", async (req, res) => {
 		{ label: "Location", name: "location", options: res.locals.asset_locations, type: "select", value: params.filter.location }
 	]
 
-	let [ items, count ] = await req.orm.em.findAndCount(Asset, params.filter, { limit: params.size, offset: params.page * params.size, orderBy: { ...params.sort } });
 	res.render("asset/asset-list", { items, total: count, ...params, sort: objToQueryString({ sort: params.sort, filter: params.filter }) });
 });
 
@@ -86,9 +92,6 @@ route.post("/:id/edit", async (req, res) => {
 	res.redirect(303, req.baseUrl + '/all/');
 });
 
-route.get("/:id", async (req: any, res) => {
-	let asset = await req.orm.em.findOneOrFail(Asset, req.params.id);
-	res.render("asset/asset-summery", { asset });
-})
+
 
 export const AssetsRouter = route;

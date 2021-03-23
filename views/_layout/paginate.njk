@@ -10,7 +10,7 @@
             </label>
         </div>
         <form class="col-auto">
-            <select class="ctrl sm" name="size" onchange="window.location.search='?size='+this.value+'&{{sort}}'">
+            <select class="ctrl sm" name="size" onchange="params({size:this.value,page:0})">
                 {% for i in [5,10,25,50,100] -%}
                     <option value="{{i}}" {{"selected" if i==size}}>{{i}}</option>
                 {% endfor %}
@@ -20,19 +20,19 @@
     </div>
     <div class="col-auto">
         <div class="pagination">
-            <a href="?page={{page-1}}&size={{size}}&{{sort}}" tabindex="0" class="paginate_button {{" disabled" if page==0}}">
+            <a onclick="params({page: {{page-1}} })"  tabindex="0" class="paginate_button {{" disabled" if page==0}}">
                 <i class="fa fa-chevron-left"></i>
             </a>
             {% for i in collapseRange((total / size), page, 8) %}
                 {%- if (i !== -1) %}
-                    <a href="?page={{i}}&size={{size}}&{{sort}}" tabindex="0" class="paginate_button {{" active" if page==i}}">{{ i+1 }}</a>
+                    <a onclick="params({page: {{i}} })" tabindex="0" class="paginate_button {{" active" if page==i}}">{{ i+1 }}</a>
                 {%- else -%}
                     <div  class="paginate_button disabled  px-0">
                         <i class="fa fa-ellipsis-h"></i>
                     </div>
                 {%- endif -%}
             {%- endfor -%}
-            <a href="?page={{page+1}}&size={{size}}&{{sort}}" tabindex="0" class="paginate_button {{" disabled" if (page)>= (total//size)}}">
+            <a  onclick="params({page: {{page+1}} })" tabindex="0" class="paginate_button {{" disabled" if (page)>= (total//size)}}">
                 <i class="fa fa-chevron-right"></i>
             </a>
         </div>
