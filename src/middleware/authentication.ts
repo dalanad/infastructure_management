@@ -43,7 +43,6 @@ function addAuth(app) {
 		res.locals.tag = function name(type: string, str: string) {
 			return `<span class="tag ${status[ type ][ str ]}">${String(str).replace(/_/g, " ")}</span>`;
 		};
-		console.log(req)
 		res.locals.collapseRange = collapseRange;
 		res.locals.withParam = getWithParam(req.url, req.protocol + "://" + req.headers.host);
 		next();

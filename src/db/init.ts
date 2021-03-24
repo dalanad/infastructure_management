@@ -44,7 +44,7 @@ async function getORM() {
 		],
 		type: "postgresql",
 		clientUrl: "postgres://postgres:abc123@127.0.0.1:5432/itim",
-		debug: false,
+		debug: true,
 	});
 	const migrator = orm.getMigrator();
 

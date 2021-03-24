@@ -83,7 +83,7 @@ function InitSortHeader(e) {
 }
 
 function init() {
-	app = new Vue({ el: "#mount" });
+	// app = new Vue({ el: "#mount" });
 	InitSidebar();
 	for (let element of document.querySelectorAll("th[data-field]")) {
 		InitSortHeader(element);

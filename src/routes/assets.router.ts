@@ -15,26 +15,41 @@ route.get("/all", async (req, res) => {
 		sort: Object.assign({}, req.query.sort),
 		filter: Object.assign({}, req.query.filter)
 	};
+	let filter = { $or: [] }
 
-	let [ items, count ] = await req.orm.em.findAndCount(Asset, params.filter, { limit: params.size, offset: params.page * params.size, orderBy: { ...params.sort } });
+	if (params.filter.category) {
+		params.filter.category = params.filter.category.map(x => Number(x))
+		filter[ "category" ] = params.filter.category
+	}
+	if (params.filter.search) {
+		if (!params.filter.field) {
+			filter.$or.push({ model: { $ilike: `%${params.filter.search}%`.trim() } })
+		} else {
+			params.filter.field.forEach(element => {
+				filter.$or.push({ [ element ]: { $ilike: `%${params.filter.search}%`.trim() } })
+			});
+		}
+	}
+	if (params.filter.location) {
+		params.filter.location = params.filter.location.map(x => Number(x))
+		filter[ "location" ] = params.filter.location
+	}
+
+	let [ items, count ] = await req.orm.em.findAndCount(Asset, filter, { limit: params.size, offset: params.page * params.size, orderBy: { ...params.sort } });
 
 	if (req.query.selected) {
 		res.locals.asset = await req.orm.em.findOne(Asset, parseInt(String(req.query.selected || "-1")));
 		return res.render("asset/asset-summery", { items, total: count, ...params, sort: objToQueryString({ ...params, sort: params.sort, filter: params.filter, }) });
 	}
 
-	if (params.filter.category) {
-		params.filter.category = params.filter.category.map(x => Number(x))
-	}
 
-	if (params.filter.location) {
-		params.filter.location = params.filter.location.map(x => Number(x))
-	}
 
 	res.locals.asset_categories = await req.orm.em.find(Category, {}, { fields: [ "id", "name" ], orderBy: { name: "asc" } });
 	res.locals.asset_locations = await req.orm.em.find(AssetLocation, {}, { fields: [ "id", "name" ], orderBy: { name: "asc" } });
 	res.locals.client_vars = { params }
 	res.locals.filterConfig = [
+		{ label: "Search Field", name: "field", type: "select", value: params.filter.field, options: [ { id: 'grnNo', name: 'GRN No' }, { id: 'owner', name: 'Owner' } ] },
+		{ label: "Search", name: "search", type: "text", value: params.filter.search },
 		{ label: "Category", name: "category", options: res.locals.asset_categories, type: "select", value: params.filter.category },
 		{ label: "Location", name: "location", options: res.locals.asset_locations, type: "select", value: params.filter.location }
 	]

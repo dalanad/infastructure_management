@@ -4,7 +4,7 @@
 {% import "macros.njk" as "m" %}
 
 {% block content %}
-    <form action="" method="post">
+    <form action="" method="post" style="max-width:750px">
         {{ m.page_header("Asset" , assetCode) }}
 
         {# {% if errors.length > 0 %}
@@ -18,18 +18,18 @@
             </div>
         {% endif %} #}
         <div class="row g-2">
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="model">Model</label>
                 <input class="ctrl" name="model" id="model" type="" value="{{model}}">
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-4 col-md-4 col-sm-12 field">
                 <label for="serialNo">Serial Number</label>
                 <input class="ctrl {{'invalid' if errors.serialNo }}" name="serialNo" id="serialNo" type="" value="{{serialNo}}">
                 {% if errors.serialNo %}
                     <span class="field-msg text-danger">{{errors.serialNo}}</span>
                 {% endif %}
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label>Manufacturer</label>
                 <select class="ctrl" name="manufacturer">
                     {% for item in asset_manufacturers %}
@@ -38,7 +38,7 @@
                 </select>
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label>Category</label>
                 <select class="ctrl" name="category">
                     {% for item in asset_categories %}
@@ -47,7 +47,7 @@
                 </select>
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label>Location</label>
                 <select class="ctrl" name="location">
                     {% for item in asset_locations %}
@@ -55,13 +55,13 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-4 col-md-4 col-sm-12 field">
                 <label for="owner">Owner / User</label>
                 <input class="ctrl" name="owner" id="owner" value="{{ owner }}">
             </div>
 
             <h4>Purchase Information</h4>
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label>Supplier</label>
                 <select class="ctrl" name="supplier">
                     {% for item in asset_suppliers %}
@@ -69,19 +69,19 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="purchaseOrderNo">Purchase Order No</label>
                 <input class="ctrl" name="purchaseOrderNo" id="purchaseOrderNo" value="{{purchaseOrderNo}}">
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="grnNo">GRN No</label>
                 <input class="ctrl" name="grnNo" id="grnNo"  value="{{grnNo}}">
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="datePurchased">Date Purchased</label>
                 <input class="ctrl" name="datePurchased" id="datePurchased" type="date" value="{{  datePurchased | date }}">
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="warranty">Warranty Duration</label>
                 <div class="ctrl group">
                     <input class="ctrl" name="warranty" id="warranty" type="number" value="{{warranty}}">
@@ -89,18 +89,18 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="dateCommissioned">Date Commissioned</label>
                 <input class="ctrl" name="dateCommissioned" id="dateCommissioned" type="date" value="{{dateCommissioned | date}}">
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="expectedLifespan">Expected Lifespan</label>
                 <div class="ctrl group">
                     <input class="ctrl" name="expectedLifespan" id="expectedLifespan" type="number" value="{{expectedLifespan}}">
                     <span class="static">Months</span>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="purchaseCost">Purchase Cost</label>
                 <div class="ctrl group">
                     <span class="static">Rs.</span>
@@ -111,7 +111,7 @@
 
             <h3 class="mb-1 mt-3">Specifications</h3>
 
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="computer[ram]">RAM</label>
                 <div class="ctrl group">
                     <input class="ctrl" name="computer[ram]" id="computer[ram]" type="number" value="{{computer.ram}}">
@@ -119,14 +119,14 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-4 col-md-4 col-sm-12 field">
                 <label for="computer[cpu]">CPU</label>
 
                 <input class="ctrl" name="computer[cpu]" id="computer[cpu]" value="{{computer.cpu}}">
 
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="computer[hddCapacity]">HDD Capacity</label>
                 <div class="ctrl group">
                     <input class="ctrl" name="computer[hddCapacity]" id="computer[hddCapacity]" type="number" value="{{computer.hddCapacity}}">
@@ -139,12 +139,12 @@
                 <textarea class="ctrl" name="spec"></textarea>
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="software">software Specs</label>
                 <input class="ctrl" name="software" id="software" type="hidden" value="[]">
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="net">NetworkConfigurations</label>
                 <input class="ctrl" name="net" id="net" type="" value="">
             </div>

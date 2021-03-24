@@ -1,5 +1,9 @@
-<div class="p-2"><a href="#" class="btn link" onclick="params({selected:null})"><i class="fa fa-arrow-left"></i>&nbsp; View All</a></div>
-<div class="list">
+<div class="p-2">
+    <a href="#" class="btn link" onclick="params({selected:null})">
+        <i class="fa fa-arrow-left"></i>&nbsp; View All / Modifiy Filters</a>
+</div>
+ 
+<div class="list"> 
     {%- for item in items -%}
         <div onclick="params({selected:{{item.id}}})" class="list-item  {{"active" if item.id == asset.id else "hover" }}">
             <div class="line lh-1" >
