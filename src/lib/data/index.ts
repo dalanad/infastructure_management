@@ -19,12 +19,12 @@ async function getNextVal(sequence: ID_SEQUENCES, creation_options: { prefix: st
 
     config.data.currentVal = Number(config.data.currentVal) + 1
     orm.em.persist(config);
-    return `${config.data.prefix}` + `${config.data.currentVal}`.padStart(5, "0")
+    return `${config.data.prefix}` + `${config.data.currentVal}`.padStart(6, "0");
 }
 
 async function peekNextVal(sequence: ID_SEQUENCES, creation_options: { prefix: string }) {
     let config = await getSequence(sequence, creation_options)
-    return `${config.data.prefix}` + `${Number(config.data.currentVal) + 1}`.padStart(5, "0")
+    return `${config.data.prefix}` + `${Number(config.data.currentVal) + 1}`.padStart(6, "0");
 }
 
 export { getNextVal, peekNextVal, ID_SEQUENCES }
