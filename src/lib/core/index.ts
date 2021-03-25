@@ -5,8 +5,7 @@ const password = '9bejJHkZScfVPVhT7n5XzWxTqh9Bcj';
 
 // First, we'll generate the key. The key length is dependent on the algorithm.
 // In this case for aes192, it is 24 bytes (192 bits).    
-const key = scryptSync(password, 'salt', 24);
-
+const key = scryptSync(password, "salt", 24);
 export function encrypt(sourceData: string): Promise<string> {
     return new Promise((resolve, reject) => {
         // Then, we'll generate a random initialization vector
@@ -23,17 +22,17 @@ export function encrypt(sourceData: string): Promise<string> {
 export function decrypt(encrypted: string): Promise<string> {
     return new Promise((resolve, reject) => {
         try {
-            // The IV is usually passed along with the ciphertext.
-            const iv = Buffer.alloc(16, 0); // Initialization vector.
-            const decipher = createDecipheriv(algorithm, key, iv);
-            // Encrypted using same algorithm, key and iv.
-            let decrypted = decipher.update(encrypted, 'hex', 'utf8');
-            decrypted += decipher.final('utf8');
-            resolve(decrypted);
-        }
-        catch {
-            reject(new Error("INVALID"))
-        }
+					// The IV is usually passed along with the ciphertext.
+					const iv = Buffer.alloc(16, 0); // Initialization vector.
+					const decipher = createDecipheriv(algorithm, key, iv);
+					// Encrypted using same algorithm, key and iv.
+					let decrypted = decipher.update(encrypted, "hex", "utf8");
+					decrypted += decipher.final("utf8");
+					resolve(decrypted);
+				} catch (e) {
+					console.log(e);
+					reject(new Error("INVALID"));
+				} 
     });
 }
 

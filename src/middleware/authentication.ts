@@ -37,7 +37,7 @@ function addAuth(app) {
 		} catch(e) {
 			console.log(e)
 			if (!["/auth/login/", "/auth/forgot/"].includes(req.originalUrl)) {
-				return res.redirect("/auth/login/");
+				// return res.redirect("/auth/login/");
 			}
 		}
 		res.locals.title = "IT Management";
