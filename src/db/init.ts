@@ -16,7 +16,7 @@ import {
 	ServiceDoneBy,
 	ServiceJob,
 	ServiceSchedule,
-	Supplier,,
+	Supplier,
 } from "./entity";
 
 let orm: MikroORM;
@@ -65,3 +65,4 @@ async function InjectORM(req: any, res, next) {
 }
 
 export { InjectORM, getORM };
+
