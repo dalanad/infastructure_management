@@ -1,6 +1,6 @@
 import { url } from "inspector";
 import { collapseRange, decrypt, parseCookies } from "../lib/core";
-
+import * as bcrypt from "bcryptjs";
 const status = {
 	asset_status: {
 		NOT_IN_USE: "warn",
@@ -34,7 +34,8 @@ function addAuth(app) {
 		res.locals.frame = req.headers["turbo-frame"];
 		try {
 			req.user = await decrypt(parseCookies(req)["id_token"]);
-		} catch {
+		} catch(e) {
+			console.log(e)
 			if (!["/auth/login/", "/auth/forgot/"].includes(req.originalUrl)) {
 				return res.redirect("/auth/login/");
 			}
