@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "src\\main.ts",
 	"scripts": {
-		"start": "node dist/main",
+		"start": "ts-node dist/main",
 		"start:dev": "nodemon",
 		"build": "tsc",
 		"debug": "export DEBUG=* && npm run start",
