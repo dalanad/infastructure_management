@@ -6,21 +6,21 @@
         {{- text -}}</a>
 {%-  endmacro %}
 
-{% macro page_header(title) %}
+{%- macro page_header(title) -%}
     <div class="d-flex justify-content-between">
         <div>
-            <div class="lh-1">
-                Asset Manamgent /
-                <a href="/assets/all/">Assets</a>
-                /
-                <a href="/assets/{{asset.id}}/">{{asset.assetCode}}</a>
-            </div>
-            <h3>{{title}}</h3>
-        </div>
-        {% if caller -%}
             <div>
-                <span style="white-space: nowrap;margin-top: .5em;">{{ caller()  }}</span>
+                {% set comma = joiner("/") %}
+                {% for item in breadcrumbs %}
+                    {{ comma() }}
+                    <a {% if item.link %} href="{{item.link}}" {%endif%}>{{item.name}}</a>
+                {% endfor %}
             </div>
+            <h4>{{title}}</h4>
+        </div>
+        {%- if caller -%}
+            <div>
+                <span style="white-space: nowrap;margin-top: .5em;">{{- caller()  -}}</span></div>
         {%- endif %}
     </div>
-{% endmacro %}
+{%- endmacro -%}

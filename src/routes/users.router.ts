@@ -42,7 +42,7 @@ route.post("/edit/:id", async (req, res) => {
 	let entity = await req.orm?.em.findOne<AuthUser>(AuthUser, { uid: req.params.id });
 	entity?.assign({ name: req.body.name, isActive: parseInt(req.body.isActive), email: req.body.email });
 	if (req.body.password) {
-		entity.password = hash(req.body.password)
+		entity.password = await hash(req.body.password);
 	}
 	await req.orm?.em.flush();
 	res.redirect(303, req.baseUrl);

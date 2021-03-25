@@ -1,4 +1,4 @@
-import { MemoryCacheAdapter, MikroORM, RequestContext } from "@mikro-orm/core";
+import { MikroORM, RequestContext } from "@mikro-orm/core";
 import {
 	Asset,
 	AssetLocation,
@@ -16,7 +16,7 @@ import {
 	ServiceDoneBy,
 	ServiceJob,
 	ServiceSchedule,
-	Supplier,
+	Supplier,,
 } from "./entity";
 
 let orm: MikroORM;
@@ -40,18 +40,19 @@ async function getORM() {
 			ServiceSchedule,
 			Network,
 			ServiceJob,
-			ServiceDoneBy, Config
+			ServiceDoneBy,
+			Config,
 		],
 		type: "postgresql",
-		clientUrl: "postgres://postgres:abc123@127.0.0.1:5432/itim",
-		debug: true,
+		clientUrl: process.env.DATABASE_URL || "postgres://postgres:abc123@127.0.0.1:5432/itim",
+		debug: false,
 	});
 	const migrator = orm.getMigrator();
 
 	await migrator.up();
 
 	let migration = await migrator.createMigration("temp");
-	if (false && migration.diff.length > 0 && migration.diff[ 0 ] != "") {
+	if (false && migration.diff.length > 0 && migration.diff[0] != "") {
 		let migration = await migrator.createMigration();
 		await migrator.up();
 	}

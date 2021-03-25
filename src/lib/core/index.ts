@@ -1,5 +1,5 @@
 import { createCipheriv, createDecipheriv, randomFill, scryptSync } from 'crypto';
-
+import * as bcrypt from "bcryptjs";
 const algorithm = 'aes-192-cbc';
 const password = '9bejJHkZScfVPVhT7n5XzWxTqh9Bcj';
 
@@ -14,8 +14,7 @@ export function encrypt(sourceData: string): Promise<string> {
             if (err) reject(err);
             const cipher = createCipheriv(algorithm, key, iv);
             let encrypted = cipher.update(sourceData, 'utf8', 'hex');
-            encrypted += cipher.final('hex');
-            console.log(encrypted)
+            encrypted += cipher.final("hex");
             resolve(encrypted);
         });
     });
@@ -38,9 +37,9 @@ export function decrypt(encrypted: string): Promise<string> {
     });
 }
 
-export function hash(s: string) {
-    const salt = "30759e08a8edb63bd63d3f04158d01f3"
-    return scryptSync(password, salt, 32).toString("hex");
+export async function hash(str: string) {
+	const salt = "10";
+	return await bcrypt.hash(str, 10);
 }
 
 export * from './collapseRange';

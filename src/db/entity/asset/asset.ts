@@ -1,122 +1,129 @@
-
-import { Cascade, Embedded, Entity, Enum, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
-import { AssetLocation, Category, Manufacturer } from './base';
+import {
+	Cascade,
+	Embedded,
+	Entity,
+	Enum,
+	ManyToOne,
+	OneToMany,
+	PrimaryKey,
+	Property,
+} from "@mikro-orm/core";
+import { AssetLocation, Category, Manufacturer } from "./base";
 import { ComputerSpecifications } from "./computerSpecifications";
 import { NetworkConfigurations } from "./networkConfigurations";
 import { ServiceJob } from "./serviceJob";
 import { Supplier } from "../supplier.entity";
-import { BaseEntity } from '../base.entity';
+import { BaseEntity } from "../base.entity";
 
 export enum AssetStatus {
-    NOT_IN_USE = 'NOT_IN_USE',
-    IN_USE = 'IN_USE',
-    IN_REPAIR = 'IN_REPAIR',
-    DECOMMISSIONED = 'DECOMMISSIONED',
+	NOT_IN_USE = "NOT_IN_USE",
+	IN_USE = "IN_USE",
+	IN_REPAIR = "IN_REPAIR",
+	DISCARDED = "DISCARDED",
 }
 
 export enum AssetCondition {
-    FUNCTIONAL = 'FUNCTIONAL',
-    BROKEN = 'BROKEN'
+	FUNCTIONAL = "FUNCTIONAL",
+	BROKEN = "BROKEN",
 }
-
 
 @Entity()
 export class Asset extends BaseEntity {
-    @PrimaryKey()
-    id: number;
+	@PrimaryKey()
+	id: number;
 
-    @Property({ unique: true })
-    assetCode: string;
+	@Property({ unique: true })
+	assetCode: string;
 
-    @Property()
-    model: string;
+	@Property()
+	model: string;
 
-    @Property({ unique: true })
-    serialNo: string;
+	@Property({ unique: true })
+	serialNo: string;
 
-    @ManyToOne(t => Manufacturer, { eager: true })
-    manufacturer: Manufacturer;
+	@ManyToOne((t) => Manufacturer, { eager: true })
+	manufacturer: Manufacturer;
 
-    @ManyToOne(t => Category, { eager: true })
-    category: Category;
+	@ManyToOne((t) => Category, { eager: true })
+	category: Category;
 
-    @ManyToOne(_ => AssetLocation, { eager: true })
-    location: AssetLocation;
+	@ManyToOne((_) => AssetLocation, { eager: true })
+	location: AssetLocation;
 
-    @Property()
-    spec: string;
+	@Property()
+	spec: string;
 
-    @ManyToOne(() => Supplier, { eager: true })
-    supplier: Supplier;
+	@ManyToOne(() => Supplier, { eager: true })
+	supplier: Supplier;
 
-    @Property({ default: 0 })
-    warranty: number;
+	@Property({ default: 0 })
+	warranty: number;
 
-    @Property({ nullable: true })
-    datePurchased: Date;
+	@Property({ nullable: true })
+	datePurchased: Date;
 
-    @Property({ nullable: true })
-    dateCommissioned: Date;
+	@Property({ nullable: true })
+	dateCommissioned: Date;
 
-    @Property({ nullable: true })
-    decommissioned: Date;
+	@Property({ nullable: true })
+	stickerPrinted: Date;
 
-    @Property({ nullable: true })
-    decommissionReason: string;
+	@Property({ nullable: true })
+	DISCARDED: Date;
 
-    @Property({ nullable: false, default: 0 })
-    expectedLifespan: number;
+	@Property({ nullable: true })
+	decommissionReason: string;
 
-    @Property({ nullable: false, default: 0 })
-    purchaseCost: number;
+	@Property({ nullable: false, default: 0 })
+	expectedLifespan: number;
 
-    @Property({ nullable: true, default: '' })
-    owner: string;
+	@Property({ nullable: false, default: 0 })
+	purchaseCost: number;
 
-    @Property({ nullable: false, default: '' })
-    purchaseOrderNo: string;
+	@Property({ nullable: true, default: "" })
+	owner: string;
 
-    @Property({ nullable: false, default: '' })
-    grnNo: string;
+	@Property({ nullable: false, default: "" })
+	purchaseOrderNo: string;
 
-    @Property({ columnType: "jsonb", nullable: true, default: "[]" })
-    software: any;
+	@Property({ nullable: false, default: "" })
+	grnNo: string;
 
-    @Enum(() => AssetStatus)
-    status: AssetStatus = AssetStatus.NOT_IN_USE;
+	@Property({ columnType: "jsonb", nullable: true, default: "[]" })
+	software: any;
 
-    @Enum(() => AssetCondition)
-    condition: AssetCondition = AssetCondition.FUNCTIONAL;
+	@Enum(() => AssetStatus)
+	status: AssetStatus = AssetStatus.IN_USE;
 
-    @Embedded(() => ComputerSpecifications)
-    computer: ComputerSpecifications;
+	@Enum(() => AssetCondition)
+	condition: AssetCondition = AssetCondition.FUNCTIONAL;
 
-    @Embedded(() => NetworkConfigurations)
-    net: NetworkConfigurations;
+	@Embedded(() => ComputerSpecifications)
+	computer: ComputerSpecifications;
 
-    @OneToMany(() => ServiceSchedule, e => e.asset, { cascade: [ Cascade.ALL ], eager: true })
-    schedule: ServiceSchedule[];
+	@Embedded(() => NetworkConfigurations)
+	net: NetworkConfigurations;
 
+	@OneToMany(() => ServiceSchedule, (e) => e.asset, { cascade: [Cascade.ALL], eager: true })
+	schedule: ServiceSchedule[];
 }
-
 
 @Entity()
 export class ServiceSchedule {
+	@PrimaryKey()
+	id: number;
 
-    @PrimaryKey()
-    id: number;
+	@ManyToOne(() => Asset)
+	asset: Asset;
 
-    @ManyToOne(() => Asset)
-    asset: Asset;
+	serviceJobs: ServiceJob[];
 
-    serviceJobs: ServiceJob[];
+	@Property()
+	interval: number;
 
-    @Property()
-    interval: number;
+	@Property()
+	description: string;
 
-    @Property()
-    description: string
-
-    @Property()
-    active: boolean
+	@Property()
+	active: boolean;
 }

@@ -11,6 +11,9 @@ import { RolesRouter } from "./roles.router";
 
 const route = express.Router();
 
+route.all("/support", (req, res) => {
+	res.render("home");
+});
 route.all("/home", (req, res) => { res.render("home"); });
 route.all("/", (req, res) => res.redirect("/home"));
 

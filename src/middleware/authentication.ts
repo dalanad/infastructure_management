@@ -5,7 +5,8 @@ const status = {
 	asset_status: {
 		NOT_IN_USE: "warn",
 		IN_USE: "success",
-		IN_REPAIR: "danger",
+		IN_REPAIR: "danger stale",
+		DISCARDED: "danger",
 	},
 	asset_condition: { FUNCTIONAL: "success", BROKEN: "danger" },
 	priority: {
@@ -29,40 +30,38 @@ const status = {
 };
 
 function addAuth(app) {
-
 	app.use(async (req, res, next) => {
-		res.locals.frame = req.headers[ "turbo-frame" ];
+		res.locals.frame = req.headers["turbo-frame"];
 		try {
-			req.user = await decrypt(parseCookies(req)[ "id_token" ])
+			req.user = await decrypt(parseCookies(req)["id_token"]);
 		} catch {
-			if (![ "/auth/login/", "/auth/forgot/" ].includes(req.originalUrl)) {
+			if (!["/auth/login/", "/auth/forgot/"].includes(req.originalUrl)) {
 				return res.redirect("/auth/login/");
 			}
 		}
 		res.locals.title = "IT Management";
 		res.locals.tag = function name(type: string, str: string) {
-			return `<span class="tag ${status[ type ][ str ]}">${String(str).replace(/_/g, " ")}</span>`;
+			return `<span class="tag ${status[type][str]}">${String(str).replace(/_/g, " ")}</span>`;
 		};
+		res.locals.breadcrumbs = [];
 		res.locals.collapseRange = collapseRange;
 		res.locals.withParam = getWithParam(req.url, req.protocol + "://" + req.headers.host);
 		next();
 	});
 }
 function getWithParam(urlstr: string, base) {
-	let url = new URL(urlstr, base)
-
 	return function (data) {
+		let url = new URL(urlstr, base);
 		for (const key in data) {
 			if (Object.prototype.hasOwnProperty.call(data, key)) {
-				const element = data[ key ];
-				url.searchParams.set(key, element)
+				const element = data[key];
+				url.searchParams.set(key, element);
 				if (element == null) {
-					url.searchParams.delete(key)
+					url.searchParams.delete(key);
 				}
 			}
 		}
-		return url.pathname + url.search
-	}
+		return url.pathname + url.search;
+	};
 }
 export { addAuth };
-

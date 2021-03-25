@@ -1,169 +1,131 @@
+ 
 {% extends "_layout/admin-base.njk" %}
-{% import "macros.njk" as "m" %}
+{% import "macros.njk" as "m" with context %}
 
 {% block content %}
-<div class="row">
-    <div class="col-4">
-        {% include "./asset-list-compact.njk" %}
-    </div>
-    <div class="col-8">
-        <div class="d-flex justify-content-between">
+    <div style="display: grid;grid-template-columns: minmax(100px,2fr) 3fr; grid-gap: 1em;grid-template-rows: 1fr; height: 100%;">
+        <div class="shadow" style="display: grid;grid-template-columns: minmax(100px,1fr); grid-template-rows: min-content 1fr min-content; height: 100%;">
+            {% include "./asset-list-compact.njk" %}
+        </div>
+        <div  >
+            {% call m.page_header("Asset Summery") %}
+            <a class="btn link" href="../{{asset.id}}/edit/"> <i class="fas fa-pen"></i>&nbsp; &nbsp;Edit</a>
+            <a class="btn link warn" href="javascript:printSticker()"> <i class="fas fa-qrcode"></i> &nbsp; &nbsp; Print Sticker </a>
+            {% if asset.status == "IN_USE" %} <a class="btn warn" href="../{{asset.id}}/status/?to=backup"> Make Backup </a>{% endif %}
+            {% if asset.status == "NOT_IN_USE" %} <a class="btn success" href="../{{asset.id}}/status/?to=in_use"> Make In Use </a> {% endif %}
+            {% if asset.status != "DISCARDED" %}  <a class="btn danger" href="../{{asset.id}}/discard/"> Discard </a> {% endif %}
+            {% endcall %}
+
             <div>
-                <div class="lh-1">
-                    <a href="/assets/">Asset Manamgent</a>
-                    /
-                    <a href="/assets/all/">Assets</a>
-                    /
-                    <a href="/assets/{{asset.id}}/">{{asset.assetCode}}</a>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <b class="m-0"> {{ asset.assetCode }} </b> - {{ asset.model }}<br>
+                        <code>{{ asset.serialNo }}</code> <br>
+                        <span class="text-nowrap"> Status : {{ tag("asset_status",asset.status) }} </span>   
+                        <span class="text-nowrap"> Condition : {{ tag("asset_condition",asset.condition) }} </span>
+                        <p>
+                            Location : <b>{{ asset.location.name }}</b><br/>
+                            Category : {{ asset.category.name }}<br/>
+                            Manufacturer : {{ asset.manufacturer.name }}<br/>
+                        </p>
+                    </div>
+                    <div class="col-lg-6">
+                        Owner : {{asset.owner}} <br/>
+                        Supplier : {{asset.supplier.displayName}} <br/>
+                        Date Purchased : {{ asset.datePurchased | date }} <br/>
+                        Warranty Expiry : {{ asset.warrantyEnd | date }}
+                        <span class="tag {{'success' if asset.onWarranty else 'danger'}}">Warranty {{ 'Available' if asset.onWarranty else 'Expired'}} </span> <br/>
+                        Date Commissioned : {{ asset.dateCommissioned | date }} <br/>
+                        Sticker Printer : {{ asset.stickerPrinted.toLocaleString() if asset.stickerPrinted else "Not Printed" }}
+                    </div>
                 </div>
-                <h2>Asset Summery</h2>
-            </div>
-            <div>
-                <span style="white-space: nowrap;margin-top: .5em;">
-                    <a class="btn link" href="../{{asset.id}}/edit/">
-                        <i class="fas fa-pen"></i>
-                        &nbsp; &nbsp;Edit
-                    </a>
-                    <a onclick="printSticker()" class="btn link warn">
-                        <i class="fas fa-qrcode"></i>
-                        &nbsp; &nbsp; Print Sticker
-                    </a>
-                    <a class="btn success" href="../../service-jobs/new">
-                        Service Job
-                    </a>
-                </span>
+
+                <table class="compact">
+                    <thead>
+                        <tr>
+                            <th>Param</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Specification</td>
+                            <td>
+                                <div style="white-space: pre-wrap;">{{ asset.spec }}</div>
+                            </td>
+                        </tr>
+                        <div>
+                            <tr>
+                                <td>CPU</td>
+                                <td>{{asset.computer.cpu}}</td>
+                            </tr>
+                            <tr>
+                                <td>RAM</td>
+                                <td>{{asset.computer.ram}}GB</td>
+                            </tr>
+                            <tr>
+                                <td>HDD / SSD</td>
+                                <td>{{asset.computer.hddCapacity}}GB</td>
+                            </tr>
+                        </div>
+                        <div  >
+                            <tr>
+                                <td>IP</td>
+                                <td>{{asset.net.ip}}</td>
+                            </tr>
+                            <tr>
+                                <td>Gateway</td>
+                                <td>{{asset.net.gateway}}</td>
+                            </tr>
+                            <tr>
+                                <td>Subnet</td>
+                                <td>{{asset.net.subnet.cidr}}</td>
+                            </tr>
+                        </div>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <b class="m-0">
-                        <code>{{ asset.assetCode }}</code>
-                    </b>
-                    -
-                    {{ asset.model }}<br>
-                    <code>{{ asset.serialNo }}</code>
-                    <br>
-                    <span class="text-uppercase text-nowrap">
-                        status :
-                        {{ tag("asset_status",asset.status) }}
-                        condition :
-                        {{ tag("asset_condition",asset.condition) }}
-                    </span>
-                    <p>
-                        Location :
-                        <b>{{ asset.location.name }}</b><br/>
-                        Category :
-                        {{ asset.category.name }}<br/>
-                        Manufacturer :
-                        {{ asset.manufacturer.name }}<br/>
-                    </p>
-                </div>
-                <div class="col-lg-6">
-                    Supplier :
-                    {{asset.supplier.displayName}}
-                    <br/>
-                    Date Purchased :
-                    {{ asset.datePurchased | date }}
-                    <br/>
-                    Warranty Expiry :
-                    {{ asset.warrantyEnd | date }}
-                    <span class="tag {{'success' if asset.onWarranty else 'danger'}}">Warranty
-                        {{ 'Available' if asset.onWarranty else 'Expired'}}
-                    </span>
-                    <br/>
-
-                    Date Commissioned :
-                    {{ asset.dateCommissioned | date }}
-                </div>
-            </div>
-
-            <table class="compact">
-                <thead>
-                    <tr>
-                        <th>Param</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Specification</td>
-                        <td>
-                            <div style="white-space: pre-wrap;">{{ asset.spec }}</div>
-                        </td>
-                    </tr>
-                    <div  >
-                        <tr>
-                            <td>CPU</td>
-                            <td>{{asset.computer.cpu}}</td>
-                        </tr>
-                        <tr>
-                            <td>RAM</td>
-                            <td>{{asset.computer.ram}}GB</td>
-                        </tr>
-                        <tr>
-                            <td>HDD / SSD</td>
-                            <td>{{asset.computer.hddCapacity}}GB</td>
-                        </tr>
-                    </div>
-                    <div  >
-                        <tr>
-                            <td>IP</td>
-                            <td>{{asset.net.ip}}</td>
-                        </tr>
-                        <tr>
-                            <td>Gateway</td>
-                            <td>{{asset.net.gateway}}</td>
-                        </tr>
-                        <tr>
-                            <td>Subnet</td>
-                            <td>{{asset.net.subnet.cidr}}</td>
-                        </tr>
-                    </div>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div
+    </div
 {%endblock%}
 {% block script%}
     <script src="https://cdn.jsdelivr.net/npm/qz-tray@2.1.2/qz-tray.min.js">
 </script>
 <script>
-function printSticker() {
-    let t = `^XA^PW399^LH5,5
+    function printSticker() {
+        let t = `^XA^PW399^LH5,20
                  ^FO145,12^A0N,26,26^FD{{asset.assetCode}}^FS
-                 ^FO375,5^A0B,18,18^FH^FDIT INVENTORY TAG^FS
+                 ^FO370,5^A0B,18,18^FH^FDIT INVENTORY TAG^FS
                  ^FO30,126^A0,18,18^FH^FDSN : {{asset.serialNo}}^FS
                  ^FO145,45^A0,16,16^FH^FD{{asset.category.name | upper}}^FS
                  ^FO145,65^A0,16,16^FH^FDMODEL : {{asset.model | upper }}^FS
                  ^FO145,100^A0,16,16^FH^FDDATE : ${ (new Date())
-        .toISOString()
-        .substr(0, 10)}^FS
-                 ^FO20,0^GB348,150,2^FS
-                 ^FO0,15^A0B,18,18^FH^FDDO NOT REMOVE^FS
+            .toISOString()
+            .substr(0, 10)}^FS
+                 ^FO5,15^A0B,18,18^FH^FDDO NOT REMOVE^FS
                  ^FO 30,2 ^BQN,0,5
                  ^FDLA,{{asset.assetCode}}^FS
                  ^XZ`
 
-    console.log(t);
-    qz
-        .websocket
-        .connect()
-        .then(v => qz.printers.find('Barcode'))
-        .then((printer) => {
-            const config = qz
-                .configs
-                .create(printer);
-            return qz.print(config, [t]);
-        })
-        .then(() => qz.websocket.disconnect())
-        .catch((err) => {
-            alert('Printing Failed');
-            return qz
-                .websocket
-                .disconnect();
-        });
-}
+        console.log(t);
+        qz
+            .websocket
+            .connect()
+            .then(v => qz.printers.find('Barcode'))
+            .then((printer) => {
+                const config = qz
+                    .configs
+                    .create(printer);
+                return qz.print(config, [t]);
+            })
+            .then(() => {qz.websocket.disconnect(); visit('../{{asset.id}}/print-sticker')})
+            .catch((err) => {
+                alert('Printing Failed');
+                return qz
+                    .websocket
+                    .disconnect();
+            });
+           visit('../{{asset.id}}/print-sticker')
+    }
 </script>
 {% endblock %}

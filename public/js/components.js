@@ -8,6 +8,7 @@ let getPairs = (obj, keys = []) =>
 	}, []);
 
 function objToQueryString(obj) {
+	console.log(obj);
 	return getPairs(obj)
 		.map(
 			([[key0, ...keysRest], value]) => `${key0}${keysRest.map((a) => `[${a}]`).join("")}=${value}`
@@ -26,27 +27,29 @@ let FilterBarComponent = {
 				filtere[element.name] = element.value;
 			});
 		}
-		return { filter: { ...filtere } };
+		return {
+			filter: { ...filtere },
+		};
 	},
 	template: `
-        <div class="mb-2 align-items-end d-flex flex-wrap filter-bar">
-            <link href="https://cdn.jsdelivr.net/gh/dalanad/helix@0.0.11/dist/helix.css" rel="stylesheet">
-            <link href="/css/main.css" rel="stylesheet" >
-            <link href="https://cdn.jsdelivr.net/npm/vue-select@3.11.2/dist/vue-select.css" rel="stylesheet">
-            <div class="mr-2 mb-2" v-for="(field, index) in fields" :key="field.name">
+        <div class="mb-2" style="display:flex; align-items:flex-end;flex-wrap:wrap">
+		  <link href="https://cdn.jsdelivr.net/gh/dalanad/helix@0.0.12/dist/helix.css" rel="stylesheet">
+		  <link href="https://cdn.jsdelivr.net/npm/vue-select@3.11.2/dist/vue-select.css" rel="stylesheet">
+		  <link href="/css/main.css" rel="stylesheet">
+            <div class="me-2 mb-2" v-for="(field, index) in fields" :key="field.name">
                 <span class="text-nowrap">{{field.label}}</span>
-                <v-select   class="style-chooser" v-if="field.type=='select'" v-model="filter[field.name]" :options='field.options' label='name' :reduce="country =>
-                    country.id" multiple ></v-select>
-                <input  v-if="field.type=='text'"   class="ctrl" v-model="filter[field.name]">    
+                <v-select class="style-chooser" v-if="field.type=='select'" v-bind:multiple="field.multiple || false" v-model="filter[field.name]" :options='field.options' label='name' :reduce="country =>
+                    country.id"   ></v-select>
+                <input  v-if="field.type=='text'" type="search" class="ctrl" v-model="filter[field.name]">    
             </div>
-            <button @click="search" class="mb-2 ">Search</button>
+            <button @click="search" class="btn mb-2 ">Filter</button>
         </div>
     `,
 	methods: {
 		search: function () {
 			let filterx = this.filter;
 			Object.keys(filterx).forEach((key) =>
-				filterx[key] === undefined ? delete filterx[key] : {}
+				filterx[key] === undefined || filterx[key] === null ? delete filterx[key] : {}
 			);
 
 			if ("Turbo" in window) {

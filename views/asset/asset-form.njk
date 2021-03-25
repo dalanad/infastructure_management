@@ -60,7 +60,7 @@
                 <input class="ctrl" name="owner" id="owner" value="{{ owner }}">
             </div>
 
-            <h4>Purchase Information</h4>
+            <h5>Purchase Information</h4>
             <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label>Supplier</label>
                 <select class="ctrl" name="supplier">
@@ -109,7 +109,7 @@
                 </div>
             </div>
 
-            <h3 class="mb-1 mt-3">Specifications</h3>
+            <h5 class="mb-1 mt-3">Specifications</h3>
 
             <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="computer[ram]">RAM</label>
@@ -133,21 +133,36 @@
                     <span class="static">GB</span>
                 </div>
             </div>
-
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
+                <label for="net">IP</label>
+                <input class="ctrl" name="net[ip]" id="net" type="" value="{{net.ip}}">
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
+                <label for="net">Mac Address</label>
+                <input class="ctrl" name="net[mac]" id="net" type="" value="{{net.mac}}">
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-12 field">
+                <label for="net">Gateway</label>
+                <input class="ctrl" name="net[gateway]" id="net" type="" value="{{net.gateway}}">
+            </div>
             <div class="field">
                 <label for="spec">Other</label>
-                <textarea class="ctrl" name="spec"></textarea>
+                <textarea class="ctrl" name="spec">{{spec}}</textarea>
             </div>
 
             <div class="col-lg-3 col-md-4 col-sm-12 field">
-                <label for="software">software Specs</label>
-                <input class="ctrl" name="software" id="software" type="hidden" value="[]">
+                <label for="software">Software Configuration</label>
+                <div id="software">
+                    {% for  item  in software%}
+                        <div class="my-2 align-items-baseline d-flex">
+                            <span class="text-nowrap"> {{ loop.index }} . &nbsp;</span>
+                            <input class="ctrl" name="software[{{loop.index0}}][name]" value="{{item.name}}">
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="btn link" onclick='addSoftwareField()'>Add Software</button>
             </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-12 field">
-                <label for="net">NetworkConfigurations</label>
-                <input class="ctrl" name="net" id="net" type="" value="">
-            </div>
         </div>
         <div class="py-3">
             <button type="submit" class="btn">Submit</button>
@@ -155,4 +170,21 @@
         </div>
     </form>
     <pre>{{e|dump(1)}}</pre>
+{% endblock %}
+
+{% block script %}
+
+    <script>
+
+        function addSoftwareField() {
+            let parent = document.getElementById('software')
+            let s = `<span class="text-nowrap"> ${ parent.children.length +1 } . &nbsp;</span> <input class="ctrl" name="software[${parent.children.length}][name]"/>`
+            let div = document.createElement("div");
+            div.classList = 'my-2 align-items-baseline d-flex'
+            div.innerHTML += s;
+            parent.append(div)
+
+        }
+    </script>
+
 {% endblock %}

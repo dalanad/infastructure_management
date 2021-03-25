@@ -13,28 +13,34 @@ async function bootstrap() {
 	const app = express();
 
 	app.use(express.urlencoded({ extended: true }));
-	app.disable('x-powered-by')
+	app.disable("x-powered-by");
 
 	// configure views
 	app.set("view engine", "njk");
 
-	let view_opts = { autoescape: false, express: app, watch: true }
+	let view_opts = {
+		autoescape: false,
+		lstripBlocks: true,
+		trimBlocks: true,
+		express: app,
+		watch: true,
+	};
 	var env = nunjucks.configure(join(__dirname, "../views"), view_opts);
 
 	function DateFilter(value: Date) {
-		if (!value) return ""
+		if (!value) return "";
 		return value.toISOString().substr(0, 10);
 	}
 
 	env.addFilter("date", DateFilter);
 
 	app.use(CompressionMiddleware);
-	let staticOpts = { cacheControl: true, immutable: true, maxAge: 3600000 }
+	let staticOpts = { cacheControl: true, immutable: true, maxAge: 3600000 };
 	app.use(express.static(join(__dirname, "../public")));
 
 	addAuth(app);
 	app.use(AddTailingSlash, InjectORM, SideBar);
-	app.use(AppRouter) 
+	app.use(AppRouter);
 	app.use(function (req, res) {
 		res.status(404).render("error", { status_code: 404 });
 	});

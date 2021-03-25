@@ -1,14 +1,24 @@
-version: "3"
+#ca1342d9a0e3c18d524cb9b75d81d51544fafc9d
+version: '3.2'
 services:
-  app:
-    build: .
-    volumes: 
-      - .:/app
-    command: /bin/sh -c "while sleep 1000; do :; done"
+  web:
+    build : .
     ports:
-      - 3000:3000
-  db:
-    image: mysql
+      - '3333:3333'
     environment:
-      MYSQL_PASSWORD: abc123
-
+      DATABASE_URL: postgres://postgres:abc123@db:5432/itim
+      HOST : localhost
+      PORT: 3333
+    depends_on:
+      - db
+  db:
+    image: postgres:alpine
+    ports:
+      - '5432:5432'
+    volumes:
+      - /postgres-data-it:/var/lib/postgresql/data  
+    environment:
+      POSTGRES_PASSWORD: abc123
+      POSTGRES_DB : itim
+      POSTGRES_USER : postgres 
+    

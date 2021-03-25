@@ -1,0 +1,53 @@
+{% extends "_layout/admin-base.njk" %}
+{% import "macros.njk" as "m" with context %}
+
+{% block content %}
+    <div class="px-4" style="max-width:600px;margin: 0 auto;">
+        <h4>Discarding Confirmation :- <code>{{ asset.assetCode }}</code> </h4>
+        <form method="post">
+            <h6>Asset Details</h6>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div> Asset Code : <b class="m-0"> {{ asset.assetCode }} </b> </div>
+                    <div> Model Number : {{ asset.model }}</div>
+                    <div> Serial Number : <code>{{ asset.serialNo }}</code></div>
+                    <div class="text-nowrap"> Status : {{ tag("asset_status",asset.status) }} </div>
+                    <span class="text-nowrap"> Condition : {{ tag("asset_condition",asset.condition) }} </span>
+                    <p>
+                        Location :
+                        <b>{{ asset.location.name }}</b><br/>
+                        Category :
+                        {{ asset.category.name }}<br/>
+                        Manufacturer :
+                        {{ asset.manufacturer.name }}<br/>
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    Owner : {{asset.owner}}
+                    <br/>
+                    Supplier : {{asset.supplier.displayName}}
+                    <br/>
+                    Date Purchased : {{ asset.datePurchased | date }}
+                    <br/>
+                    Warranty Expiry : {{ asset.warrantyEnd | date }}
+                    <span class="tag {{'success' if asset.onWarranty else 'danger'}}">Warranty
+                        {{ 'Available' if asset.onWarranty else 'Expired'}}
+                    </span>
+                    <br/>
+                    Date Commissioned :
+                    {{ asset.dateCommissioned | date }}
+                    <br/>
+                    Sticker Printer :
+                    {{ asset.stickerPrinted.toLocaleString() if asset.stickerPrinted else "Not Printed" }}
+                </div>
+            </div>
+             
+            <div class="field">
+                <label for="spec">Reason For Discarding</label>
+                <textarea  required class="ctrl" rows='4' name="reason"></textarea>
+            </div>
+            <div>  <button class="btn danger">Confirm & Discard</button> </div>
+
+        </form>
+    </div>
+{% endblock %}

@@ -1,33 +1,42 @@
 {% extends "_layout/admin-base.njk" %}
-
+{% import "macros.njk" as "m" with context %}
 {% block content %}
-<h2 class="mb-3">Assets Locations
+    {% call m.page_header("Assets Locations") %}
     <a class="btn btn-primary float-end" href="create">New Location</a>
-</h2>
+    {% endcall %}
+    <div>
+        <table class="table" role="grid">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Floor</th>
+                    <th scope="col">Wing</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.id  }}</td>
+                        <td>{{ item.name  }}</td>
+                        <td>{{ item.floor }}</td>
+                        <td>{{ item.wing }}</td>
+                        
+                        <td class="text-nowrap">
+                            <a class="btn link" href="{{ item.id }}/edit/">
+                                Edit
+                            </a>
+                            |
+                            <a class="btn link danger"  href="{{ item.id }}/delete/">
+                                Delete
+                            </a>
+                        </td>
 
-<div>
-    <table class="table" role="grid">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Floor</th>
-                <th scope="col">Wing</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.id  }}</td>
-                <td>{{ item.name  }}</td>
-                <td>{{ item.floor }}</td>
-                <td>{{ item.wing }}</td>
-                <td> <a href="edit/{{ item.id }}"> Edit </a> </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% include "../../_layout/paginate.njk" %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "../../_layout/paginate.njk" %}
 {% endblock %}

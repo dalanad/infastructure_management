@@ -3,7 +3,7 @@ FROM node:14-alpine
 WORKDIR /app
 COPY . .
 
-RUN yarn 
-RUN apk add --no-cache git
+RUN npm i
+RUN npm run build 
 
 CMD [ "npm start" ]

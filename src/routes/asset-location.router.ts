@@ -30,16 +30,28 @@ route.post("/create", async (req, res) => {
 });
 
 // edit
-route.get("/edit/:id", async (req: any, res) => {
+route.get("/:id/edit", async (req: any, res) => {
 	let data = await req.orm.em.findOne(AssetLocation, req.params.id);
 	res.render("asset/location/location-form", { ...data });
 });
 
-route.post("/edit/:id", async (req, res) => {
+route.post("/:id/edit", async (req, res) => {
 	let supplier = await req.orm?.em.findOne<AssetLocation>(AssetLocation, Number(req.params.id));
 	supplier?.assign(req.body);
 	await req.orm?.em.flush();
 	res.redirect(303, req.baseUrl);
+});
+
+route.get("/:id/delete", async (req: any, res) => {
+	try {
+		let supplier = await req.orm.em.findOne(AssetLocation, req.params.id);
+		await req.orm.em.remove(supplier);
+		await req.orm.em.flush();
+	} catch (error) {
+	} finally {
+		if (req.header("Referer")) return res.redirect(req.header("Referer"));
+		res.redirect(303, req.baseUrl);
+	}
 });
 
 export const AssetLocationRouter = route;

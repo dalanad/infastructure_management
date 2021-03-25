@@ -2,7 +2,9 @@ function SideBar(req, res, next) {
 	res.locals.sidebar = [
 		{ label: "Dashboard", href: "/home/", icon: "fa fa-home" },
 		{
-			label: "Assets", href: "/assets/", icon: "fa fa-sitemap",
+			label: "Assets",
+			href: "/assets/",
+			icon: "fa fa-sitemap",
 			links: [
 				{ label: "Assets", href: "/assets/all/" },
 				{ label: "Locations", href: "/assets-location/" },
@@ -14,7 +16,9 @@ function SideBar(req, res, next) {
 		{ label: "Support", href: "/support/", icon: "fa fa-headset", links: undefined },
 		{ label: "Servicing", href: "/support/", icon: "fa fa-tools", links: undefined },
 		{
-			label: "Settings", href: "/settings/", icon: "fa fa-cog",
+			label: "Settings",
+			href: "/settings/users",
+			icon: "fa fa-cog",
 			links: [
 				{ label: "Users", href: "/settings/users/" },
 				{ label: "Roles", href: "/settings/roles/" },
@@ -22,7 +26,11 @@ function SideBar(req, res, next) {
 		},
 	].map((x) => ({
 		...x,
-		active: req.url.includes(x.href) || x?.links?.map((link) => ({ ...link, active: req.url.includes(link.href) })).filter(x => x.active).length,
+		active:
+			req.url.includes(x.href) ||
+			x?.links
+				?.map((link) => ({ ...link, active: req.url.includes(link.href) }))
+				.filter((x) => x.active).length,
 		links: x?.links?.map((link) => ({ ...link, active: req.url.includes(link.href) })),
 	}));
 	next();
