@@ -1,25 +1,25 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20210319055453 extends Migration {
+export class Migration20210325181000 extends Migration {
 
   async up(): Promise<void> {
+    this.addSql('create table "sys_config" ("id" varchar(255) not null, "created_at" timestamptz(0) not null default now(), "updated_at" timestamp not null default now(), "data" jsonb not null);');
+    this.addSql('alter table "sys_config" add constraint "sys_config_pkey" primary key ("id");');
+
     this.addSql('create table "network" ("id" serial primary key, "description" varchar(255) not null, "cidr" varchar(255) not null);');
 
-    this.addSql('create table "device_category" ("id" serial primary key, "name" varchar(255) not null, "computer" bool not null default false, "networked" bool not null default false);');
+    this.addSql('create table "device_category" ("id" serial primary key, "created_at" timestamptz(0) not null default now(), "updated_at" timestamp not null default now(), "name" varchar(255) not null, "computer" bool not null default false, "networked" bool not null default false);');
 
-    this.addSql('create table "device_location" ("id" serial primary key, "name" varchar(255) not null, "floor" varchar(255) not null, "wing" varchar(255) not null);');
+    this.addSql('create table "device_location" ("id" serial primary key, "created_at" timestamptz(0) not null default now(), "updated_at" timestamp not null default now(), "name" varchar(255) not null, "floor" varchar(255) not null, "wing" varchar(255) not null);');
 
-    this.addSql('create table "device_manufacturer" ("id" serial primary key, "name" varchar(255) not null);');
+    this.addSql('create table "device_manufacturer" ("id" serial primary key, "created_at" timestamptz(0) not null default now(), "updated_at" timestamp not null default now(), "name" varchar(255) not null);');
 
     this.addSql('create table "auth_org" ("id" varchar(255) not null, "name" varchar(255) not null, "address" varchar(255) not null default \'\', "telephone" varchar(255) not null default \'\', "logo" varchar not null default \'/assets/static/store.svg\');');
     this.addSql('alter table "auth_org" add constraint "auth_org_pkey" primary key ("id");');
 
-    this.addSql('create table "supplier" ("id" serial not null, "created_at" timestamptz(0) not null default now(), "updated_at" timestamp not null default now(), "display_name" varchar(255) not null, "company_name" varchar(255) not null, "contact_name" varchar(255) not null default \'\', "contact_info_email" varchar(255) not null, "contact_info_address" varchar(255) not null, "contact_info_city" varchar(255) not null, "contact_info_phone" varchar(255) not null, "contact_info_mobile" varchar(255) not null, "credit_period" int4 not null default 0);');
-    this.addSql('alter table "supplier" add constraint "supplier_pkey" primary key ("id");');
+    this.addSql('create table "supplier" ("id" serial primary key, "created_at" timestamptz(0) not null default now(), "updated_at" timestamp not null default now(), "display_name" varchar(255) not null, "company_name" varchar(255) not null, "contact_name" varchar(255) not null default \'\', "contact_info_email" varchar(255) not null, "contact_info_address" varchar(255) not null, "contact_info_city" varchar(255) not null, "contact_info_phone" varchar(255) not null, "contact_info_mobile" varchar(255) not null, "credit_period" int4 not null default 0);');
 
-    this.addSql(
-			'create table "asset" ("id" serial primary key, "created_at" timestamptz(0) not null default now(), "updated_at" timestamp not null default now(), "asset_code" varchar(255) not null, "model" varchar(255) not null, "serial_no" varchar(255) not null, "manufacturer_id" int4 not null, "category_id" int4 not null, "location_id" int4 not null, "spec" varchar(255) not null, "supplier_id" serial not null, "warranty" int4 not null default 0, "date_purchased" timestamptz(0) null, "date_commissioned" timestamptz(0) null, "DISCARDED" timestamptz(0) null, "decommission_reason" varchar(255) null, "expected_lifespan" int4 not null default 0, "purchase_cost" int4 not null default 0, "owner" varchar(255) null default \'\', "software" jsonb null default \'[]\', "status" text check ("status" in (\'NOT_IN_USE\', \'IN_USE\', \'IN_REPAIR\', \'DISCARDED\')) not null, "condition" text check ("condition" in (\'FUNCTIONAL\', \'BROKEN\')) not null, "computer_ram" varchar(255) null, "computer_cpu" varchar(255) null, "computer_hdd_capacity" varchar(255) null, "net_ip" varchar(255) null, "net_mac" varchar(255) null, "net_subnet_id" int4 null, "net_gateway" varchar(255) null);'
-		);
+    this.addSql('create table "asset" ("id" serial primary key, "created_at" timestamptz(0) not null default now(), "updated_at" timestamp not null default now(), "asset_code" varchar(255) not null, "model" varchar(255) not null, "serial_no" varchar(255) not null, "manufacturer_id" int4 not null, "category_id" int4 not null, "location_id" int4 not null, "spec" varchar(255) not null, "supplier_id" int4 not null, "warranty" int4 not null default 0, "date_purchased" timestamptz(0) null, "date_commissioned" timestamptz(0) null, "sticker_printed" timestamptz(0) null, "discarded" timestamptz(0) null, "decommission_reason" varchar(255) null, "expected_lifespan" int4 not null default 0, "purchase_cost" int4 not null default 0, "owner" varchar(255) null default \'\', "purchase_order_no" varchar(255) not null default \'\', "grn_no" varchar(255) not null default \'\', "software" jsonb null default \'[]\', "status" text check ("status" in (\'NOT_IN_USE\', \'IN_USE\', \'IN_REPAIR\', \'DISCARDED\')) not null, "condition" text check ("condition" in (\'FUNCTIONAL\', \'BROKEN\')) not null, "computer_ram" varchar(255) null, "computer_cpu" varchar(255) null, "computer_hdd_capacity" varchar(255) null, "net_ip" varchar(255) null, "net_mac" varchar(255) null, "net_subnet_id" int4 null, "net_gateway" varchar(255) null);');
     this.addSql('alter table "asset" add constraint "asset_asset_code_unique" unique ("asset_code");');
     this.addSql('alter table "asset" add constraint "asset_serial_no_unique" unique ("serial_no");');
 

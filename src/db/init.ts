@@ -62,7 +62,6 @@ getORM();
 async function InjectORM(req: any, res, next) {
 	req.orm = await getORM();
 	RequestContext.create(req.orm.em, next);
-}
+} 
 
 export { InjectORM, getORM };
-
