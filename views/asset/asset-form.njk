@@ -4,7 +4,7 @@
 {% import "macros.njk" as "m" %}
 
 {% block content %}
-    <form action="" method="post" style="max-width:750px">
+    <form action="" method="post" style="max-width:850px">
         {{ m.page_header("Asset" , assetCode) }}
 
         {# {% if errors.length > 0 %}
@@ -17,7 +17,7 @@
                 </ul>
             </div>
         {% endif %} #}
-        <div class="row g-2">
+        <div class="row gx-2">
             <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="model">Model</label>
                 <input class="ctrl" name="model" id="model" type="" value="{{model}}">
@@ -41,8 +41,8 @@
             <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label>Category</label>
                 <select class="ctrl" name="category">
-                    {% for item in asset_categories %}
-                        <option {{ "selected" if category.id == item.id }} value="{{item.id}}">{{item.name}}</option>
+                    {% for item in asset_categories %}  
+                        <option data-computer="{{item.computer}}" data-network="{{item.networked}}" {{ "selected" if category.id == item.id }} value="{{item.id}}">{{item.name}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -59,8 +59,8 @@
                 <label for="owner">Owner / User</label>
                 <input class="ctrl" name="owner" id="owner" value="{{ owner }}">
             </div>
-
-            <h5>Purchase Information</h4>
+</div><div class="row gx-2">
+            <h6 class="my-2">Purchase Information</h6>
             <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label>Supplier</label>
                 <select class="ctrl" name="supplier">
@@ -108,9 +108,9 @@
                     <span class="static">.00</span>
                 </div>
             </div>
-
-            <h5 class="mb-1 mt-3">Specifications</h3>
-
+</div><div>
+            <h6  class="my-2">Specifications</h6>
+            <div class="row p-0 gx-2"  id="computer-config">
             <div class="col-lg-3 col-md-4 col-sm-12 field">
                 <label for="computer[ram]">RAM</label>
                 <div class="ctrl group">
@@ -133,17 +133,20 @@
                     <span class="static">GB</span>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-12 field">
-                <label for="net">IP</label>
-                <input class="ctrl" name="net[ip]" id="net" type="" value="{{net.ip}}">
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-12 field">
-                <label for="net">Mac Address</label>
-                <input class="ctrl" name="net[mac]" id="net" type="" value="{{net.mac}}">
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-12 field">
-                <label for="net">Gateway</label>
-                <input class="ctrl" name="net[gateway]" id="net" type="" value="{{net.gateway}}">
+            <div class="row p-0 gx-2" id="net-config">
+                <div class="col-lg-3 col-md-4 col-sm-12 field">
+                    <label for="net">IP</label>
+                    <input class="ctrl" name="net[ip]" id="net" type="" value="{{net.ip}}">
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-12 field">
+                    <label for="net">Mac Address</label>
+                    <input class="ctrl" name="net[mac]" id="net" type="" value="{{net.mac}}">
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-12 field">
+                    <label for="net">Gateway</label>
+                    <input class="ctrl" name="net[gateway]" id="net" type="" value="{{net.gateway}}">
+                </div>
             </div>
             <div class="field">
                 <label for="spec">Other</label>
@@ -175,6 +178,21 @@
 {% block script %}
 
     <script>
+        let catSelect = document.querySelector("[name='category']")
+            catSelect.addEventListener("change",function(e){
+            let cat = e.target.options[e.target.selectedIndex].dataset;
+
+            if(cat.network=="true"){
+                document.querySelector("#net-config").style.display=null
+            } else {
+                document.querySelector("#net-config").style.display='none'
+            }
+             if(cat.computer=="true"){
+                document.querySelector("#computer-config").style.display=null
+            } else {
+                document.querySelector("#computer-config").style.display='none'
+            }
+        })
 
         function addSoftwareField() {
             let parent = document.getElementById('software')
