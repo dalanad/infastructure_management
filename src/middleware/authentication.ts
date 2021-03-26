@@ -34,7 +34,6 @@ function addAuth(app) {
 		res.locals.frame = req.headers["turbo-frame"];
 		try {
 			req.user = await decrypt(parseCookies(req)["id_token"]);
-			console.log(req.user);
 		} catch (e) {
 			if (!["/auth/login/", "/auth/forgot/"].includes(req.originalUrl)) {
 				return res.redirect("/auth/login/");
@@ -45,6 +44,8 @@ function addAuth(app) {
 			return `<span class="tag ${status[type][str]}">${String(str).replace(/_/g, " ")}</span>`;
 		};
 		res.locals.breadcrumbs = [];
+		res.locals.success_flash = [];
+		res.locals.error_flash = [];
 		res.locals.collapseRange = collapseRange;
 		res.locals.withParam = getWithParam(req.url, req.protocol + "://" + req.headers.host);
 		next();

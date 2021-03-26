@@ -19,9 +19,10 @@
             <div>
                 <div class="row">
                     <div class="col-lg-6">
-                        <b class="m-0"> {{ asset.assetCode }} </b> - {{ asset.model }}<br>
-                        <code>{{ asset.serialNo }}</code> <br>
-                        <span class="text-nowrap"> Status : {{ tag("asset_status",asset.status) }} </span>   
+                        <div> Asset Code : <b class="m-0"> {{ asset.assetCode }} </b> </div>
+                        <div> Model Number : {{ asset.model }}</div>
+                        <div> Serial Number : <code>{{ asset.serialNo }}</code></div>
+                        <div class="text-nowrap"> Status : {{ tag("asset_status",asset.status) }} </div>
                         <span class="text-nowrap"> Condition : {{ tag("asset_condition",asset.condition) }} </span>
                         <p>
                             Location : <b>{{ asset.location.name }}</b><br/>

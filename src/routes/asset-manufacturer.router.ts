@@ -30,16 +30,31 @@ route.post("/create", async (req, res) => {
 });
 
 // edit
-route.get("/edit/:id", async (req: any, res) => {
+route.get("/:id/edit", async (req: any, res) => {
 	let data = await req.orm.em.findOne(Manufacturer, req.params.id);
 	res.render("asset/manufacturer/manufacturer-form", { ...data });
 });
 
-route.post("/edit/:id", async (req, res) => {
+route.post("/:id/edit", async (req, res) => {
 	let supplier = await req.orm?.em.findOne<Manufacturer>(Manufacturer, Number(req.params.id));
-	supplier?.assign({ name: req.body.name, computer: Boolean(req.body.computer), networked: Boolean(req.body.networked) });
+	supplier?.assign({
+		name: req.body.name,
+		computer: Boolean(req.body.computer),
+		networked: Boolean(req.body.networked),
+	});
 	await req.orm?.em.flush();
 	res.redirect(303, req.baseUrl);
 });
 
+route.get("/:id/delete", async (req: any, res) => {
+	try {
+		let entity = await req.orm.em.findOne(Manufacturer, req.params.id);
+		await req.orm.em.remove(entity);
+		await req.orm.em.flush();
+	} catch (error) {
+	} finally {
+		if (req.header("Referer")) return res.redirect(req.header("Referer"));
+		res.redirect(303, req.baseUrl);
+	}
+});
 export const AssetManufacturerRouter = route;

@@ -1,10 +1,9 @@
 {% extends "_layout/admin-base.njk" %}
-
+{% import "macros.njk" as "m" with context %}
 {% block content %}
-    <h2 class="mb-3">Assets Catogories
+    {% call m.page_header("Assets Catogories") %}
     <a class="btn btn-primary float-end" href="create">New Category</a>
-    </h2>
-
+    {% endcall %}
     <div>
         <table class="table" role="grid">
             <thead>
@@ -23,9 +22,9 @@
                         <td>{{ item.name  }}</td>
                         <td>{{ tag("bool", item.computer) }}</td>
                         <td>{{ tag("bool", item.networked) }}</td>
-                        <td>
-                            <a href="edit/{{ item.id }}"> Edit </a>
-                        </td>
+                        <td><a class="btn link" href="{{ item.id }}/edit/"> Edit </a> | 
+                        <a class="btn link danger" href="{{ item.id }}/delete/"> Delete </a></td>
+         
                     </tr>
                 {% endfor %}
             </tbody>

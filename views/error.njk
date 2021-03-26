@@ -1,7 +1,10 @@
 {% extends "_layout/base.njk" %}
 
 {% block body %}
-
-<h2 class="text-center mt-5">ERROR : {{ status_code }}</h2>
-
+<div class="text-center">
+<h1 class="text-center text-danger font-weight-bold mt-5" style="font-size:5em;margin-top:15rem">  {{ status_code }}</h1>
+<h3 >  {{msg}} </h3>
+<button class="btn link mt-2" onclick="location.back()">Go Back</button> |
+<a class="btn link mt-2" href="/">Go to Homepage </a>
+</div>
 {% endblock %}

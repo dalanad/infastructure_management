@@ -42,12 +42,12 @@ async function bootstrap() {
 	app.use(AddTailingSlash, InjectORM, SideBar);
 	app.use(AppRouter);
 	app.use(function (req, res) {
-		res.status(404).render("error", { status_code: 404 });
+		res.status(404).render("error", { status_code: 404, msg: "Page Not Found" });
 	});
 
 	app.use(function (err, req, res, next) {
-		console.error(err.stack);
-		res.status(500).render("error", { status_code: 500 });
+		console.error(err);
+		res.status(500).render("error", { status_code: 500, msg: "Internal Server Error" });
 	});
 
 	app.listen(process.env.PORT || 3000, () => {
