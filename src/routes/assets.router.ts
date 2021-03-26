@@ -66,7 +66,7 @@ route.get("/all", async (req, res) => {
 			Asset,
 			parseInt(String(req.query.selected || "-1"))
 		);
-		res.locals.breadcrumbs.push({ name: req.query.selected });
+		res.locals.breadcrumbs.push({ name: res.locals.asset.assetCode });
 
 		return res.render("asset/asset-summery", {
 			items,

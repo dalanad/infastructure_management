@@ -34,10 +34,10 @@ function addAuth(app) {
 		res.locals.frame = req.headers["turbo-frame"];
 		try {
 			req.user = await decrypt(parseCookies(req)["id_token"]);
-		} catch(e) {
-			console.log(e)
+			console.log(req.user);
+		} catch (e) {
 			if (!["/auth/login/", "/auth/forgot/"].includes(req.originalUrl)) {
-				// return res.redirect("/auth/login/");
+				return res.redirect("/auth/login/");
 			}
 		}
 		res.locals.title = "IT Management";
