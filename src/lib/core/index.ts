@@ -6,8 +6,7 @@ const password = "9bejJHkZScfVPVhT7n5XzWxTqh9Bcj";
 // First, we'll generate the key. The key length is dependent on the algorithm.
 // In this case for aes192, it is 24 bytes (192 bits).
 const key = scryptSync(password, "salt", 24);
-const iv = Buffer.from("77fce4a9f8d2128ae47f254ad4f01fc2",'hex');
-console.log(key.toString('hex'))
+const iv = Buffer.from("77fce4a9f8d2128ae47f254ad4f01fc2", "hex");
 export function encrypt(sourceData: string): Promise<string> {
 	return new Promise((resolve, reject) => {
 		const cipher = createCipheriv(algorithm, key, iv);

@@ -195,7 +195,8 @@ route.get("/create", async (req, res) => {
 
 route.post("/create", async (req, res) => {
 	// Object.keys(req.body).forEach((key) => (req.body[key] === "" ? delete req.body[key] : {}));
-	let asset = req.orm.em.create(Asset, req.body);
+	let asset = req.orm.em.create(Asset, {});
+	wrap(asset).assign(req.body, { em: req.orm.em });
 	try {
 		// id generation not concurrent so re try if duplicates
 		asset.assetCode = await getNextVal(ID_SEQUENCES.ASSET_CODE, { prefix: "D_" });
@@ -222,7 +223,7 @@ route.post("/:id/print-sticker", async (req, res) => {
 	// let asset = await req.orm.em.findOneOrFail(Asset, Number(req.params.id));
 	// asset.stickerPrinted = new Date();
 	// await req.orm.em.flush();
-	if ((req.body.type == "SINGLE")) {
+	if (req.body.type == "SINGLE") {
 		assets = await req.orm.em.find(Asset, { assetCode: req.body.assetCode });
 		return res.render("asset/print-stickers", {
 			assets: assets,
@@ -285,7 +286,6 @@ route.get("/:id/status", async (req, res) => {
 // edit
 route.get("/:id/edit", async (req: any, res) => {
 	let asset = await req.orm.em.findOneOrFail(Asset, req.params.id);
-
 	res.locals.asset_categories = await req.orm.em.find(Category, {});
 	res.locals.asset_locations = await req.orm.em.find(AssetLocation, {});
 	res.locals.asset_suppliers = await req.orm.em.find(Supplier, {});
@@ -297,6 +297,7 @@ route.get("/:id/edit", async (req: any, res) => {
 route.post("/:id/edit", async (req, res) => {
 	let supplier = await req.orm?.em.findOne(Asset, Number(req.params.id));
 	supplier?.assign(req.body);
+	console.log(supplier);
 	await req.orm?.em.flush();
 	res.redirect(303, req.baseUrl + "/all/");
 });

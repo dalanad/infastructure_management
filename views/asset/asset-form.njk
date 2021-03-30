@@ -7,14 +7,9 @@
 <form action="" method="post" style="max-width:850px">
     {{ m.page_header("Asset" , assetCode) }}
 
-    {# {% if errors.length > 0 %}
+    {# {% if errors  %}
             <div class="alert text-danger danger">
-                Failed with errors : 
-                <ul class="m-0">
-                    {% for error in errors %}
-                        <li>{{error.message}}</li>
-                    {% endfor %}
-                </ul>
+            Error Processing Form Check Data
             </div>
         {% endif %} #}
     <div class="row gx-2">
@@ -181,16 +176,18 @@
 
 <script>
     let catSelect = document.querySelector("[name='category']")
-                                                                                                                                                                                                                                                                                                 electedIndex ].dataset;
+              addEventListener("change",function(e){
+        let cat = e.t                tions[e.target.selectedIndex].dataset;
 
-                                                                                                                                                                                                                                                                                                                                                                                         .style.display = null
+                                                   etwork=="true"){ 
+             document .querySelec to                                  le . di splay=null
         } else {
-        et-config").style.displ                ne'
+            document.querySelector("#net-config").styl e .display='none'
         }
-        if (cat.                                                                                                                         = =  "true") {
-            document.querySel                                        nfig").                        y = null
+         if(cat.computer=="true"){
+            doument.qu   e rySele                                     ") .st yl e.displ a y=null
         } else {
-            document.querySelector("#computer-config").style.display = 'none'
+            document.querySelector("#computer-config") . styl            'none'
         }
     })
 
