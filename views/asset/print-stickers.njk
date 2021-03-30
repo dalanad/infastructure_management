@@ -1,0 +1,106 @@
+{% extends "_layout/admin-base.njk" %}
+{% import "macros.njk" as "m" with context %}
+{% block content %}
+<div class="px-4" style="max-width:600px;margin: 0 auto;">
+    <h4>Print Stickers</h4>
+    <form method="post" class="row gx-2" data-turbo="false">
+        <div class="field col-6">
+            <label>Print Amount</label>
+            <select class="ctrl" name="type">
+                <option value="SINGLE" {{"selected" if (type=="SINGLE" or not type)}}>SINGLE</option>
+                <option value='BULK' {{"selected" if type=="BULK" }}>BULK</option>
+            </select>
+        </div>
+        <div class="field col-6" id="range">
+            <label>Asset Code Range </label>
+            <div class="ctrl group">
+                <span class="static">From</span>
+                <input name="from" class="ctrl" value="{{from if from else assetCode }}" />
+                <span class="static">To</span>
+                <input name="to" class="ctrl" value="{{to}}" />
+            </div>
+        </div>
+        <div class="field col-6" id="single">
+            <label>Asset Code</label>
+            <input required class="ctrl" name="assetCode" value="{{assetCode}}" />
+        </div>
+        <div>
+            <button class="btn success" type="submit"> <i class="fa fa-print"></i> &nbsp; Print </button>
+        </div>
+        <div id="status" class="mt-2"> </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block script%}
+<script src="https://cdn.jsdelivr.net/npm/qz-tray@2.1.2/qz-tray.min.js"></script>
+<script>
+
+</script>
+<script>
+    function getStickerCmd(asset) {
+        return `^XA^PW399^LH5,20
+                 ^FO145,12^A0N,26,26^FD${asset.assetCode}^FS
+                 ^FO370,5^A0B,18,18^FH^FDIT INVENTORY TAG^FS
+                 ^FO30,126^A0,18,18^FH^FDSN : ${asset.serialNo}^FS
+                 ^FO145,45^A0,16,16^FH^FD${String(asset.category.name).toLocaleUpperCase()}^FS
+                 ^FO145,65^A0,16,16^FH^FDMODEL : ${String(asset.model).toLocaleUpperCase()}^FS
+                 ^FO145,100^A0,16,16^FH^FDLOC. : ${String(asset.location.name).toUpperCase()}^FS
+                 ^FO5,15^A0B,18,18^FH^FDDO NOT REMOVE^FS
+                 ^FO 30,2 ^BQN,0,5
+                 ^FDLA,${asset.assetCode}^FS
+                 ^XZ`
+    }
+    printSticker();
+    function printSticker() {
+
+        let assets;
+        assets = [ {{ assets | dump }} ]
+
+    let status = document.getElementById("status")
+    if (assets.length > 0) {
+        status.classList.remove("danger")
+        status.classList.add("success", 'alert')
+        status.innerText = "Connecting to Printer"
+        qz.websocket.connect().then(v => qz.printers.find('Barcode'))
+            .then(async (printer) => {
+                status.innerText = "Printing"
+                const config = qz.configs.create(printer);
+                for (const asset of object) {
+                    console.log(getStickerCmd(asset))
+                    await qz.print(config, [ getStickerCmd(asset) ]);
+                }
+            })
+            .then(() => {
+                qz.websocket.disconnect();
+                status.innerText = "Print Successful"
+            })
+            .catch((err) => {
+                status.innerText = 'Printing Failed';
+                status.classList.add("danger")
+                return qz.websocket.disconnect();
+            });
+    }
+
+
+    }
+
+    document.querySelector("[name='type']").addEventListener("change", updatex)
+
+    function updatex() {
+        let cxatSelect = document.querySelector("[name='type']")
+
+        if (cxatSelect.value == "SINGLE") {
+            document.querySelector("#single").style.display = null;
+            document.querySelector("#range").style.display = 'none'
+
+        } else {
+            document.querySelector("#single").style.display = 'none'
+            document.querySelector("#range").style.display = null;
+        }
+
+    }
+    updatex()
+
+</script>
+{% endblock %}

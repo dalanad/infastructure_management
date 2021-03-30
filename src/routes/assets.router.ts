@@ -1,4 +1,4 @@
-import { LoadStrategy } from "@mikro-orm/core";
+import { LoadStrategy, wrap } from "@mikro-orm/core";
 import express from "express";
 import { Asset, AssetLocation, AssetStatus, Category, Manufacturer, Supplier } from "../db/entity";
 import { objToQueryString } from "../lib/core";
@@ -194,6 +194,7 @@ route.get("/create", async (req, res) => {
 });
 
 route.post("/create", async (req, res) => {
+	// Object.keys(req.body).forEach((key) => (req.body[key] === "" ? delete req.body[key] : {}));
 	let asset = req.orm.em.create(Asset, req.body);
 	try {
 		// id generation not concurrent so re try if duplicates
@@ -216,12 +217,34 @@ route.post("/create", async (req, res) => {
 		res.status(400).render("asset/asset-form", { errors, ...asset });
 	}
 });
+route.post("/:id/print-sticker", async (req, res) => {
+	let assets;
+	// let asset = await req.orm.em.findOneOrFail(Asset, Number(req.params.id));
+	// asset.stickerPrinted = new Date();
+	// await req.orm.em.flush();
+	if ((req.body.type == "SINGLE")) {
+		assets = await req.orm.em.find(Asset, { assetCode: req.body.assetCode });
+		return res.render("asset/print-stickers", {
+			assets: assets,
+			assetCode: req.body.assetCode,
+			type: "SINGLE",
+		});
+	} else {
+		assets = await req.orm.em.find(Asset, {
+			assetCode: { $lte: req.body.to, $gte: req.body.from },
+		});
+		return res.render("asset/print-stickers", {
+			assets: assets,
+			assetCode: req.body.assetCode,
+			to: req.body.to,
+			from: req.body.from,
+			type: "BULK",
+		});
+	}
+});
 
 route.get("/:id/print-sticker", async (req, res) => {
-	let asset = await req.orm.em.findOneOrFail(Asset, Number(req.params.id));
-	asset.stickerPrinted = new Date();
-	await req.orm.em.flush();
-	res.redirect(req.header("Referer"));
+	res.render("asset/print-stickers", { assetCode: req.params.id });
 });
 
 route.get("/:id/discard", async (req, res) => {
@@ -235,7 +258,7 @@ route.post("/:id/discard", async (req, res) => {
 	asset.location = req.orm.em.getReference(AssetLocation, 0);
 	asset.decommissionReason = req.body.reason;
 	await req.orm.em.flush();
-	res.redirect("/assets/all/?selected=" + asset.id);;
+	res.redirect("/assets/all/?selected=" + asset.id);
 });
 
 route.get("/:id/status", async (req, res) => {

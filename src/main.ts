@@ -29,7 +29,7 @@ async function bootstrap() {
 
 	function DateFilter(value: Date) {
 		if (!value) return "";
-		return value.toISOString().substr(0, 10);
+		return new Date(value).toISOString().substr(0, 10);
 	}
 
 	env.addFilter("date", DateFilter);
