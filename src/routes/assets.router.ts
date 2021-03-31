@@ -256,7 +256,7 @@ route.get("/:id/discard", async (req, res) => {
 route.post("/:id/discard", async (req, res) => {
 	let asset = await req.orm.em.findOneOrFail(Asset, Number(req.params.id));
 	asset.status = AssetStatus.DISCARDED;
-	asset.location = req.orm.em.getReference(AssetLocation, 0);
+	// asset.location = req.orm.em.getReference(AssetLocation, 0);
 	asset.decommissionReason = req.body.reason;
 	await req.orm.em.flush();
 	res.redirect("/assets/all/?selected=" + asset.id);
