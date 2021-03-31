@@ -4,7 +4,7 @@
 {% import "macros.njk" as "m" %}
 
 {% block content %}
-    <form action="" method="post" style="max-width:850px">
+    <form action="" method="post" style="max-width:850px;margin: 0 auto ">
         {{ m.page_header("Asset" , assetCode) }}
 
         {# {% if errors  %}
@@ -13,11 +13,11 @@
             </div>
         {% endif %} #}
         <div class="row gx-2">
-            <div class="col-lg-3 col-md-4 col-sm-12 field">
+            <div class="col-lg-4 col-md-4 col-sm-12 field">
                 <label for="model">Model</label>
                 <input class="ctrl" name="model" required id="model" type="" value="{{ model }}">
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 field">
+            <div class="col-lg-5 col-md-4 col-sm-12 field">
                 <label for="serialNo">Serial Number</label>
                 <input class="ctrl {{ 'invalid' if errors.serialNo }}" required name="serialNo" id="serialNo" type="" value="{{ serialNo }}">
                 {% if errors.serialNo %}
@@ -42,7 +42,7 @@
                 </select>
             </div>
 
-            <div class="col-lg-3 col-md-4 col-sm-12 field">
+            <div class="col-lg-4 col-md-4 col-sm-12 field">
                 <label>Location</label>
                 <select class="ctrl" name="location">
                     {% for item in asset_locations %}
@@ -50,7 +50,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 field">
+            <div class="col-lg-5 col-md-4 col-sm-12 field">
                 <label for="owner">Owner / User</label>
                 <input class="ctrl" name="owner" id="owner" value="{{ owner }}">
             </div>

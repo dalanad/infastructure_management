@@ -3,8 +3,8 @@
 {% import "forms.njk" as forms %}
 
 {% block content %}
-<form action="" method="post"  >
-    <h2>Supplier</h2>
+<form action="" method="post" style="max-width: 850px;margin: 0 auto" >
+    <h4>Supplier</h4>
     <div class="row g-2">
         {% for field in form.fields %}
         {{ forms.field(field) }}
