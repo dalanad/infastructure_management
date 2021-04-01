@@ -1,4 +1,4 @@
-import { collapseRange } from "../lib/core";
+import { collapseRange, objToQueryString, parseCookies } from "../lib/core";
 import { join } from "path";
 
 import nunjucks from "nunjucks";
@@ -50,17 +50,27 @@ function registerViewHelpers(req, res, next) {
         return new Date(value).toISOString().substr(0, 10);
     }
 
+    res.locals.flash_msgs = JSON.parse(parseCookies(req)["flash_msg"]) || []
+    let msgs = []
+    res.flash = (level, msg) => {
+        msgs.push({ level, msg })
+    }
     env.addFilter("date", DateFilter);
     res.locals.title = "Zismith Mini ERP";
     res.locals.tag = function name(type: string, str: string) {
         return `<span class="tag ${ status[type][str] }">${ String(str).replace(/_/g, " ") }</span>`;
     };
     res.locals.breadcrumbs = [];
-    res.locals.success_flash = [];
-    res.locals.error_flash = [];
     res.locals.collapseRange = collapseRange;
     res.locals.withParam = getWithParam(req.url, req.protocol + "://" + req.headers.host);
+    let _writeHead = res.writeHead
+
+    res.writeHead = function (statusCode) {
+        res.cookie("flash_msg", JSON.stringify(msgs))
+        _writeHead.apply(this, arguments)
+    }
     next();
+
 }
 
 function getWithParam(urlstr: string, base) {

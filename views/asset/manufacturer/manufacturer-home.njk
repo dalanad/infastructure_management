@@ -5,11 +5,6 @@
 {% call m.page_header("Assets Manufacturers") %}    
     <a class="btn btn-primary float-end" href="create">New Manufacturer</a>
 {% endcall %}
-<div>
-    {% for msg in success_flash %}
-        <div class="alert success"><i class="fas fa-check-circle"></i> &nbsp; {{msg}} </div> 
-    {% endfor %}
-</div>
 
 <div>
     <table class="table paded" role="grid">
@@ -25,7 +20,7 @@
             <tr>
                 <td>{{ item.id  }}</td>
                 <td>{{ item.name  }}</td>
-                <td><a class="btn link" href="{{ item.id }}/edit/"> Edit </a> | <a class="btn link danger" confirm-action href="{{ item.id }}/delete/"> Delete </a></td>
+                <td><a class="btn link" href="{{ item.id }}/edit/"> Edit </a> | <a class="btn link danger"  href="{{ item.id }}/delete/"> Delete </a></td>
             </tr>
             {% endfor %}
         </tbody>

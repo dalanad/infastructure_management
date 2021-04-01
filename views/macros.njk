@@ -1,10 +1,10 @@
 {% macro link(text, link, class, icon) -%}
-    <a href="{{link}}" class="{{class}}">
+    <a href="{{ link }}" class="{{ class }}">
         {%- if icon -%}
-            <i class="{{icon}} mr-2"></i>
+            <i class="{{ icon }} mr-2"></i>
         {%- endif -%}
         {{- text -}}</a>
-{%-  endmacro %}
+{%- endmacro %}
 
 {%- macro page_header(title) -%}
     <div class="d-flex mx-3 mt-3 justify-content-between">
@@ -13,14 +13,21 @@
                 {% set comma = joiner("/") %}
                 {% for item in breadcrumbs %}
                     {{ comma() }}
-                    <a {% if item.link %} href="{{item.link}}" {%endif%}>{{item.name}}</a>
+                    <a {% if item.link %} href="{{ item.link }}" {% endif %}>{{ item.name }}</a>
                 {% endfor %}
             </div>
-            <h4>{{title}}</h4>
+            <h4>{{ title }}</h4>
         </div>
         {%- if caller -%}
             <div>
-                <span style="white-space: nowrap;margin-top: .5em;">{{- caller()  -}}</span></div>
+                <span style="white-space: nowrap;margin-top: .5em;">{{- caller() -}}</span></div>
         {%- endif %}
     </div>
+    {% if flash_msgs.length>0 %}
+        <div class="mx-3 my-1">
+            {% for msg in flash_msgs %}
+                <div class="alert {{ msg.level }}"><i class="fas fa-{{ "check-circle" if msg.level=="success" }}{{ "exclamation-circle" if msg.level=="danger" }} "></i> &nbsp;{{ msg.msg }} </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {%- endmacro -%}

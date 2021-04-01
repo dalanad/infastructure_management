@@ -64,9 +64,10 @@ route.get("/:id/delete", async (req: any, res) => {
 		let supplier = await req.orm.em.findOne(Supplier, req.params.id);
 		await req.orm.em.remove(supplier);
 		await req.orm.em.flush();
+		res.flash("success", "Successfully Deleted Supplier : " + supplier.displayName)
 	} catch (error) {
+		res.flash("danger", `Deletion Failed : This Supplier has Assets registered`)
 	} finally {
-		if (req.header("Referer")) return res.redirect(req.header("Referer"));
 		res.redirect(303, req.baseUrl);
 	}
 });
