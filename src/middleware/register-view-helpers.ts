@@ -1,4 +1,7 @@
 import { collapseRange } from "../lib/core";
+import { join } from "path";
+
+import nunjucks from "nunjucks";
 
 const status = {
     asset_status: {
@@ -30,8 +33,25 @@ const status = {
 
 function registerViewHelpers(req, res, next) {
     res.locals.frame = req.headers["turbo-frame"];
+    // configure views
+    req.app.set("view engine", "njk");
 
-    res.locals.title = "IT Management";
+    let view_opts = {
+        autoescape: false,
+        lstripBlocks: true,
+        trimBlocks: true,
+        express: req.app,
+        watch: true,
+    };
+    var env = nunjucks.configure(join(__dirname, "../../views"), view_opts);
+
+    function DateFilter(value: Date) {
+        if (!value) return "";
+        return new Date(value).toISOString().substr(0, 10);
+    }
+
+    env.addFilter("date", DateFilter);
+    res.locals.title = "Zismith Mini ERP";
     res.locals.tag = function name(type: string, str: string) {
         return `<span class="tag ${ status[type][str] }">${ String(str).replace(/_/g, " ") }</span>`;
     };

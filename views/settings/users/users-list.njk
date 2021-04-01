@@ -1,34 +1,35 @@
 {% extends "_layout/admin-base.njk" %}
+{% import "macros.njk" as "m"  with context %}
 
 {% block content %}
-    <h2 class="mb-3">Users
-    <a class="btn btn-primary float-end" href="create">Create User</a>
-    </h2>
+    {% call m.page_header("Users") %}
+        <a class="btn btn-primary float-end" href="create">Create User</a>
+    {% endcall %}
 
     <div>
-        <table class="table" role="grid">
+        <table class="table paded" role="grid">
             <thead>
-                <tr>
-                    <th>uid</th>
-                    <th>Name</th>
-                    <th>Role</th>
-                    <th>Email</th>
-                    <th>Active</th>
-                </tr>
+            <tr>
+                <th>uid</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>Active</th>
+            </tr>
             </thead>
             <tbody>
-                {% for item in items %}
-                    <tr>
-                        <td>{{ item.uid  }}</td>
-                        <td>{{ item.name  }}</td>
-                        <td>{{ item.role.name  }}</td>
-                        <td>{{ item.email  }}</td>
-                        <td>{{ tag("bool", item.isActive)  }}</td>
-                        <td>
-                            <a href="edit/{{ item.uid }}"> Edit </a>
-                        </td>
-                    </tr>
-                {% endfor %}
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.uid }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.role.name }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ tag("bool", item.isActive) }}</td>
+                    <td>
+                        <a href="edit/{{ item.uid }}"> Edit </a>
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>

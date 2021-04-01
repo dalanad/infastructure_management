@@ -1,10 +1,11 @@
 {% extends "_layout/admin-base.njk" %}
 
-{% import "forms.njk" as forms %}
+{% import "macros.njk" as "m"  with context %}
 
 {% block content %}
-    <form action="" method="post">
-        <h3>Asset Manufacturer</h3>
+
+    {{ m.page_header("Asset Manufacturer") }}
+    <form action="" method="post" class="mx-3">
         <div class="row g-2">
             <div class="col-lg-3 col-md-6 col-sm-12 field">
                 <label>Name</label>

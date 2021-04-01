@@ -4,18 +4,27 @@
     <header class="header">
         <span><i class="sidebar-toggle fa fa-bars"></i> &nbsp; IT Manamgent </span>
         <span class="flex-fill"></span>
-        <a href="/auth/logout" class="btn text-white me-0 link"> <i class="far fa-user-circle align-self-center"></i> &nbsp;Dalana </a>
+        <div class="dropdown">
+            <button class="btn text-white me-0 link dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="far fa-user-circle align-self-center"></i> &nbsp;Dalana
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#"><i class="fa fa-user me-2"></i> Profile</a></li>
+                <li><a class="dropdown-item" href="#"><i class="fa fa-question-circle me-2"></i> Help</a></li>
+                <li><a class="dropdown-item" href="/auth/logout"><i class="fa fa-sign-out-alt me-2"></i> Logout</a></li>
+            </ul>
+        </div>
     </header>
     <div style="display:flex;height: calc(100% - 40px);">
         <div class="sidebar">
             <div class="nav-list">
                 {% for item in sidebar %}
-                    <div class="nav-item{{ " active" if item.active}}">
-                        <a class="nav-link{{ " collapsed" if not item.active and item.links}}" href="{{item.href}}"><i class="fa {{item.icon}} nav-icon"></i><span class="nav-link-text">{{ item.label }}</span></a>
+                    <div class="nav-item{{ " active" if item.active }}">
+                        <a class="nav-link{{ " collapsed" if not item.active and item.links }}" href="{{ item.href }}"><i class="fa {{ item.icon }} nav-icon"></i><span class="nav-link-text">{{ item.label }}</span></a>
                         {% if item.links %}
                             <div class="font-weight-normal sub-list">
                                 {% for link in item.links %}
-                                    <a class="nav-item {{ "active" if link.active}}" href="{{link.href}}">{{link.label}}</a>
+                                    <a class="nav-item {{ "active" if link.active }}" href="{{ link.href }}">{{ link.label }}</a>
                                 {% endfor %}
                             </div>
                         {% endif %}
@@ -23,14 +32,16 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="p-3 w-100 px-5 p-lg-4 overflow-scroll"> {{unpaded}}
+        <div class="w-100 overflow-scroll">
             {%- if frame %}
-                <turbo-frame id="{{frame}}">
-            {% endif %}
+            <turbo-frame id="{{ frame }}">
+                {% endif %}
                 {%- block content -%}{%- endblock -%}
-            {% if frame %}
-                </turbo-frame>
+                {% if frame %}
+            </turbo-frame>
             {%- endif -%}
         </div>
+
     </div>
+
 {%- endblock -%}

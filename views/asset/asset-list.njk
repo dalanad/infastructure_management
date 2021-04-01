@@ -6,13 +6,13 @@
     {% call m.page_header("Assets & Devices") %}
     {{ m.link("New Asset","/assets/create","btn") }}
     {% endcall %}
-    <filter-bar fields='{{ filterConfig | dump | replace("'", "")}}'>
+    <filter-bar class="mx-3 d-block" style="min-height: 66px;" fields='{{ filterConfig | dump | replace("'", "")}}'>
         <div class=" mb-2" style="height: 66px;max-width: 180px;" >
-            <div class="shine lh-1 mb-1" style="width:65%">&nbsp;</div>        <input class="ctrl shine" readonly/>
+            <div class="shine lh-1 mb-1" style="width:65%">&nbsp;</div> <input class="ctrl shine" readonly/>
         </div>
     </filter-bar>
 <div class="table-responsive">
-    <table class="table compact" role="grid">
+    <table class="table compact paded" role="grid">
         <thead>
             <tr>
                 <th data-field="assetCode">Code</th>

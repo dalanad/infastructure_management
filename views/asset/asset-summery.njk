@@ -2,8 +2,8 @@
 {% import "macros.njk" as "m" with context %}
 
 {% block content %}
-<div style="display: grid;grid-template-columns: minmax(100px,2fr) 3fr; grid-gap: 1em;grid-template-rows: 1fr; height: 100%;">
-    <div class="shadow" style="display: grid;grid-template-columns: minmax(100px,1fr); grid-template-rows: min-content 1fr min-content; height: 100%;">
+<div style="display: grid;grid-template-columns: minmax(100px,2fr) 3fr;grid-template-rows: 1fr; height: 100%;">
+    <div class="border-end"  >
         {% include "./asset-list-compact.njk" %}
     </div>
     <div>
@@ -15,7 +15,7 @@
         {% if asset.status != "DISCARDED" %} <a class="btn danger" href="../{{asset.id}}/discard/"> Discard </a> {% endif %}
         {% endcall %}
 
-        <div>
+        <div class="p-3">
             <div class="row">
                 <div class="col-lg-6">
                     <div> Asset Code : <b class="m-0"> {{ asset.assetCode }} </b> </div>

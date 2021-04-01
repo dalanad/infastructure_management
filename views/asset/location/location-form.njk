@@ -1,22 +1,23 @@
 {% extends "_layout/admin-base.njk" %}
 
-{% import "forms.njk" as forms %}
+{% import "macros.njk" as "m"  with context %}
 
 {% block content %}
-    <form action="" method="post"  >
-        <h3>Asset Location</h4>
+
+    {{ m.page_header("Asset Location") }}
+    <form action="" method="post" class="mx-3">
         <div class="row g-2">
             <div class="col-lg-3 col-md-6 col-sm-12 field">
                 <label>Name</label>
-                <input class="ctrl" name="name" value="{{name}}">
+                <input class="ctrl" name="name" value="{{ name }}">
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 field">
                 <label>Floor</label>
-                <input class="ctrl" name="floor" value="{{floor}}">
+                <input class="ctrl" name="floor" value="{{ floor }}">
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 field">
                 <label>Wing</label>
-                <input class="ctrl" name="wing" value="{{wing}}">
+                <input class="ctrl" name="wing" value="{{ wing }}">
             </div>
         </div>
         <button type="submit" class="btn mt-3">Submit</button>

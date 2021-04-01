@@ -1,24 +1,26 @@
 {% extends "_layout/admin-base.njk" %}
+{% import "macros.njk" as "m"  with context %}
 
 {% block content %}
 
-    <form action="" method="post"  id="user-form">
-        <h3>User</h4>
+    {{ m.page_header("User Role") }}
+
+    <form action="" class="mx-3" method="post" id="user-form">
         <div class="row g-2">
             <div class="col-lg-3 col-md-6 col-sm-12 field">
                 <label>Name</label>
-                <input class="ctrl" name="name" value="{{name}}" required>
+                <input class="ctrl" name="name" value="{{ name }}" required>
             </div>
         </div>
         <table class="compact">
             {% for item in tasks_list %}
                 <tr>
-                    <td>{{item.name}}</td>
-                    <td><input {{ "checked" if active_task_ids and item.id in active_task_ids }} type="checkbox" name="tasks[]" value="{{item.id}}"/></td>
+                    <td>{{ item.name }}</td>
+                    <td><input {{ "checked" if active_task_ids and item.id in active_task_ids }} type="checkbox" name="tasks[]" value="{{ item.id }}"/></td>
                 </tr>
             {% endfor %}
         </table>
-        <button type="submit" class="btmt-3">Submit</button>
+        <button type="submit" class="btn mt-3">Submit</button>
         <a type="button" class="btn outline danger mt-3" href="/settings/users/">Back</a>
     </form>
 

@@ -88,9 +88,35 @@ function InitSortHeader(e) {
 function init() {
     // app = new Vue({ el: "#mount" });
     InitSidebar();
+
     for (let element of document.querySelectorAll("th[data-field]")) {
         InitSortHeader(element);
     }
+
+    document.querySelectorAll('[confirm-action]').forEach(el => {
+
+        el.addEventListener("click", e => {
+            if (!e.target.dataset.confirmed) {
+                e.preventDefault();
+                MicroModal.show('modal-confirm', {
+                    awaitCloseAnimation: true,
+                    onClose: (modal, el, ev) => {
+                        if (ev.target.dataset["micromodalClose"] === "confirm") {
+                            console.log(ev.target.dataset["micromodalClose"] );
+                            e.target.dataset.confirmed = "yes";
+                            let event;
+                            event = document.createEvent("HTMLEvents");
+                            event.initEvent("click", true, true);
+                            event.eventName = "click";
+                            e.target.dispatchEvent(event);
+                        }
+                    }
+                });
+            } else {
+                delete e.target.dataset.confirmed;
+            }
+        })
+    })
 }
 
 function params(data) {
@@ -117,3 +143,5 @@ function visit(url) {
 
 window.visit = visit;
 window.params = params;
+
+

@@ -5,9 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ title }}</title>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/gh/dalanad/helix@0.0.13/dist/helix.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/gh/dalanad/helix@0.0.14/dist/helix.css" rel="stylesheet">
         <link href="/css/main.css" rel="stylesheet" data-turbo-track="reload">
-        <script src="https://cdn.jsdelivr.net/gh/dalanad/helix/dist/main.js"defer></script>
+        <script src="https://cdn.jsdelivr.net/gh/dalanad/helix@0.0.14/dist/main.js"defer></script>
         <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@7.0.0-beta.4/dist/turbo.es5-umd.min.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js" defer></script>
         <script src="/js/main.js"  data-turbo-track="reload" type="module" ></script>
@@ -17,9 +17,7 @@
             {%- block body -%}{%- endblock -%}
         </div>
         {%- block style -%}{%- endblock -%}
-        <script>
-            Object.assign(window, {client_vars: {{ client_vars|dump if client_vars else "{}" }}})
-        </script>
+        <script>Object.assign(window, {client_vars: {{ client_vars|dump if client_vars else "{}" }}})</script>
 
         {%- block script -%}{%- endblock -%}
     </body>
