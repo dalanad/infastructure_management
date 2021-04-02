@@ -6,8 +6,6 @@ import {
 	BeforeUpdate,
 	EntityManager,
 	EventArgs,
-
-
 	Property,
 	Utils
 } from "@mikro-orm/core";
@@ -25,7 +23,9 @@ export abstract class BaseEntity extends S<BaseEntity, any> {
 	setOrgId(params) {
 
 	}
+}
 
+export class AuditedEntity extends  BaseEntity {
 	@AfterCreate()
 	@AfterUpdate()
 	async audit(params: EventArgs<any>) {
@@ -45,15 +45,16 @@ export abstract class BaseEntity extends S<BaseEntity, any> {
 
 		// await em.getConnection()
 		// 	.execute(`INSERT INTO audit_trail (  entity,pk, "user", org_id, type, afi, bfi)
-        //                                   VALUES (  '${cs.name}', '${serialize(
+		//                                   VALUES (  '${cs.name}', '${serialize(
 		// 		Utils.extractPK(params.entity)
-		// 	)}', '${uid}', '${orgId}', '${cs.type}', 
-        //                                   '${JSON.stringify(pl)}', '${JSON.stringify(
+		// 	)}', '${uid}', '${orgId}', '${cs.type}',
+		//                                   '${JSON.stringify(pl)}', '${JSON.stringify(
 		// 		previousValues
 		// 	)}');
-        // `);
+		// `);
 	}
 }
+
 
 function serialize(obj) {
 	return typeof obj === "string" ? obj : JSON.stringify(obj);

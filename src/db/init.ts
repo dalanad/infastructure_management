@@ -1,5 +1,6 @@
 import { MikroORM, RequestContext } from "@mikro-orm/core";
 import {
+    Activity, ActivityFeed,
     Asset,
     AssetLocation,
     AuthRole,
@@ -42,12 +43,13 @@ async function getORM() {
             ServiceJob,
             ServiceDoneBy,
             Config,
+            Activity, ActivityFeed
         ],
         type: "postgresql",
         clientUrl: process.env.DATABASE_URL || "postgres://postgres:abc123@127.0.0.1:5432/itim",
         debug: false,
     });
-    if(false) {
+    if (true) {
         const migrator = orm.getMigrator();
         await migrator.up();
         let migration = await migrator.createMigration("temp");
