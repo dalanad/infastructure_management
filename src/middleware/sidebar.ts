@@ -7,9 +7,9 @@ function SideBar(req, res, next) {
 			icon: "fa fa-sitemap",
 			links: [
 				{ label: "Assets", href: "/assets/all/" },
-				{ label: "Locations", href: "/assets-location/" },
-				{ label: "Category", href: "/assets-category/" },
-				{ label: "Manufacturer", href: "/assets-manufacturer/" },
+				{ label: "Locations", href: "/assets/location/" },
+				{ label: "Category", href: "/assets/category/" },
+				{ label: "Manufacturer", href: "/assets/manufacturer/" },
 				{ label: "Suppliers", href: "/suppliers/" },
 			],
 		},

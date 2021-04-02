@@ -23,10 +23,11 @@ route.all("/", (req, res) => res.redirect("/home"));
 
 route.use("/auth", AuthRouter);
 route.use("/suppliers", SuppliersRouter);
-route.use("/assets-category", AssetCategoryRouter);
-route.use("/assets-manufacturer", AssetManufacturerRouter);
-route.use("/assets-location", AssetLocationRouter);
 route.use("/assets", AssetsRouter);
+route.use("/assets/category", AssetCategoryRouter);
+route.use("/assets/manufacturer", AssetManufacturerRouter);
+route.use("/assets/location", AssetLocationRouter);
+
 route.use("/settings/", (req, res, next) => {
     res.locals.breadcrumbs.push({ name: "Settings", link: "/settings/users/" });
     next();

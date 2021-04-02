@@ -1,4 +1,3 @@
-import "https://cdn.jsdelivr.net/npm/vue-select@3.11.2/dist/vue-select.min.js";
 import "./helpers.js";
 import "./components.js";
 
@@ -102,7 +101,7 @@ function init() {
                     awaitCloseAnimation: true,
                     onClose: (modal, el, ev) => {
                         if (ev.target.dataset["micromodalClose"] === "confirm") {
-                            console.log(ev.target.dataset["micromodalClose"] );
+                            console.log(ev.target.dataset["micromodalClose"]);
                             e.target.dataset.confirmed = "yes";
                             let event;
                             event = document.createEvent("HTMLEvents");
@@ -117,6 +116,10 @@ function init() {
             }
         })
     })
+
+
+
+
 }
 
 function params(data) {

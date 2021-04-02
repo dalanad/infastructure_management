@@ -1,5 +1,5 @@
 import express from "express";
-import { AssetLocation } from "../db/entity";
+import { AssetLocation, Category } from "../db/entity";
 
 const route = express.Router();
 
@@ -18,6 +18,13 @@ route.get("/", async (req, res) => {
     res.render("asset/location/location-home", { items, total: count, ...params });
 });
 
+route.get("/options", async (req, res) => {
+    let items = await req.orm.em.find(AssetLocation, { name: { $like: `%${ req.query.q || '' }%` } }, {
+        orderBy: { name: "ASC" },
+        fields: [ "name", "id" ]
+    });
+    res.json({ content: items.map(x => ({ value: x.id, label: x.name })) });
+});
 // create-device
 route.get("/create", (req, res) => {
     res.render("asset/location/location-form");

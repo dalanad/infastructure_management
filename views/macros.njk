@@ -19,8 +19,7 @@
             <h4>{{ title }}</h4>
         </div>
         {%- if caller -%}
-            <div>
-                <span style="white-space: nowrap;margin-top: .5em;">{{- caller() -}}</span></div>
+            <div><span style="white-space: nowrap;margin-top: .5em;">{{- caller() -}}</span></div>
         {%- endif %}
     </div>
     {% if flash_msgs.length>0 %}
@@ -31,3 +30,64 @@
         </div>
     {% endif %}
 {%- endmacro -%}
+
+{% macro filter_sbar(cfg) %}
+    <div class="mb-2 px-3" style="display:flex; align-items:flex-end;flex-wrap:wrap" id="filter-bar">
+        <link href="https://cdn.jsdelivr.net/gh/dalanad/helix@0.0.14/dist/helix.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vue-select@3.11.2/dist/vue-select.css" rel="stylesheet">
+        <link href="/css/main.css" rel="stylesheet">
+        {% for field in cfg %}
+            <div class="me-2 mb-2">
+                <span class="text-nowrap">{{ field.label }}</span>
+                {% if (field.type=='select') %}
+                    <v-select class="style-chooser" :run='console.log(filter.{{ field.name }},); filter.{{ field.name }} == undefined ? filter.{{ field.name }}={{ (field.value if field.value else []) | dump }} :true' {{ "multiple" if field.multiple }} v-model="filter['{{ field.name }}']" :options='{{ field.options | dump }}' label='name' :reduce="country =>
+                    country.id"></v-select>
+                {% elseif (field.type=='text') %}
+                    <input type="search" class="ctrl" v-model="filter['{{ field.name }}']">
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button @click="search" class="btn mb-2 ">Filter</button>
+    </div>
+    <script>
+        document.querySelectorAll("#filter-bar").forEach(el => {
+            new Vue({
+                el,
+                data: function () {
+                    return {filter: {}};
+                },
+                methods: {
+                    search: function () {
+                        let filterx = this.filter;
+                        Object.keys(filterx).forEach((key) =>
+                            filterx[key] === undefined || filterx[key] === null ? delete filterx[key] : {}
+                        );
+
+                        if ("Turbo" in window) {
+                            let url = new URL(window.location.href);
+                            url.search = objToQueryString({filter: filterx});
+                            Turbo.visit(url.href);
+                        } else {
+                            window.location.search = objToQueryString({filter: filterx});
+                        }
+                    },
+                },
+                mounted: function () {
+                    let query = Qs.parse(location.search.replace("?", ""));
+                    if (query.filter) {
+                        this.filter = query.filter;
+                    }
+                }
+            })
+        })
+    </script>
+{% endmacro %}
+
+{% macro filter_bar(cfg) %}
+    <filter-bar class="mx-3 d-block" style="min-height: 66px;" fields_data='{{ cfg | dump | replace("'", "") }}'>
+        <div class=" mb-2" style="height: 66px;max-width: 180px;">
+            <div class="shine lh-1 mb-1" style="width:65%">&nbsp;</div>
+            <input class="ctrl shine" readonly/>
+        </div>
+    </filter-bar>
+{% endmacro %}

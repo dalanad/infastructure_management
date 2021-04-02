@@ -17,6 +17,14 @@ route.get("/", async (req, res) => {
     res.render("asset/category/category-home", { items, total: count, ...params });
 });
 
+route.get("/options", async (req, res) => {
+    let items = await req.orm.em.find(Category, { name: { $like: `%${ req.query.q || '' }%` } }, {
+        orderBy: { name: "ASC" },
+        fields: [ "name", "id" ]
+    });
+    res.json({ content: items.map(x => ({ value: x.id, label: x.name })) });
+});
+
 // create-device
 route.get("/create", (req, res) => {
     res.render("asset/category/category-form");

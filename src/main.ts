@@ -14,7 +14,7 @@ import { AppRouter } from "./routes";
 
     app.use(CompressionMiddleware);
     let staticOpts = { cacheControl: true, immutable: true, maxAge: 3600000 };
-    app.use(express.static(join(__dirname, "../public"), process.env.PORT ? staticOpts : {}));
+    app.use(express.static(join(__dirname, "../public"), process.env.PORT ? staticOpts : { }));
 
     app.use(AddTailingSlash, AuthGuard, InjectORM, registerViewHelpers, SideBar);
     // Add Router
