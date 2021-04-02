@@ -41,7 +41,7 @@
 
 .list-item {
     border-top: 1px solid var(--gray-2);
-    padding: 5px 10px;
+    padding: .5em 1em;
     transition: 0.2s ease-in-out;
 }
 
@@ -49,13 +49,12 @@
     border-top: 2px solid var(--primary);
     border-bottom: 2px solid var(--primary);
     font-weight: 500;
-    padding: 4px 10px;
 }
 
 .line {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    /*white-space: nowrap;*/
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
 }
 
 .sort-header {
