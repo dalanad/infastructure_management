@@ -1,8 +1,10 @@
-import { Migration } from '@mikro-orm/migrations';
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const Migration = require('@mikro-orm/migrations').Migration;
 
 export class Migration20210325181000 extends Migration {
 
-  async up(): Promise<void> {
+  async up()  {
     this.addSql('create table "sys_config" ("id" varchar(255) not null, "created_at" timestamptz(0) not null default now(), "updated_at" timestamp not null default now(), "data" jsonb not null);');
     this.addSql('alter table "sys_config" add constraint "sys_config_pkey" primary key ("id");');
 
@@ -64,3 +66,4 @@ export class Migration20210325181000 extends Migration {
   }
 
 }
+exports.Migration20210325181000=Migration20210325181000;

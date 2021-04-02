@@ -1,71 +1,26 @@
 import { MikroORM, RequestContext } from "@mikro-orm/core";
-import {
-    Activity, ActivityFeed,
-    Asset,
-    AssetLocation,
-    AuthRole,
-    AuthTask,
-    AuthUser,
-    Category,
-    ComputerSpecifications,
-    Config,
-    Contact,
-    Manufacturer,
-    Network,
-    NetworkConfigurations,
-    Organization,
-    ServiceDoneBy,
-    ServiceJob,
-    ServiceSchedule,
-    Supplier,
-} from "./entity";
+import { ORMConfig, ORMLogger } from "./config";
 
 let orm: MikroORM;
 
-async function getORM() {
+async function InitORM() {
     if (orm) return orm;
-    orm = await MikroORM.init({
-        entities: [
-            AuthUser,
-            AuthRole,
-            AuthTask,
-            Supplier,
-            Contact,
-            Organization,
-            Asset,
-            Manufacturer,
-            AssetLocation,
-            Category,
-            ComputerSpecifications,
-            NetworkConfigurations,
-            ServiceSchedule,
-            Network,
-            ServiceJob,
-            ServiceDoneBy,
-            Config,
-            Activity, ActivityFeed
-        ],
-        type: "postgresql",
-        clientUrl: process.env.DATABASE_URL || "postgres://postgres:abc123@127.0.0.1:5432/itim",
-        debug: false,
-    });
-    if (true) {
-        const migrator = orm.getMigrator();
-        await migrator.up();
-        let migration = await migrator.createMigration("temp");
-        if (migration.diff.length > 0 && migration.diff[0] != "") {
-            let migration = await migrator.createMigration();
-            await migrator.up();
-        }
-    }
+    ORMLogger.info("Connecting to Database...");
+    orm = await MikroORM.init(ORMConfig);
+    ORMLogger.info("Successfully Connected to Database");
+    const migrator = orm.getMigrator();
+    await migrator.up();
+    ORMLogger.info("Database Migration Complete");
     return orm;
 }
 
-getORM();
 
 async function InjectORM(req: any, res, next) {
-    req.orm = await getORM();
+    req.orm = orm;
+    if (!req.orm) {
+        req.orm = await InitORM();
+    }
     RequestContext.create(req.orm.em, next);
 }
 
-export { InjectORM, getORM };
+export { InjectORM, orm, InitORM };

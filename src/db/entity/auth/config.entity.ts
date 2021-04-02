@@ -8,4 +8,5 @@ export class Config extends BaseEntity {
 
 	@Property({ type: "jsonb" })
 	data: Record<string, unknown>;
+
 }

@@ -1,8 +1,10 @@
-import { Migration } from '@mikro-orm/migrations';
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const Migration = require('@mikro-orm/migrations').Migration;
 
-export class Migration20210402073610 extends Migration {
+class Migration20210402080816 extends Migration {
 
-  async up(): Promise<void> {
+  async up() {
     this.addSql('create table "activity_feed" ("id" serial primary key);');
 
     this.addSql('create table "activity" ("id" serial primary key, "created_at" timestamptz(0) not null default now(), "updated_at" timestamp not null default now(), "user_uid" varchar(255) null, "meta" jsonb not null, "content" jsonb not null, "attachments" jsonb not null, "feed_id" int4 not null);');
@@ -12,3 +14,4 @@ export class Migration20210402073610 extends Migration {
   }
 
 }
+exports.Migration20210402080816 = Migration20210402080816;

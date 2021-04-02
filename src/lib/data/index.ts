@@ -1,10 +1,10 @@
 import { LockMode } from "@mikro-orm/core";
 import { Config } from "../../db/entity";
-import { getORM } from "../../db/init";
+import { orm } from "../../db/init";
+
 enum ID_SEQUENCES { ASSET_CODE = "ASSET_CODE_SEQUENCE" }
 
 async function getSequence(sequence: ID_SEQUENCES, creation_options: { prefix: string }, lock = false): Promise<Config> {
-    let orm = await getORM();
     let config = await orm.em.findOne(Config, { id: sequence }, { lockMode: lock ? LockMode.PESSIMISTIC_WRITE : undefined })
 
     if (config == null) {
@@ -14,17 +14,16 @@ async function getSequence(sequence: ID_SEQUENCES, creation_options: { prefix: s
 }
 
 async function getNextVal(sequence: ID_SEQUENCES, creation_options: { prefix: string }) {
-    let orm = await getORM();
     let config = await getSequence(sequence, creation_options)
 
     config.data.currentVal = Number(config.data.currentVal) + 1
     orm.em.persist(config);
-    return `${config.data.prefix}` + `${config.data.currentVal}`.padStart(6, "0");
+    return `${ config.data.prefix }` + `${ config.data.currentVal }`.padStart(6, "0");
 }
 
 async function peekNextVal(sequence: ID_SEQUENCES, creation_options: { prefix: string }) {
     let config = await getSequence(sequence, creation_options)
-    return `${config.data.prefix}` + `${Number(config.data.currentVal) + 1}`.padStart(6, "0");
+    return `${ config.data.prefix }` + `${ Number(config.data.currentVal) + 1 }`.padStart(6, "0");
 }
 
 export { getNextVal, peekNextVal, ID_SEQUENCES }
