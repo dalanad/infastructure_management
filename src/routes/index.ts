@@ -8,6 +8,7 @@ import { AuthRouter } from "./auth.router";
 import { SuppliersRouter } from "./suppliers.router";
 import { UsersRouter } from "./users.router";
 import { RolesRouter } from "./roles.router";
+import { ActivityFeedRouter } from "./activity-feed.router";
 
 const route = express.Router();
 
@@ -22,6 +23,7 @@ route.all("/home", (req, res) => {
 route.all("/", (req, res) => res.redirect("/home"));
 
 route.use("/auth", AuthRouter);
+route.use("/feed", ActivityFeedRouter);
 route.use("/suppliers", SuppliersRouter);
 route.use("/assets", AssetsRouter);
 route.use("/assets/category", AssetCategoryRouter);

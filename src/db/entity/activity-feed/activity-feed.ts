@@ -1,17 +1,18 @@
-import { Entity, Enum, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { BaseEntity } from "../base.entity";
 import { AuthUser } from "../auth/auth-user.entity";
 
 @Entity()
 export class ActivityFeed {
     @PrimaryKey()
-    id: number;
+    id: string;
+
     @OneToMany(() => Activity, o => o.feed)
-    activities: Activity[]
+    activities: Collection<Activity>
 }
 
 
-interface ChangeSetContent {
+export interface ChangeSetContent {
     field: string;
     bfi: string;
     afi: string;
@@ -26,7 +27,7 @@ export class Activity extends BaseEntity {
     user: AuthUser;
 
     @Property()
-    meta: object = {}
+    meta: object | { action?: string } = {}
 
     @Property()
     content: { body: string } | ChangeSetContent[]
@@ -34,6 +35,6 @@ export class Activity extends BaseEntity {
     @Property({ columnType: 'jsonb' })
     attachments: { url: string, type: string }[] = []
 
-    @ManyToOne(() => ActivityFeed, {})
+    @ManyToOne(() => ActivityFeed, { hidden: true })
     feed: ActivityFeed;
 }

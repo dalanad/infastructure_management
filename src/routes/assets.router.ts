@@ -3,6 +3,7 @@ import express from "express";
 import { Asset, AssetLocation, AssetStatus, Category, Manufacturer, Supplier } from "../db/entity";
 import { objToQueryString } from "../lib/core";
 import { getNextVal, ID_SEQUENCES } from "../lib/data";
+import { getFeedOfEntity } from "../app/activity-feed";
 
 const route = express.Router();
 
@@ -43,7 +44,7 @@ route.get("/all", async (req, res) => {
             filter.$or.push({ model: { $ilike: `%${ params.filter.search.trim() }%`.trim() } });
         } else {
             if (!Array.isArray(params.filter.field)) {
-                params.filter.field = [ params.filter.field ];
+                params.filter.field = [params.filter.field];
             }
             params.filter.field.forEach((element) => {
                 filter.$or.push({ [element]: { $ilike: `%${ params.filter.search.trim() }%`.trim() } });
@@ -56,7 +57,7 @@ route.get("/all", async (req, res) => {
         filter["location"] = params.filter.location;
     }
 
-    let [ items, count ] = await req.orm.em.findAndCount(Asset, filter, {
+    let [items, count] = await req.orm.em.findAndCount(Asset, filter, {
         limit: params.size,
         offset: params.page * params.size,
         orderBy: { ...params.sort },
@@ -65,6 +66,8 @@ route.get("/all", async (req, res) => {
     if (req.query.selected) {
         res.locals.asset = await req.orm.em.findOne(Asset, parseInt(String(req.query.selected)));
         res.locals.breadcrumbs.push({ name: res.locals.asset.assetCode });
+
+        res.locals.feed = await getFeedOfEntity(Asset, res.locals.asset)
         return res.render("asset/asset-summery", {
             items,
             total: count,
@@ -288,7 +291,6 @@ route.get("/:id/edit", async (req: any, res) => {
 route.post("/:id/edit", async (req, res) => {
     let supplier = await req.orm?.em.findOne(Asset, Number(req.params.id));
     supplier?.assign(req.body);
-    console.log(supplier);
     await req.orm?.em.flush();
     res.redirect(303, req.baseUrl + "/all/");
 });

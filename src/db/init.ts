@@ -18,8 +18,10 @@ async function InitORM() {
 async function InjectORM(req: any, res, next) {
     req.orm = orm;
     if (!req.orm) {
-        req.orm = await InitORM();
+          req.orm = await InitORM();
     }
+    orm.em.setFilterParams('user', { ...req.user });
+
     RequestContext.create(req.orm.em, next);
 }
 

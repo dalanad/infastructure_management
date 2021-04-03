@@ -42,7 +42,7 @@
 .list-item {
     border-top: 1px solid var(--gray-2);
     padding: .5em 1em;
-    transition: 0.2s ease-in-out;
+    /*transition: 0.2s ease-in-out;*/
 }
 
 .list-item.active {

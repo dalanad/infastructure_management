@@ -1,0 +1,31 @@
+<turbo-frame id="feed">
+    <form class="mb-2" method="post" action="/feed/{{ feed.id }}/">
+        <textarea class="ctrl" rows="4" name="content"></textarea>
+        <div class="d-flex">
+            {# <span class="ml-2"><button class="btn link default"><i class="fa fa-at"></i></button></span> #}
+            <span class="flex-fill"></span>
+            <button class="btn" type="submit">Post</button>
+        </div>
+    </form>
+    {% for activity in feed.activities %}
+        <div class="my-1">
+            <div class="lh-1" style="font-size: small;">
+                <i class="fas fa-circle-notch text-black-50"></i>
+                <b class="text-primary me-1"> {{ activity.meta.action | upper }}</b>
+                {{- "by" if activity.user.uid }} <b> {{- activity.user.uid -}}</b>
+                {{- " on " + activity.createdAt.toLocaleString([], { year:'numeric',month: 'long', day: 'numeric',hour: '2-digit', minute:'2-digit' }) -}}
+            </div>
+            <div class="px-3 my-1 mb-2" style="border-left: 2px solid var(--muted);margin-left: 5px;">
+                {%- if activity.content.length %}
+                    {%- for fd in activity.content -%}
+                        <small class="d-block"><b>[ {{ fd.field | upper }} ] </b>
+                            {{- fd.bfi }} <i class="fas fa-angle-double-right"></i> {{  fd.afi -}}
+                        </small>
+                    {%- endfor -%}
+                {% else %}
+                    {{- activity.content.body -}}
+                {% endif -%}
+            </div>
+        </div>
+    {% endfor %}
+</turbo-frame>
