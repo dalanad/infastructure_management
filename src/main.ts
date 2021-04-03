@@ -1,9 +1,9 @@
 import express from "express";
 import { join } from "path";
 import { InitORM, InjectORM } from "./db/init";
-import { logger, Logger } from "./lib/logging";
+import { logger } from "./lib/logging";
 import { AddTailingSlash, AuthGuard, CompressionMiddleware, registerViewHelpers, SideBar } from "./middleware";
-import { AppRouter } from "./routes";
+import { AppRouter } from "./router";
 
 (async function () {
 

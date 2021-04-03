@@ -1,5 +1,5 @@
 import express from "express";
-import { AssetLocation, Category } from "../db/entity";
+import { AssetLocation, Category } from "../../../db/entity";
 
 const route = express.Router();
 

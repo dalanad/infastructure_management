@@ -39,6 +39,32 @@
     }
 }
 
+[type="checkbox"] {
+    font-size: 1.2em;
+    position: relative;
+}
+
+[type="checkbox"]::before {
+    display: block;
+    content: "";
+    background: var(--bg);
+    cursor: pointer;
+    color: var(--muted);
+    font-family: "Font Awesome 5 Free";
+    position: absolute;
+    top: -0.1em;
+    line-height: 1;
+}
+
+[type="checkbox"]:checked {
+}
+
+[type="checkbox"]:checked::before {
+    content: "";
+    font-weight: 900;
+    color: var(--primary);
+}
+
 .list-item {
     border-top: 1px solid var(--gray-2);
     padding: .5em 1em;
@@ -123,7 +149,8 @@ a:hover {
 }
 
 .alert i {
-    color: var(--primary);margin-left: -0.4em;
+    color: var(--primary);
+    margin-left: -0.4em;
 }
 
 .alert::before {

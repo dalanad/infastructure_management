@@ -1,6 +1,6 @@
 import express from "express";
-import { AuthRole, AuthUser } from "../db/entity";
-import { hash } from "../lib/core";
+import { AuthRole, AuthUser } from "../../db/entity";
+import { hash } from "../../lib/core";
 
 const route = express.Router();
 

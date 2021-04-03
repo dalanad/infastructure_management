@@ -1,5 +1,5 @@
-import { Activity, ActivityFeed } from "../db/entity";
-import { orm } from "../db/init";
+import { Activity, ActivityFeed } from "../../db/entity";
+import { orm } from "../../db/init";
 import { EntityName, Utils } from "@mikro-orm/core";
 
 

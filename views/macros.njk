@@ -9,7 +9,7 @@
 {%- macro page_header(title) -%}
     <div class="d-flex mx-3 mt-3 justify-content-between">
         <div>
-            <div>
+            <div class="text-nowrap">
                 {% set comma = joiner("/") %}
                 {% for item in breadcrumbs %}
                     {{ comma() }}
@@ -19,7 +19,7 @@
             <h4>{{ title }}</h4>
         </div>
         {%- if caller -%}
-            <div><span style="white-space: nowrap;margin-top: .5em;">{{- caller() -}}</span></div>
+            <div><span style="margin-top: .5em;">{{- caller() -}}</span></div>
         {%- endif %}
     </div>
     {% if flash_msgs.length>0 %}

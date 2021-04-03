@@ -1,5 +1,5 @@
 import express from "express";
-import { AuthRole, AuthTask } from "../db/entity";
+import { AuthRole, AuthTask } from "../../db/entity";
 
 const route = express.Router();
 

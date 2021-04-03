@@ -1,7 +1,7 @@
 import express from "express";
-import { orm } from "../db/init";
-import { ActivityFeed, AuthUser } from "../db/entity";
-import { postActivity } from "../app/activity-feed";
+import { orm } from "../../db/init";
+import { ActivityFeed, AuthUser } from "../../db/entity";
+import { postActivity } from "./activity-feed";
 
 const route = express.Router();
 route.get("/:id", async (req, res) => {
@@ -18,7 +18,7 @@ route.post("/:id", async (req, res) => {
     await postActivity(req.params.id, {
         user: orm.em.getReference(AuthUser, req.user.uid),
         meta: { action: 'comment'  },
-        content: { body: req.body.content },
+        content: { body: req.body.content.trm() },
     })
     await orm.em.flush()
     res.redirect(req.originalUrl)

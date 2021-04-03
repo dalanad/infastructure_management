@@ -1,5 +1,5 @@
 import express from "express";
-import { Manufacturer } from "../db/entity";
+import { Manufacturer } from "../../../db/entity";
 
 const route = express.Router();
 

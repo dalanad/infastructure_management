@@ -1,9 +1,9 @@
 import { LoadStrategy, wrap } from "@mikro-orm/core";
 import express from "express";
-import { Asset, AssetLocation, AssetStatus, Category, Manufacturer, Supplier } from "../db/entity";
-import { objToQueryString } from "../lib/core";
-import { getNextVal, ID_SEQUENCES } from "../lib/data";
-import { getFeedOfEntity } from "../app/activity-feed";
+import { Asset, AssetLocation, AssetStatus, Category, Manufacturer, Supplier } from "../../../db/entity";
+import { objToQueryString } from "../../../lib/core";
+import { getNextVal, ID_SEQUENCES } from "../../../lib/data";
+import { getFeedOfEntity } from "../../common/activity-feed";
 
 const route = express.Router();
 

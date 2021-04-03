@@ -1,6 +1,6 @@
 import express from "express";
-import { Supplier } from "../db/entity";
-import { Form } from "../lib/forms/index";
+import { Supplier } from "../../db/entity";
+import { Form } from "../../lib/forms";
 
 let SupplierForm = () =>
 	new Form({
