@@ -47,7 +47,7 @@ function registerViewHelpers(req, res, next) {
 
     function DateFilter(value: Date) {
         if (!value) return "";
-        return new Date(value).toISOString().substr(0, 10);
+        return new Date(value).toLocaleString("sv").substr(0, 10);
     }
 
     res.locals.flash_msgs = JSON.parse(parseCookies(req)["flash_msg"]) || []

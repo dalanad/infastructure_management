@@ -25,3 +25,10 @@ export abstract class Module {
 
     register
 }
+
+export function Controller(baseRoute?: string, options?): Function {
+    console.log("object")
+    return function (object: Function) {
+       console.log(object)
+    };
+}

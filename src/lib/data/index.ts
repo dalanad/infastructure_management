@@ -2,7 +2,7 @@ import { LockMode } from "@mikro-orm/core";
 import { Config } from "../../db/entity";
 import { orm } from "../../db/init";
 
-enum ID_SEQUENCES { ASSET_CODE = "ASSET_CODE_SEQUENCE" }
+enum ID_SEQUENCES { ASSET_CODE = "ASSET_CODE_SEQUENCE", JOB_ID = "JOB_ID" }
 
 async function getSequence(sequence: ID_SEQUENCES, creation_options: { prefix: string }, lock = false): Promise<Config> {
     let config = await orm.em.findOne(Config, { id: sequence }, { lockMode: lock ? LockMode.PESSIMISTIC_WRITE : undefined })

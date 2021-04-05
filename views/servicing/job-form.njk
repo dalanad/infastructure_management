@@ -1,0 +1,46 @@
+{% extends "_layout/admin-base.njk" %}
+{% import "macros.njk" as "m" with context %}
+
+{% block content %}
+    <div class="container-focused-md">
+        {{ m.page_header(heading or "Service Job") }}
+        <form action="" method="post" class="px-3">
+            <div class="row align-items-center">
+                {% if not asset %}
+                    <div class="col-lg-4 col-md-4 col-sm-12 field">
+                        <label for="model">Asset Code</label>
+                        <input class="ctrl" name="assetCode" required {{ "readonly" if asset }}
+                               value="{{ asset.assetCode }}">
+                    </div>
+                {% endif %}
+                <div class="col">
+                    {% if asset %}
+                        <input class="ctrl" name="asset" type="hidden" value="{{ asset.id }}">
+                        <div class="lh-1 d-flex justify-content-between">
+                            <span><b>{{ asset.assetCode }}</b> {{ asset.category.name }} - {{ asset.model }}</span>
+                            <small class="float-end"
+                            >{{ tag("asset_condition", asset.condition) }}</small>
+                        </div>
+                        <small class="line d-block">{{ tag("asset_status", asset.status) }} {{ asset.location.name }}
+                            - {{ asset.owner }}</small>
+                        Serial No : {{ asset.serialNo }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="mt-2 field">
+                <label>Job Description / Todo</label>
+                <textarea rows="5" class="ctrl" name="description" required>{{ description }}</textarea>
+            </div>
+            {% if not jobId %}
+            <div class="my-3">
+                <button class="btn">Submit</button>
+                <button class="btn outline danger">Cancel</button>
+            </div>
+            {% endif %}
+
+        </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+
+{% endblock %}

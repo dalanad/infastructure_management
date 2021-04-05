@@ -26,7 +26,11 @@ import { AppRouter } from "./router";
 
     app.use(function (err, req, res, next) {
         console.error(err);
-        res.status(500).render("error", { status_code: 500, msg: "Internal Server Error" });
+        res.status(500).render("error", {
+            status_code: 500,
+            msg: "Oops Something Went Wrong",
+            error: process.env.NODE_ENV == ('production') ? null : err
+        });
     });
 
     await InitORM();

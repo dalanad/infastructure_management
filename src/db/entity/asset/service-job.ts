@@ -1,6 +1,6 @@
 import { AssetLocation } from './base';
 import { Asset, ServiceSchedule } from "./asset";
-import { ServiceDoneBy } from "./serviceDoneBy";
+import { ServiceDoneBy } from "./service-done-by";
 import { AuthUser } from "../auth/auth-user.entity";
 import { Entity, Enum, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { BaseEntity } from "./../base.entity";
@@ -16,21 +16,28 @@ export enum ServiceType {
 @Entity()
 export class ServiceJob extends BaseEntity {
 
-    @PrimaryKey() id: number;
-    @Property({ default: '', nullable: true }) done: string;
-    @Property({ default: '', nullable: true }) todo: string;
-    @Enum(() => ServiceType) type: ServiceType;
+    @PrimaryKey()
+    jobId: string;
+
+    @Property({ default: '', nullable: true })
+    done: string;
+
+    @Property({ default: '', nullable: true })
+    description : string;
+
+    @Enum(() => ServiceType)
+    type: ServiceType;
 
     @Property({ default: JobStatus.CREATED }) status: JobStatus;
 
-    @ManyToOne(() => Asset, { eager: true }) device: Asset;
+    @ManyToOne(() => Asset, { eager: true }) asset: Asset;
     @ManyToOne(() => AssetLocation, { eager: true }) location: AssetLocation;
 
     @OneToMany(() => ServiceDoneBy, u => u.service, { nullable: true, eager: true })
     doneBy: ServiceDoneBy[];
 
-    @Property({ nullable: true }) doneOn: Date;
-    @Property({ nullable: true }) finishedOn: Date;
+    @Property({ nullable: true }) start: Date;
+    @Property({ nullable: true }) end: Date;
 
     @Property({ nullable: true }) cost: number;
     @Property({ default: 0 }) duration: number;

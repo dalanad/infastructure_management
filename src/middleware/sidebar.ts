@@ -14,7 +14,7 @@ function SideBar(req, res, next) {
 			],
 		},
 		{ label: "Support", href: "/support/", icon: "fa fa-headset", links: undefined },
-		{ label: "Servicing", href: "/support/", icon: "fa fa-tools", links: undefined },
+		{ label: "Servicing", href: "/servicing/", icon: "fa fa-tools", links: undefined },
 		{
 			label: "Settings",
 			href: "/settings/users",

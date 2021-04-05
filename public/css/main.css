@@ -65,6 +65,20 @@
     color: var(--primary);
 }
 
+.container-focused {
+    max-width: 850px;
+    margin: 0 auto
+}
+
+.container-focused-md {
+    max-width: 650px;
+    margin: 0 auto
+}
+
+textarea {
+    padding: .4em !important
+}
+
 .list-item {
     border-top: 1px solid var(--gray-2);
     padding: .5em 1em;

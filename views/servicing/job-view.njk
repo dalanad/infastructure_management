@@ -1,0 +1,60 @@
+{% extends "_layout/admin-base.njk" %}
+{% import "macros.njk" as "m" with context %}
+
+{% block content %}
+    <div class="container-focused-md">
+        {{ m.page_header(heading or "Service Job") }}
+        <div class="px-3">
+            <div class="row">
+                <div class="col">
+                    <div> Job ID : <b>{{ jobId }}</b></div>
+                    <div> Service Location : {{ location.name }}  </div>
+                    <div> Asset : <a href="/assets/all/?selected={{ asset.id }}"><b>{{ asset.assetCode }}</b></a>
+                        <small class="text-nowrap">(Serial No : {{ asset.serialNo }})</small>
+                    </div>
+                </div>
+                <div class="col">
+                    <div><small>created : &nbsp;{{ createdAt.toLocaleString() }} </small></div>
+                    <div> Status : &nbsp;<span class="tag"> {{ status }} </span></div>
+                    <div> Type &nbsp;&nbsp; : &nbsp;<span class="tag"> {{ type }} </span></div>
+                </div>
+            </div>
+
+            <b class="my-2 d-block">Job Description / Todo</b>
+            <div class="lh-sm" style="white-space: pre-wrap">{{ description }}</div>
+
+            <form action="" method="post" class="my-2">
+                <div class="row gx-2">
+                    <div class="col-lg-5 col-md-4 col-sm-12 field">
+                        <label for="model">Start Time</label>
+                        <input class="ctrl" name="start" required type="datetime-local" value="{{ start and start.toLocaleString("sv").replace(" ","T") }}">
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12 field">
+                        <label for="model">Duration</label>
+                        <input class="ctrl" name="duration" required type="number" value="{{ duration }}">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 field">
+                        <label for="model">Cost</label>
+                        <input class="ctrl" name="cost" required type="number" value="{{ cost }}">
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 field">
+                        <label for="model">Work Done</label>
+                        <textarea rows="5" class="ctrl" name="workDone" required>{{ done }}</textarea>
+                    </div>
+                </div>
+                <div class="my-1">
+                    <button class="btn" type="submit">Update</button>
+                </div>
+            </form>
+
+
+            <b class="my-2 d-block">Activity Feed</b>
+            <div>
+                <turbo-frame id="feed" src="/feed/ServiceJob-{{ jobId }}/"></turbo-frame>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+
+{% endblock %}

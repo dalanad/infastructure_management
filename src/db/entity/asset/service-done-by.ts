@@ -1,9 +1,9 @@
 import { Entity, ManyToOne, Property } from "@mikro-orm/core";
-import { ServiceJob } from "./serviceJob";
-import { AuthUser } from "./../auth/auth-user.entity";
+import { ServiceJob } from "./service-job";
+import { AuthUser } from "../auth/auth-user.entity";
 
 @Entity()
-export class ServiceDoneBy {
+export class ServiceDoneBy  {
 
     @Property()
     contribution: number;

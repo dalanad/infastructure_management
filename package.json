@@ -20,6 +20,7 @@
     "@mikro-orm/postgresql": "^4.4.1",
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
+    "nanoexpress": "^2.4.13",
     "nodemailer": "^6.5.0",
     "nunjucks": "^3.2.2",
     "ts-node": "^9.1.1",

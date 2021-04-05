@@ -7,7 +7,8 @@
         <div class="h-100 overflow-auto">
             {% call m.page_header("Asset Summery") %}
                 <a class="btn link" href="../{{ asset.id }}/edit/"> <i class="fas fa-pen"></i>&nbsp; &nbsp;Edit</a>
-                <a class="btn link warn" href="../{{ asset.assetCode }}/print-sticker" data-trubo="reload">
+                <a class="btn link" href="/servicing/jobs/create/?assetCode={{ asset.assetCode }}">Create Service Job</a>
+                      <a class="btn link warn" href="../{{ asset.assetCode }}/print-sticker" data-trubo="reload">
                     <i class="fas fa-qrcode"></i> &nbsp; &nbsp; Print Sticker </a>
                 {% if asset.status == "IN_USE" %}
                     <a class="btn warn" href="../{{ asset.id }}/status/?to=backup"> Make Backup </a>

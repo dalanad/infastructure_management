@@ -1,0 +1,35 @@
+{% extends "_layout/admin-base.njk" %}
+{% import "macros.njk" as "m" with context %}
+
+{% block content %}
+    {% call m.page_header("Service Jobs") %}
+        {{ m.link("Create a Job","create","btn success") }}
+    {%- endcall %}
+    <table class="table paded" role="grid">
+        <thead>
+        <tr>
+            <th data-field="assetCode">Job ID</th>
+            <th data-field="category][name">Asset</th>
+            <th data-field="model">Description (truncated)</th>
+            <th data-field="location][name">Location</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {%- for item in items -%}
+            <tr>
+                <td><a href="{{ item.jobId }}">{{ item.jobId }}</a></td>
+                <td><a href="/assets/all/?selected={{ item.asset.id }}">{{ item.asset.assetCode }}</a></td>
+                <td>{{ item.description | truncate(50) }}</td>
+                <td>{{ item.location.name }}</td>
+                <td>{{ tag("asset_status", item.status) }}</td>
+                <td>{{ item.createdAt|date }}</td>
+                <td><a class="btn link" href="{{ item.jobId }}">View</a></td>
+            </tr>
+        {%- endfor -%}
+        </tbody>
+    </table>
+{% endblock %}
+

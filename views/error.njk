@@ -1,10 +1,15 @@
 {% extends "_layout/base.njk" %}
 
 {% block body %}
-<div class="text-center">
-<h1 class="text-center text-danger font-weight-bold " style="font-size:5em;margin-top:20vh">  {{ status_code }}</h1>
-<h3 class="mt-2">  {{msg}} </h3>
-<button class="btn link " onclick="location.back()">Go Back</button> |
-<a class="btn link mt-2" href="/">Go to Homepage </a>
-</div>
+    <div class="text-center">
+        <h1 class="text-center text-danger font-weight-bold "
+            style="font-size:5em;margin-top:20vh">  {{ status_code }}</h1>
+        <h3 class="mt-2">  {{ msg }} </h3>
+        <button class="btn link " onclick="history.back()">Go Back</button>
+        |
+        <a class="btn link mt-2" href="/">Go to Homepage </a>
+    </div>
+    <div class="mx-5">
+        <pre>{{ error | dump(2) }}</pre>
+    </div>
 {% endblock %}

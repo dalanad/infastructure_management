@@ -18,7 +18,7 @@ route.post("/:id", async (req, res) => {
     await postActivity(req.params.id, {
         user: orm.em.getReference(AuthUser, req.user.uid),
         meta: { action: 'comment'  },
-        content: { body: req.body.content.trm() },
+        content: { body: String(req.body.content).trim() },
     })
     await orm.em.flush()
     res.redirect(req.originalUrl)

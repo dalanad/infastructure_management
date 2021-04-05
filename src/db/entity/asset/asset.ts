@@ -12,7 +12,7 @@ import {
 import { AssetLocation, Category, Manufacturer } from "./base";
 import { ComputerSpecifications } from "./computerSpecifications";
 import { NetworkConfigurations } from "./networkConfigurations";
-import { ServiceJob } from "./serviceJob";
+import { ServiceJob } from "./service-job";
 import { Supplier } from "../supplier.entity";
 import { BaseEntity } from "../base.entity";
 import { orm } from "../../init";
