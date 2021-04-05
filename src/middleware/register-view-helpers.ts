@@ -50,7 +50,11 @@ function registerViewHelpers(req, res, next) {
         return new Date(value).toLocaleString("sv").substr(0, 10);
     }
 
-    res.locals.flash_msgs = JSON.parse(parseCookies(req)["flash_msg"]) || []
+    try {
+        res.locals.flash_msgs = JSON.parse(parseCookies(req)["flash_msg"]) || []
+    } catch {
+        res.locals.flash_msgs = []
+    }
     let msgs = []
     res.flash = (level, msg) => {
         msgs.push({ level, msg })
