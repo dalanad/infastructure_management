@@ -1,6 +1,5 @@
 import { decrypt, parseCookies } from "../lib/core";
 
-
 export async function AuthGuard(req, res, next) {
     try {
         req.user = JSON.parse(await decrypt(parseCookies(req)["id_token"]));
