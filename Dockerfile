@@ -1,9 +1,9 @@
 FROM node:14-alpine
 
 WORKDIR /app
+RUN apk add --no-cache git
 
 COPY package*.json ./
-RUN apk add --no-cache git
 RUN npm install
 
 COPY . .
