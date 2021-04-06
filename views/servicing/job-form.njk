@@ -1,9 +1,7 @@
 {% extends "_layout/admin-base.njk" %}
-{% import "macros.njk" as "m" with context %}
-
 {% block content %}
     <div class="container-focused-md">
-        {{ m.page_header(heading or "Service Job") }}
+        {{ page_header(heading or "Service Job") }}
         <form action="" method="post" class="px-3">
             <div class="row align-items-center">
                 {% if not asset %}
@@ -31,16 +29,14 @@
                 <label>Job Description / Todo</label>
                 <textarea rows="5" class="ctrl" name="description" required>{{ description }}</textarea>
             </div>
-            {% if not jobId %}
             <div class="my-3">
                 <button class="btn">Submit</button>
                 <button class="btn outline danger">Cancel</button>
             </div>
-            {% endif %}
-
         </form>
     </div>
 {% endblock %}
+
 {% block scripts %}
 
 {% endblock %}

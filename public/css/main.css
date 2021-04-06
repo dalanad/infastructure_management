@@ -109,43 +109,51 @@ textarea {
     background: var(--orange);
 }
 
-.style-chooser .vs__search::placeholder,
-.style-chooser .vs__dropdown-toggle,
-.style-chooser .vs__dropdown-menu {
+.styled .vs__search::placeholder,
+.styled .vs__dropdown-toggle,
+.styled .vs__dropdown-menu {
     color: var(--color);
     border-color: var(--muted);
 }
 
-.style-chooser .vs__clear,
-.style-chooser .vs__open-indicator {
+.styled .vs__clear,
+.styled .vs__open-indicator {
     fill: #394066;
 }
 
-.style-chooser button {
+.styled button {
     min-height: unset;
 }
 
-.style-chooser {
-    min-width: 120px;
+.styled {
+    /*min-width: 120px;*/
 }
 
-.style-chooser .vs__dropdown-menu {
+.styled .vs__dropdown-menu {
 }
 
-.style-chooser .vs__selected {
+.styled .vs__selected {
     background-color: var(--gray-2);
     border: none;
     color: unset;
     line-height: 1.2;
 }
 
-.style-chooser .vs__dropdown-option--highlight {
-    background: var(--gray-2);
-    color: var(--color);
-    /* font-weight: bold; */
+.styled.vs--single.vs--open .vs__selected {
+    position: unset
 }
 
-.style-chooser .vs__dropdown-option {
+.styled.vs--single .vs__selected {
+    background-color: transparent;
+}
+
+.styled .vs__dropdown-option--highlight {
+    background: var(--gray-2);
+    color: var(--color);
+    font-weight: 500;
+}
+
+.styled .vs__dropdown-option {
     white-space: unset;
     color: var(--color);
 }

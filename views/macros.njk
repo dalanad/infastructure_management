@@ -25,54 +25,62 @@
     {% if flash_msgs.length>0 %}
         <div class="mx-3 my-1">
             {% for msg in flash_msgs %}
-                <div class="alert {{ msg.level }}"><i class="fas fa-{{ "check-circle" if msg.level=="success" }}{{ "exclamation-circle" if msg.level=="danger" }} "></i> &nbsp;{{ msg.msg }} </div>
+                <div class="alert {{ msg.level }}"><i
+                            class="fas fa-{{ "check-circle" if msg.level=="success" }}{{ "exclamation-circle" if msg.level=="danger" }} "></i>
+                    &nbsp;{{ msg.msg }} </div>
             {% endfor %}
         </div>
     {% endif %}
 {%- endmacro -%}
 
 {% macro filter_sbar(cfg) %}
-    <div class="mb-2 px-3" style="display:flex; align-items:flex-end;flex-wrap:wrap" id="filter-bar">
-        <link href="https://cdn.jsdelivr.net/gh/dalanad/helix@0.0.14/dist/helix.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/vue-select@3.11.2/dist/vue-select.css" rel="stylesheet">
-        <link href="/css/main.css" rel="stylesheet">
+    <form class="mb-2 px-3 d-flex flex-wrap" action="">
         {% for field in cfg %}
-            <div class="me-2 mb-2">
-                <span class="text-nowrap">{{ field.label }}</span>
+            <div class="me-2 mb-2 field">
+                <label class="text-nowrap">{{ field.label }}</label>
                 {% if (field.type=='select') %}
-                    <v-select class="style-chooser" :run='console.log(filter.{{ field.name }},); filter.{{ field.name }} == undefined ? filter.{{ field.name }}={{ (field.value if field.value else []) | dump }} :true' {{ "multiple" if field.multiple }} v-model="filter['{{ field.name }}']" :options='{{ field.options | dump }}' label='name' :reduce="country =>
-                    country.id"></v-select>
+                    <select data-url="{{ field.url }}" name="filter[{{ field.name }}]" data-allow-clear="true"
+                            class="ctrl {{ "init-select" if field.multiple }}" {{ "data-multiple='true'" if field.multiple }}">
+                        {% if field.value and field.multiple  %}
+                            <option value="{{ field.value }}" selected></option>
+                        {% endif %}
+                        {% for option in  field.options %}
+                            <option value="{{ option.value }}" {{ "selected" if option.value == field.value }}>{{ option.label }}</option>
+                        {% endfor %}
+
+                    </select>
                 {% elseif (field.type=='text') %}
-                    <input type="search" class="ctrl" v-model="filter['{{ field.name }}']">
+                    <input type="search" class="ctrl" name="filter[{{ field.name }}]" value="{{ field.value }}">
                 {% endif %}
             </div>
         {% endfor %}
-        <button @click="search" class="btn mb-2 ">Filter</button>
-    </div>
+        <div class="field">
+            <label>&nbsp;</label>
+            <div>
+                <button class="btn">Search</button>
+                <a href="./" class="btn link danger">Reset</a>
+            </div>
+        </div>
+    </form>
     <script>
-        document.querySelectorAll("#filter-bar").forEach(el => {
+        document.querySelectorAll("#fiwlter-bar").forEach(el => {
             new Vue({
-                el,
-                data: function () {
-                    return {filter: {}};
-                },
-                methods: {
+                el, data: function () {
+                    return { filter: {} };
+                }, methods: {
                     search: function () {
                         let filterx = this.filter;
-                        Object.keys(filterx).forEach((key) =>
-                            filterx[key] === undefined || filterx[key] === null ? delete filterx[key] : {}
-                        );
+                        Object.keys(filterx).forEach((key) => filterx[key] === undefined || filterx[key] === null ? delete filterx[key] : {});
 
                         if ("Turbo" in window) {
                             let url = new URL(window.location.href);
-                            url.search = objToQueryString({filter: filterx});
+                            url.search = objToQueryString({ filter: filterx });
                             Turbo.visit(url.href);
                         } else {
-                            window.location.search = objToQueryString({filter: filterx});
+                            window.location.search = objToQueryString({ filter: filterx });
                         }
                     },
-                },
-                mounted: function () {
+                }, mounted: function () {
                     let query = Qs.parse(location.search.replace("?", ""));
                     if (query.filter) {
                         this.filter = query.filter;
@@ -90,4 +98,18 @@
             <input class="ctrl shine" readonly/>
         </div>
     </filter-bar>
+{% endmacro %}
+
+{% macro field(meta) %}
+    {% if (meta.type == "hidden") %}
+        <input name="{{ meta.name }}" id="{{ meta.id }}" type="{{ meta.type }}" value="{{ meta.value }}">
+    {% else %}
+        <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <label for="{{ meta.id }}">{{ meta.label }}</label>
+            <input class="ctrl" name="{{ meta.name }}" id="{{ meta.id }}" type="{{ meta.type }}"
+                   value="{{ meta.value }}">
+            {# <div class="invalid-feedback"> Please provide a valid zip. </div> #}
+        </div>
+    {% endif %}
+
 {% endmacro %}

@@ -1,43 +1,43 @@
 {% extends "_layout/admin-base.njk" %}
-{% import "macros.njk" as "m"  with context %}
 
 {% block content %}
-
-    {% call m.page_header("Assets & Devices") %}
-        {{ m.link("New Asset","/assets/create","btn") }}
+    {% call page_header("Assets & Devices") %}
+        {{ link("New Asset","/assets/create","btn") }}
     {% endcall %}
-    {{ m.filter_bar(filterConfig) }}
-    <div class="table-responsive">
-        <table class="table paded" role="grid">
-            <thead>
+    {{ filter_bar(filterConfig) }}
+    {# {{ m.filter_sbar(filterConfig) }} #}
+    <table class="table paded" role="grid">
+        <thead>
+        <tr>
+            <th data-field="assetCode">Code</th>
+            <th data-field="category][name">Category</th>
+            <th data-field="model">Model</th>
+            <th data-field="location][name">Location</th>
+            <th data-field="owner">Owner</th>
+            <th>Status</th>
+            <th>Condition</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {%- for item in items -%}
             <tr>
-                <th data-field="assetCode">Code</th>
-                <th data-field="category][name">Category</th>
-                <th data-field="model">Model</th>
-                <th data-field="location][name">Location</th>
-                <th data-field="owner">Owner</th>
-                <th>Status</th>
-                <th>Condition</th>
-                <th></th>
+                <td><a href="{{ withParam({selected : item.id }) }}">{{ item.assetCode }}</a></td>
+                <td>{{ item.category.name }}</td>
+                <td>{{ item.model }}</td>
+                <td>{{ item.location.name }}</td>
+                <td>{{ item.owner }}</td>
+                <td>{{ tag("asset_status", item.status) }}</td>
+                <td>{{ tag("asset_condition", item.condition) }}</td>
+                <td><a class="btn link" href="{{ withParam({selected : item.id }) }}">View</a> |
+                    <a class="btn link" href="../{{ item.id }}/edit/">Edit</a>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            {%- for item in items -%}
-                <tr>
-                    <td><a href="{{ withParam({selected : item.id }) }}">{{ item.assetCode }}</a></td>
-                    <td>{{ item.category.name }}</td>
-                    <td>{{ item.model }}</td>
-                    <td>{{ item.location.name }}</td>
-                    <td>{{ item.owner }}</td>
-                    <td>{{ tag("asset_status", item.status) }}</td>
-                    <td>{{ tag("asset_condition", item.condition) }}</td>
-                    <td><a class="btn link" href="{{ withParam({selected : item.id }) }}">View</a> | <a class="btn link" href="../{{ item.id }}/edit/">Edit</a></td>
-                </tr>
-            {%- endfor -%}
-            </tbody>
-        </table>
-        {% include "../_layout/paginate.njk" %}
-        <div></div>
+        {%- endfor -%}
+        </tbody>
+    </table>
+    {% include "../_layout/paginate.njk" %}
+    <div class="p-1 px-4">
         <a href="{{ withParam({download : "true" }) }}" target="_brank"> Download CSV</a>
     </div>
 

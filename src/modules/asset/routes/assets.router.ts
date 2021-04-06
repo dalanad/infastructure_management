@@ -21,7 +21,7 @@ route.get("/all", async (req, res) => {
     const params: any = {
         page: parseInt(String(req.query.page || "0")),
         size: parseInt(String(req.query.size || "10")),
-        sort: Object.assign({ assetCode: "desc" }, req.query.sort),
+        sort: req.query.sort ? Object.assign({}, req.query.sort) : { assetCode: "desc" },
         filter: Object.assign({}, req.query.filter),
     };
     let filter = { $or: [] };
@@ -41,7 +41,7 @@ route.get("/all", async (req, res) => {
 
     if (params.filter.search) {
         if (!params.filter.field) {
-            filter.$or.push({ model: { $ilike: `%${ params.filter.search.trim() }%`.trim() } });
+            filter.$or.push({ assetCode: { $ilike: `%${ params.filter.search.trim() }%`.trim() } });
         } else {
             if (!Array.isArray(params.filter.field)) {
                 params.filter.field = [params.filter.field];
@@ -82,7 +82,7 @@ route.get("/all", async (req, res) => {
             label: "Search Field",
             name: "field",
             type: "select",
-            value: params.filter.field,
+            value: params.filter.field || "assetCode",
             options: [
                 { value: "assetCode", label: "Asset Code" },
                 { value: "grnNo", label: "GRN No" },
@@ -95,7 +95,7 @@ route.get("/all", async (req, res) => {
             label: "Category",
             name: "category",
             options: [],
-            url: "/assets/category/options",
+            url: "/assets/category/options/",
             type: "select",
             multiple: true,
             value: params.filter.category,
@@ -103,7 +103,7 @@ route.get("/all", async (req, res) => {
         {
             label: "Location",
             name: "location",
-            url: "/assets/location/options",
+            url: "/assets/location/options/",
             options: [],
             type: "select",
             multiple: true,
@@ -113,6 +113,7 @@ route.get("/all", async (req, res) => {
             label: "Status",
             name: "status",
             options: [
+                { value: "", label: "ANY" },
                 { value: "NOT_IN_USE", label: "NOT IN USE" },
                 { value: "IN_USE", label: "IN USE" },
                 { value: "DISCARDED", label: "DISCARDED" },
@@ -124,6 +125,7 @@ route.get("/all", async (req, res) => {
             label: "Condition",
             name: "condition",
             options: [
+                { value: "", label: "ANY" },
                 { value: "FUNCTIONAL", label: "FUNCTIONAL" },
                 { value: "BROKEN", label: "BROKEN" },
             ],
