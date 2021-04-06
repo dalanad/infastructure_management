@@ -39,8 +39,9 @@ function InitSortHeaders() {
     for (let e of document.querySelectorAll("th[data-field]")) {
         e.classList.add("sort-header");
         e.dataset.dir = new URLSearchParams(window.location.search).getAll(`sort[${ e.dataset.field }]`);
-        e.innerHTML += `&nbsp; <i class='fa'></i>`;
-        e.querySelector("i").classList = e.dataset.dir ? `fa fa-arrow-${ e.dataset.dir == "ASC" ? "down" : "up" }` : "";
+        let i = document.createElement("i")
+        e.appendChild(i)
+        i.classList = e.dataset.dir ? `fa fa-arrow-${ e.dataset.dir === "ASC" ? "down" : "up" }` : "";
         e.addEventListener("click", () => {
             if (e.dataset.dir == "DESC") {
                 delete e.dataset.dir;

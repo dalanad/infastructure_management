@@ -1,24 +1,36 @@
 {% extends "_layout/admin-base.njk" %}
-{% import "macros.njk" as "m" with context %}
 
 {% block content %}
     <div style="display: grid;grid-template-columns: minmax(100px,2fr) 3fr;grid-template-rows: 1fr; height: 100%;">
         <div class="border-end">{% include "./asset-list-compact.njk" %}</div>
         <div class="h-100 overflow-auto">
-            {% call m.page_header("Asset Summery") %}
+            {% call page_header("Asset Summery") %}
                 <a class="btn link" href="../{{ asset.id }}/edit/"> <i class="fas fa-pen"></i>&nbsp; &nbsp;Edit</a>
-                <a class="btn link" href="/servicing/jobs/create/?assetCode={{ asset.assetCode }}">Create Service Job</a>
-                      <a class="btn link warn" href="../{{ asset.assetCode }}/print-sticker" data-trubo="reload">
-                    <i class="fas fa-qrcode"></i> &nbsp; &nbsp; Print Sticker </a>
-                {% if asset.status == "IN_USE" %}
-                    <a class="btn warn" href="../{{ asset.id }}/status/?to=backup"> Make Backup </a>
-                {% endif %}
-                {% if asset.status == "NOT_IN_USE" %}
-                    <a class="btn success" href="../{{ asset.id }}/status/?to=in_use"> Make In Use </a>
-                {% endif %}
-                {% if asset.status != "DISCARDED" %}
-                    <a class="btn danger" href="../{{ asset.id }}/discard/"> Discard </a>
-                {% endif %}
+                <button class="btn link dropdown-toggle" data-bs-toggle="dropdown"> Actions</button>
+                <ul class="dropdown-menu">
+                    <div><a class="dropdown-item " href="/servicing/jobs/create/?assetCode={{ asset.assetCode }}">
+                            <i class="fas fa-wrench"></i> &nbsp; Create Service Job</a></div>
+                    <div>
+                        <a class="dropdown-item text-warning" href="../{{ asset.assetCode }}/print-sticker">
+                            <i class="fas fa-qrcode"></i> &nbsp; Print Sticker </a>
+                    </div>
+                    {% if asset.status == "IN_USE" %}
+                        <div><a class="dropdown-item " href="../{{ asset.id }}/status/?to=backup">
+                                <i class="far fa-life-ring"></i> &nbsp;Make Backup </a>
+                        </div>
+                    {% endif %}
+                    {% if asset.status == "NOT_IN_USE" %}
+                        <div><a class="dropdown-item text-success" href="../{{ asset.id }}/status/?to=in_use">
+                                <i class="fas fa-laptop-house"></i> &nbsp; Make In
+                                Use </a></div>
+                    {% endif %}
+                    {% if asset.status != "DISCARDED" %}
+                        <ldivi><a class="dropdown-item text-danger" href="../{{ asset.id }}/discard/"> <i class="far fa-trash-alt"></i> &nbsp; Discard </a>
+                        </ldivi>
+                    {% endif %}
+                </ul>
+
+
             {% endcall %}
             <div class="p-3">
                 <div class="row">

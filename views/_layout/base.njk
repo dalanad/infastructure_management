@@ -10,15 +10,15 @@
     <link href="https://cdn.jsdelivr.net/gh/dalanad/helix@0.0.14/dist/helix.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vue-select@3.11.2/dist/vue-select.css" rel="stylesheet">
     <link href="/css/main.css" rel="stylesheet" data-turbo-track="reload">
-    <script src="https://cdn.jsdelivr.net/gh/dalanad/helix@0.0.14/dist/main.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@7.0.0-beta.4/dist/turbo.es5-umd.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js" defer></script>
-    <script src="/main.bundle.js" data-turbo-track="reload" type="module" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/dalanad/helix@0.0.14/dist/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@hotwired/turbo@7.0.0-beta.4/dist/turbo.es5-umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="/main.bundle.js" data-turbo-track="reload"></script>
 </head>
 <body>
 {%- block body -%}{%- endblock -%}
 {%- block style -%}{%- endblock -%}
-<script>Object.assign(window, {client_vars: {{ client_vars|dump if client_vars else "{}" }}})</script>
+<script>Object.assign(window, { client_vars: {{ client_vars|dump if client_vars else "{}" }}})</script>
 {%- block script -%}{%- endblock -%}
 </body>
 </html>

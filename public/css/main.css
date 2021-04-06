@@ -106,7 +106,8 @@ textarea {
 }
 
 .turbo-progress-bar {
-    background: var(--orange);
+    height: 5px;
+    background: var(--gray-1);
 }
 
 .styled .vs__search::placeholder,
