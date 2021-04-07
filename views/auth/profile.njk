@@ -1,0 +1,26 @@
+{% extends "_layout/base.njk" %}
+
+{%- block body -%}
+    {% include "_layout/header.njk" %}
+    <div class="container-focused-md">
+        <div class="px-3 pt-3">
+            <a href="#" class="btn link" onclick="history.back()"> <i class="fa fa-arrow-left"></i>&nbsp; Go Back</a>
+        </div>
+        {{ page_header("User Profile") }}
+        <div class="row px-3">
+            <div class="col-6">
+                <div>UID : <code>{{ user.uid }}</code></div>
+                <div>Name : {{ user.name }}</div>
+                <div>Email : {{ user.email }}</div>
+                <div>Role : {{ user.role.name }}</div>
+                <div>Active : {{ tag("bool", user.isActive) }}</div>
+            </div>
+            <div class="col-6 text-end">
+                <button class="btn outline danger">Change Password</button>
+            </div>
+        </div>
+        <div class="m-3">
+            <h5>Preferences</h5>
+        </div>
+    </div>
+{% endblock %}

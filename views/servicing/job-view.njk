@@ -14,9 +14,9 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div><small>created : &nbsp;{{ createdAt.toLocaleString() }} </small></div>
-                    <div> Status : &nbsp;<span class="tag"> {{ status }} </span></div>
-                    <div> Type &nbsp;&nbsp; : &nbsp;<span class="tag"> {{ type }} </span></div>
+                    <div><small>Created At : &nbsp;{{ createdAt.toLocaleString() }} </small></div>
+                    <div> Status : &nbsp;<span class="tag">{{ status }} </span></div>
+                    <div> Type &nbsp;&nbsp; : &nbsp;<span class="tag">{{ type }} </span></div>
                 </div>
             </div>
 
@@ -27,15 +27,23 @@
                 <div class="row gx-2">
                     <div class="col-lg-5 col-md-4 col-sm-12 field">
                         <label for="model">Start Time</label>
-                        <input class="ctrl" name="start" required type="datetime-local" value="{{ start and start.toLocaleString("sv").replace(" ","T") }}">
+                        <input class="ctrl" name="start" required type="datetime-local"
+                               value="{{ start and start.toLocaleString("sv").replace(" ","T") }}">
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-12 field">
-                        <label for="model">Duration</label>
-                        <input class="ctrl" name="duration" required type="number" value="{{ duration }}">
+                        <label for="model">Total Work Duration</label>
+                        <div class="ctrl group">
+                            <input class="ctrl" name="duration" required type="number" value="{{ duration }}">
+                            <span class="static">Minutes</span>
+                        </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 field">
                         <label for="model">Cost</label>
-                        <input class="ctrl" name="cost" required type="number" value="{{ cost }}">
+                        <div class="ctrl group">
+                            <span class="static">Rs.</span>
+                            <input class="ctrl text-end" name="cost" required type="number" value="{{ cost }}">
+                            <span class="static">.00</span>
+                        </div>
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 field">
                         <label for="model">Work Done</label>

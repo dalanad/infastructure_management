@@ -1,30 +1,21 @@
 {% extends "./base.njk" %}
 
 {%- block body -%}
-    <header class="header">
-        <span><i class="sidebar-toggle fa fa-bars"></i> &nbsp; IT Manamgent </span>
-        <span class="flex-fill"></span>
-        <div class="dropdown">
-            <button class="btn text-white me-0 link dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="far fa-user-circle align-self-center"></i> &nbsp;Dalana
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#"><i class="fa fa-user me-2"></i> Profile</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fa fa-question-circle me-2"></i> Help</a></li>
-                <li><a class="dropdown-item" href="/auth/logout"><i class="fa fa-sign-out-alt me-2"></i> Logout</a></li>
-            </ul>
-        </div>
-    </header>
+    {% include "_layout/header.njk" %}
+
     <div style="display:flex;height: calc(100% - 40px);">
         <div class="sidebar">
             <div class="nav-list">
                 {% for item in sidebar %}
                     <div class="nav-item{{ " active" if item.active }}">
-                        <a class="nav-link{{ " collapsed" if not item.active and item.links }}" href="{{ item.href }}"><i class="fa {{ item.icon }} nav-icon"></i><span class="nav-link-text">{{ item.label }}</span></a>
+                        <a class="nav-link{{ " collapsed" if not item.active and item.links }}"
+                           href="{{ item.href }}"><i class="fa {{ item.icon }} nav-icon"></i><span
+                                    class="nav-link-text">{{ item.label }}</span></a>
                         {% if item.links %}
                             <div class="font-weight-normal sub-list">
                                 {% for link in item.links %}
-                                    <a class="nav-item {{ "active" if link.active }}" href="{{ link.href }}">{{ link.label }}</a>
+                                    <a class="nav-item {{ "active" if link.active }}"
+                                       href="{{ link.href }}">{{ link.label }}</a>
                                 {% endfor %}
                             </div>
                         {% endif %}
