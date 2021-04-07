@@ -1,1 +1,25 @@
+{% macro field(meta) %}
+    {% if (meta.type == "hidden") %}
+        <input name="{{ meta.name }}" id="{{ meta.id }}" type="{{ meta.type }}" value="{{ meta.value }}">
 
+        {% elif meta.type == "form" %}
+
+        {% if (meta.title) %}
+            <h5 class="mb-1 mt-3">{{ meta.title }}</h5>
+        {% endif %}
+
+        <fieldset class="row g-2  m-0 px-0">
+            {% for x in meta.fields %}
+                {{ field(x) }}
+            {% endfor %}
+        </fieldset>
+
+    {% else %}
+        <div class="col-lg-3 col-md-6 col-sm-12 field">
+            <label for="{{ meta.id }}">{{ meta.label }}</label>
+            <input class="ctrl" name="{{ meta.name }}" id="{{ meta.id }}" type="{{ meta.type }}"     value="{{ meta.value }}">
+            {# <div class="invalid-feedback"> Please provide a valid zip. </div> #}
+        </div>
+    {% endif %}
+
+{% endmacro %}

@@ -1,15 +1,14 @@
 {% extends "_layout/admin-base.njk" %}
-{% import "macros.njk" as "m"  with context %}
 
 {% block content %}
 
-    {{ m.page_header("User") }}
+    {{ page_header("User") }}
 
     <form action="" method="post" class="px-3" id="user-form">
         <div class="row g-2">
             <div class="col-lg-3 col-md-6 col-sm-12 field">
                 <label>UID / Username </label>
-                <input class="ctrl" name="uid" onkeyup="return validate(this)" value="{{ uid }}" {{ "disabled" if uid }}>
+                <input class="ctrl" name="uid" onkeyup="return validate(this)" value="{{ uid }}" {{ "readonly" if uid }}>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 field">
                 <label>Name</label>

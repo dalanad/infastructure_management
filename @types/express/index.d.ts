@@ -7,6 +7,7 @@ declare global {
             login: any;
             session: any;
             user: any;
+            errors: any;
 
             logout();
         }

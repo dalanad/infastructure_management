@@ -2,6 +2,8 @@ import { LockMode } from "@mikro-orm/core";
 import { Config } from "../../db/entity";
 import { orm } from "../../db/init";
 
+export * from './validator'
+
 enum ID_SEQUENCES { ASSET_CODE = "ASSET_CODE_SEQUENCE", JOB_ID = "JOB_ID" }
 
 async function getSequence(sequence: ID_SEQUENCES, creation_options: { prefix: string }, lock = false): Promise<Config> {
