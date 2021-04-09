@@ -99,6 +99,7 @@ textarea {
 
 .sort-header {
     cursor: pointer;
+    transition: background-color .2s ease-in;
 }
 
 .sort-header:hover {

@@ -120,12 +120,7 @@
 {% endmacro %}
 
 {% macro filter_bar(cfg) %}
-    <filter-bar class="mx-3 d-block" style="min-height: 66px;" fields_data='{{ cfg | dump | replace("'", "") }}'>
-        <div class=" mb-2" style="height: 66px;max-width: 180px;">
-            <div class="shine lh-1 mb-1" style="width:65%">&nbsp;</div>
-            <input class="ctrl shine" readonly/>
-        </div>
-    </filter-bar>
+    <filter-bar class="mx-3 d-block" style="min-height: 66px;" fields_data='{{ cfg | dump | replace("'", "") }}'></filter-bar>
 {% endmacro %}
 
 {% macro field(meta) %}

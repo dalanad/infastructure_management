@@ -19,7 +19,7 @@
 <body>
 {%- block body -%}{%- endblock -%}
 {%- block style -%}{%- endblock -%}
-<script>Object.assign(window, { client_vars: {{ client_vars|dump if client_vars else "{}" }}})</script>
+<script> window.injected_data = {{ client_vars|dump if client_vars else "{}" }}</script>
 {%- block script -%}{%- endblock -%}
 </body>
 </html>
