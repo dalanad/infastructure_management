@@ -1,4 +1,4 @@
-import { collapseRange, objToQueryString, parseCookies } from "../lib/core";
+import { collapseRange, parseCookies } from "../lib/core";
 import { join } from "path";
 
 import nunjucks from "nunjucks";
@@ -28,6 +28,14 @@ const status = {
         RESOLVED: "success  stale",
         CLOSED: "warn  stale",
         WAITING: "info stale",
+    },
+
+
+    job_status: {
+        DONE: 'success',
+        CREATED: 'info',
+        PENDING: 'warn',
+        DISCARDED: 'danger stale'
     },
 };
 

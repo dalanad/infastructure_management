@@ -159,8 +159,12 @@ textarea {
     color: var(--color);
 }
 
-.ctrl:invalid:not(:focus) {
-    --muted: unset;
+.p-error label {
+    color: var(--muted);
+}
+
+.p-error, .p-error .ctrl:focus {
+    --muted: var(--danger) !important;
 }
 
 a:not(.link) {
@@ -245,6 +249,22 @@ a:hover {
     }
 }
 
+.collapse:not(.show) {
+    display: none
+}
+
+.collapsing {
+    height: 0;
+    overflow: hidden;
+    transition: height .35s ease
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .collapsing {
+        transition: none
+    }
+}
+
 /**************************\
   Basic Modal Styles
 \**************************/
@@ -276,6 +296,10 @@ a:hover {
 .modal__content {
     margin-top: 1rem;
     margin-bottom: 1rem;
+}
+
+:root {
+    --border: 1px solid var(--gray-3);
 }
 
 /**************************\

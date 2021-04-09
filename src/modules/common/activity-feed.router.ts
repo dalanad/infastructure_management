@@ -8,7 +8,7 @@ route.get("/:id", async (req, res) => {
     let feed = await orm.em.findOne(ActivityFeed, req.params.id)
     res.locals.feed = { ...feed, };
     if (feed) {
-        res.locals.feed.activities = await feed.activities.init({ orderBy: { createdAt: "DESC" } })
+        res.locals.feed.activities = await feed.activities.init({ orderBy: { createdAt: "asc" } })
     }
     res.locals.feed.id = req.params.id;
     res.render("activity-feed/feed")

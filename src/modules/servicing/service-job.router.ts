@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Asset, ServiceJob, ServiceType } from "../../db/entity";
+import { Asset, JobStatus, ServiceJob, ServiceType } from "../../db/entity";
 import { getNextVal, ID_SEQUENCES } from "../../lib/data";
 
 const router = Router();
@@ -46,9 +46,31 @@ router.get("/:jobId", async (req, res) => {
     res.render("servicing/job-view", { ...job })
 })
 
+router.get("/:jobId/complete", async (req, res) => {
+    let job = await req.orm.em.findOne(ServiceJob, { jobId: String(req.params.jobId) })
+    job.status = JobStatus.DONE;
+    job.end = new Date()
+    await req.orm.em.persist(job)
+    await req.orm.em.flush();
+    res.flash("success", "Job Completion Successfully Recorded")
+    res.redirect(req.baseUrl + '/' + job.jobId)
+})
+
+router.get("/:jobId/discard", async (req, res) => {
+    let job = await req.orm.em.findOne(ServiceJob, { jobId: String(req.params.jobId) })
+    job.status = JobStatus.DISCARDED;
+    await req.orm.em.persist(job)
+    await req.orm.em.flush()
+    res.flash("success", "Job  Successfully Discarded")
+    res.redirect(req.baseUrl + '/' + job.jobId)
+})
+
 router.post("/:jobId", async (req, res) => {
     let job = await req.orm.em.findOne<ServiceJob>(ServiceJob, { jobId: String(req.params.jobId) })
-    job.assign({ start: req.body.start, done: req.body.workDone, cost: req.body.cost, duration: req.body.cost })
+    job.assign({ start: req.body.start, done: req.body.workDone, cost: req.body.cost, duration: req.body.duration })
+    if (job.status == JobStatus.CREATED) {
+        job.status = JobStatus.PENDING
+    }
     req.orm.em.persist(job)
     await req.orm.em.flush()
     res.flash("success", "Update Successful")

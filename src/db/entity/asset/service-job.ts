@@ -2,8 +2,21 @@ import { AssetLocation } from './base';
 import { Asset, ServiceSchedule } from "./asset";
 import { ServiceDoneBy } from "./service-done-by";
 import { AuthUser } from "../auth/auth-user.entity";
-import { Entity, Enum, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+    AfterUpdate,
+    Entity,
+    Enum,
+    EventArgs,
+    ManyToOne,
+    OneToMany,
+    PrimaryKey,
+    Property,
+    Utils
+} from '@mikro-orm/core';
 import { BaseEntity } from "./../base.entity";
+import { orm } from "../../init";
+import { ChangeSetContent } from "../activity-feed/activity-feed";
+import { postActivity } from "../../../modules/common/activity-feed";
 
 export enum JobStatus {
     CREATED = "CREATED", DONE = "DONE", PENDING = "PENDING", DISCARDED = "DISCARDED"
@@ -23,7 +36,7 @@ export class ServiceJob extends BaseEntity {
     done: string;
 
     @Property({ default: '', nullable: true })
-    description : string;
+    description: string;
 
     @Enum(() => ServiceType)
     type: ServiceType;
@@ -48,12 +61,47 @@ export class ServiceJob extends BaseEntity {
 
     schedule: ServiceSchedule;
 
-    // @BeforeInsert()
-    // async updateDates() {
-    //     if (this.status == null) this.status = JobStatus.CREATED;
-    //     if (this.timeline == null)
-    //         this.timeline = await getConnection().getRepository(ActivityFeed)
-    //             .save({});
-    // }
+    @AfterUpdate()
+    async update(params: EventArgs<any>) {
+        let cs = params.changeSet;
+        const pl = { ...cs.payload };
+
+        delete pl.updatedAt;
+        delete pl.createdAt;
+        let mapping = {
+            start: "Start Time",
+            end: "Completed Time ",
+        }
+
+        let transform = {}
+
+        let ctx: ChangeSetContent[] = []
+
+        Object.keys(pl).forEach((field) => {
+            if (pl[field] || cs.originalEntity[field]) {
+                if (mapping[field]) {
+                    ctx.push({ afi: pl[field], bfi: cs.originalEntity[field], field: mapping[field] })
+                } else {
+                    ctx.push({ afi: pl[field], bfi: cs.originalEntity[field], field: field })
+                }
+            }
+        });
+        let user_ref;
+        try {
+            user_ref = orm.em.getReference(AuthUser, orm.em.getFilterParams('user').uid)
+        } catch {
+
+        } finally {
+            setTimeout(async () => {
+                await postActivity(`${ cs.name }-${ Utils.extractPK(params.entity) }`, {
+                    content: ctx,
+                    meta: { action: "updated" },
+                    user: user_ref
+                })
+                orm.em.flush()
+            }, 5)
+        }
+
+    }
 }
 

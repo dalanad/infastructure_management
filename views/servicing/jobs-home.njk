@@ -2,7 +2,7 @@
 
 {% block content %}
     {% call m.page_header("Service Jobs") %}
-        {{ m.link("Create a Job","create","btn success") }}
+{#        {{ m.link("Create a Job","create","btn success") }}#}
     {%- endcall %}
     <table class="table paded" role="grid">
         <thead>
@@ -23,7 +23,7 @@
                 <td><a href="/assets/all/?selected={{ item.asset.id }}">{{ item.asset.assetCode }}</a></td>
                 <td>{{ item.description | truncate(50) }}</td>
                 <td>{{ item.location.name }}</td>
-                <td>{{ tag("asset_status", item.status) }}</td>
+                <td>{{ tag("job_status", item.status) }}</td>
                 <td>{{ item.createdAt|date }}</td>
                 <td><a class="btn link" href="{{ item.jobId }}">View</a></td>
             </tr>

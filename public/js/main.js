@@ -1,6 +1,7 @@
 import "./helpers.js";
 import "./components.js";
 
+
 document.addEventListener("turbo:load", () => init(), false);
 let app;
 
@@ -167,9 +168,27 @@ function selectBoxes() {
     })
 }
 
+function FormValidation() {
+    document.querySelectorAll('form').forEach(form => {
+        var pristine = new Pristine(form, { // class of the parent element where the error/success class is added
+            classTo: 'field', errorClass: 'p-error', successClass: 'suscwcess', // class of the parent element where error text element is appended
+            errorTextParent: 'field', // type of element to create for the error text
+            errorTextTag: 'span', errorTextClass: 'field-msg text-danger'
+        });
+
+        form.addEventListener('submit', function (e) {
+            if (!pristine.validate()) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+    })
+
+}
 
 function init() {
     // app = new Vue({ el: "#mount" });
+    FormValidation();
     InitSidebar();
     autoSizeTextarea();
     InitSortHeaders();

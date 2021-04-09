@@ -2,9 +2,8 @@
 
 {%- block body -%}
     {% include "_layout/header.njk" %}
-
     <div style="display:flex;height: calc(100% - 40px);">
-        <div class="sidebar">
+        <div class="sidebar"   data-turbo-frame="admin_body">
             <div class="nav-list">
                 {% for item in sidebar %}
                     <div class="nav-item{{ " active" if item.active }}">
@@ -23,14 +22,11 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="w-100 overflow-auto">
-            {%- if frame %}
-            <turbo-frame id="{{ frame }}">
-                {% endif %}
+
+        <div class="w-100 overflow-auto  " style=" --animate-duration: 0.1s;">
+            <turbo-frame id="{{ frame if frame else "admin_body" }}">
                 {%- block content -%}{%- endblock -%}
-                {% if frame %}
             </turbo-frame>
-            {%- endif -%}
         </div>
 
     </div>

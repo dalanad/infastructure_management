@@ -1,12 +1,4 @@
 <turbo-frame id="feed">
-    <form class="mb-2" method="post" action="/feed/{{ feed.id }}/">
-        <textarea class="ctrl" rows="4" name="content"></textarea>
-        <div class="d-flex">
-            {# <span class="ml-2"><button class="btn link default"><i class="fa fa-at"></i></button></span> #}
-            <span class="flex-fill"></span>
-            <button class="btn" type="submit">Post</button>
-        </div>
-    </form>
     {% for activity in feed.activities %}
         <div class="my-1">
             <div class="lh-1" style="font-size: small;">
@@ -19,7 +11,7 @@
                 {%- if activity.content.length %}
                     {%- for fd in activity.content -%}
                         <small class="d-block"><b>[ {{ fd.field | upper }} ] </b>
-                            {{- fd.bfi }} <i class="fas fa-angle-double-right"></i> {{  fd.afi -}}
+                            {{- fd.bfi }} <i class="fas fa-angle-double-right"></i> {{ fd.afi -}}
                         </small>
                     {%- endfor -%}
                 {% else %}
@@ -28,4 +20,23 @@
             </div>
         </div>
     {% endfor %}
+
+    <button class="btn link mb-2 mx-2" type="button"
+            onclick="document.querySelector('#post-form').style.display='block';this.style.display='none'"
+            data-bs-target="#collapseExample">
+        <i class="fa fa-plus-circle"></i> &nbsp; New Post
+    </button>
+
+    <form class="mb-2" style="display: none" method="post" action="/feed/{{ feed.id }}/" id="post-form">
+        <textarea class="ctrl" rows="4" name="content"></textarea>
+        <div class="d-flex">
+            {# <span class="mx-2"> #}
+            {# <button class="btn link   p-0 text-black-50"><i class="fa fa-at"></i></button> #}
+            {# <button class="btn link   p-0 text-black-50"><i class="fa fa-image"></i></button> #}
+            {# <button class="btn link   p-0 text-black-50"><i class="fa fa-paperclip"></i></button> #}
+            {# </span> #}
+            <span class="flex-fill"></span>
+            <button class="btn" type="submit">Post</button>
+        </div>
+    </form>
 </turbo-frame>
