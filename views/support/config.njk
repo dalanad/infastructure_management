@@ -1,0 +1,9 @@
+{% extends "_layout/admin-base.njk" %}
+
+{% block content %}
+    {% call page_header("Support Desk") %}
+        {{ link("Create a Ticket","create","btn success") }}
+        {{ link("","settings","btn   outline",'fa fa-cog') }}
+    {%- endcall %}
+{% endblock %}
+

@@ -8,8 +8,8 @@
                     <img src="/img/logo-03.png" class="logo">
                     <h5 class="m-1 text-center">IT Asset Management</h5>
                     <h4 class="mb-4 text-center">Sign In</h4>
-                    <button class="btn  w-100"  type="button" disabled>Sign in using SSO</button>
-                    <div class="align-items-center mt-4 mb-3 d-flex flex-row"  >
+                    <button class="btn w-100" type="button" disabled>Sign in using SSO</button>
+                    <div class="align-items-center mt-4 mb-3 d-flex flex-row">
                         <div style="background:var(--muted);height:1px;flex:1"></div>
                         <small class="mx-2">or using user id and password</small>
                         <div style="background:var(--muted);height:1px;flex:1"></div>
@@ -26,7 +26,7 @@
                         </label>
                         <input type="password" id="password" class="ctrl" name="password" required="">
                     </div>
-                    <div class="text-center text-danger">{{ "Incorrect Username or Password" if err}}</div>
+                    <div class="text-center text-danger">{{ "Incorrect Username or Password" if err }}</div>
                     <button class="btn success mt-4 ml-0 w-100" type="submit">Sign in</button>
                 </form>
             </div>
@@ -42,14 +42,17 @@
             margin: 1em auto;
             display: block;
         }
+
         .container {
             z-index: 100;
             margin-bottom: 14em;
         }
+
         body {
             display: grid;
             place-items: center;
         }
+
         .bg-img {
             max-width: 300px;
             position: absolute;

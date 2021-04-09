@@ -13,7 +13,7 @@ function SideBar(req, res, next) {
 				{ label: "Suppliers", href: "/suppliers/" },
 			],
 		},
-		// { label: "Support", href: "/support/", icon: "fa fa-headset", links: undefined },
+		{ label: "Support", href: "/support/", icon: "fa fa-headset", links: undefined },
 		{ label: "Servicing", href: "/servicing/", icon: "fa fa-tools", links: undefined },
 		{
 			label: "Settings",

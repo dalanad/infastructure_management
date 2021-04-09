@@ -2,4 +2,10 @@ import { Router } from "express";
 
 const router = Router();
 
-export const ServicingModuleRouter = router;
+router.get("/", (req, res) => {
+    res.render("support/home")
+})
+router.get("/config", (req, res) => {
+    res.render("support/config")
+})
+export const SupportModuleRouter = router;
