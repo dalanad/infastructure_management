@@ -21,7 +21,7 @@ import { AppRouter } from "./router";
     app.use(AppRouter);
 
     app.use(function (req, res) {
-        res.status(404).render("error", { status_code: 404, msg: "Page Not Found" });
+        res.status(404).render("error", { status_code: 404, msg: "Sorry the link is broken" });
     });
 
     app.use(function (err, req, res, next) {

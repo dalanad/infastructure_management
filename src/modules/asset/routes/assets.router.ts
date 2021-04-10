@@ -297,4 +297,41 @@ route.post("/:id/edit", async (req, res) => {
     res.redirect(303, req.baseUrl + "/all/");
 });
 
+route.get("/:id/transfer-location", async (req: any, res) => {
+    res.locals.asset_locations = await req.orm.em.find(AssetLocation, {}, { orderBy: { name: 'asc' } });
+    res.locals.backup_assets = await req.orm.em.find(Asset, { status: AssetStatus.NOT_IN_USE }, { orderBy: { assetCode: 'asc' } });
+    let asset = await req.orm.em.findOneOrFail(Asset, req.params.id);
+    res.render("asset/transfer-location", { asset });
+});
+
+route.post("/:id/transfer-location", async (req: any, res) => {
+    let asset:Asset = await req.orm.em.findOneOrFail(Asset, req.params.id);
+
+    if (req.body.act.toLowerCase() == 'transfer') {
+        asset.location = req.body.location
+        asset.owner = req.body.owner;
+        req.orm.em.persist(asset)
+        await req.orm.em.flush()
+        res.flash('success', 'Transfer Successful')
+    } else if (req.body.act.toLowerCase() == 'replace') {
+        let replacementAsset:Asset = await req.orm.em.findOneOrFail(Asset, req.body.asset);
+
+        // swap locations
+        let location = asset.location;
+        asset.location = replacementAsset.location;
+        replacementAsset.location = location;
+
+        // swap status
+        let status = asset.status;
+        asset.status = replacementAsset.status;
+        replacementAsset.status = status;
+
+        req.orm.em.persist(replacementAsset)
+        req.orm.em.persist(asset)
+        await req.orm.em.flush()
+        res.flash('success', 'Replacement Successful')
+    }
+    res.redirect(303, req.baseUrl + "/all/");
+
+});
 export const AssetsRouter = route;

@@ -173,7 +173,7 @@ export class Asset extends BaseEntity {
                     user: user_ref
                 })
                 orm.em.flush()
-            }, 5)
+            }, 1000)
         }
 
     }
