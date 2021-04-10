@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { AuthService } from "./auth.service";
 import { AuthUser } from "../../db/entity";
 import { Handle } from "../../lib/core";
-import Joi from "joi";
 
 
 export class AuthController {
