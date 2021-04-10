@@ -11,12 +11,7 @@ export class AuthController {
 
     @Handle({
         method: "get", path: "/profile", template: "auth/profile",
-        schema: {
-            body: {
-                xeee: Joi.number().required(),
-                x: Joi.number().required()
-            }
-        }
+        schema: {}
     })
     async profile(req: Request, res: Response) {
         res.locals.user = await req.orm.em.findOneOrFail(AuthUser, req.user.uid)
