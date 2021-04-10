@@ -4,16 +4,16 @@ import { MikroORM } from "@mikro-orm/core";
 import { hash } from "../../lib/core";
 
 abstract class BaseRepository {
-    protected orm;
-
-    constructor(_orm?: MikroORM) {
-        if (_orm) {
-            this.orm = _orm
+    protected get orm() {
+        if (this._orm) {
+            return this._orm
         } else {
-            setTimeout(() => {
-                this.orm = appORM
-            }, 5000)
+            return appORM
         }
+    }
+
+    constructor(private _orm?: MikroORM) {
+
     }
 }
 
@@ -54,7 +54,7 @@ export class UsersRepository extends BaseRepository {
     }
 
     getUser(uid: string) {
-        return this.orm.em.findOne(AuthUser, uid);
+        return this.orm.em.findOne(AuthUser, { uid });
     }
 }
 
