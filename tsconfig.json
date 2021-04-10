@@ -1,7 +1,4 @@
 {
-	"ts-node": {
-		"files": true
-	},
 	"files": [
 		"src/main.ts",
 		"./src/lib/core/parseCookies.ts",

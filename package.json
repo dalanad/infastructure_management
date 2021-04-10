@@ -5,7 +5,9 @@
   "main": "src\\main.ts",
   "scripts": {
     "start": "node dist/main",
-    "start:dev": "nodemon",
+    "start:dev": "npx concurrently \"npm run start:watch\"  \"npm run build:watch\"",
+    "start:watch": "nodemon --delay 2 dist/main",
+    "build:watch": "tsc -w",
     "build": "tsc",
     "debug": "export DEBUG=* && npm run start",
     "migrations:generate": "ts-node ./src/db/generate-migration.ts",
@@ -23,7 +25,6 @@
     "joi": "^17.4.0",
     "nodemailer": "^6.5.0",
     "nunjucks": "^3.2.2",
-    "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   },
   "devDependencies": {
