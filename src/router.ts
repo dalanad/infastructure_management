@@ -3,7 +3,7 @@ import { ServicingModuleRouter } from "./modules/servicing/router";
 import { AssetModuleRouter } from "./modules/asset/router";
 import { SettingsModuleRouter } from "./modules/settings/router";
 import { CommonModuleRouter } from "./modules/common/router";
-import { AuthModuleRouter } from "./modules/auth/router";
+import { AuthModuleRouter } from "./modules/auth";
 import { SupportModuleRouter } from "./modules/support/router";
 
 const route = Router();

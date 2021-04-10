@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/main",
     "start:dev": "npx concurrently \"npm run start:watch\"  \"npm run build:watch\"",
-    "start:watch": "nodemon --delay 2 dist/main",
+    "start:watch": "nodemon --delay 1 dist/main",
     "build:watch": "tsc -w",
     "build": "tsc",
     "debug": "export DEBUG=* && npm run start",
