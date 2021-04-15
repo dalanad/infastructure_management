@@ -10,7 +10,7 @@
     "build:watch": "tsc -w",
     "build": "tsc",
     "debug": "export DEBUG=* && npm run start",
-    "migrations:generate": "ts-node ./src/db/generate-migration.ts",
+    "migrations:generate": "node ./dist/db/generate-migration.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "bundle:js": "esbuild --bundle ./public/js/main.js --outfile=./public/main.bundle.js  --minify --watch --format=esm --sourcemap --target=es6"
   },

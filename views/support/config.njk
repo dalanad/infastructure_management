@@ -1,9 +1,27 @@
 {% extends "_layout/admin-base.njk" %}
 
 {% block content %}
-    {% call page_header("Support Desk") %}
-        {{ link("Create a Ticket","create","btn success") }}
-        {{ link("","settings","btn   outline",'fa fa-cog') }}
+    {% call page_header("Support Desk Configuration") %}
+        {{ link("Create Request Type","create","btn") }}
     {%- endcall %}
+
+    <table class="table paded" role="grid">
+        <thead>
+        <tr>
+            <th data-field="id"> ID</th>
+            <th data-field="name">Name</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {%- for item in items -%}
+            <tr>
+                <td>{{ link(item.id, item.id) }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ link("View", item.id, "btn link") }} </td>
+            </tr>
+        {%- endfor -%}
+        </tbody>
+    </table>
 {% endblock %}
 

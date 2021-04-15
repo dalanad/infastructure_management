@@ -19,8 +19,10 @@ import {
     ServiceJob,
     ServiceSchedule,
     Supplier,
+    SupportRequest, SupportRequestField, SupportRequestTypeField, SupportRequestType
 } from "./entity";
 import { Logger } from "../lib/logging";
+
 
 const ORMLogger = new Logger("orm")
 
@@ -29,7 +31,8 @@ const ORMConfig: Options<IDatabaseDriver<Connection>> = {
         AuthUser, AuthRole, AuthTask, Supplier,
         Contact, Organization, Asset, Manufacturer, AssetLocation,
         Category, ComputerSpecifications, NetworkConfigurations, ServiceSchedule,
-        Network, ServiceJob, ServiceDoneBy, Config, Activity, ActivityFeed
+        Network, ServiceJob, ServiceDoneBy, Config, Activity, ActivityFeed,
+        SupportRequest, SupportRequestField, SupportRequestTypeField, SupportRequestType
     ],
     type: "postgresql",
     clientUrl: process.env.DATABASE_URL || "postgres://postgres:abc123@127.0.0.1:5432/itim",
@@ -37,6 +40,5 @@ const ORMConfig: Options<IDatabaseDriver<Connection>> = {
     logger: ORMLogger.info,
     migrations: { emit: 'js', pattern: /^[\w-]+\d+\.js$/, }
 }
-
 
 export { ORMConfig, ORMLogger };

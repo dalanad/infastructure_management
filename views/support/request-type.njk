@@ -1,0 +1,60 @@
+{% extends "_layout/admin-base.njk" %}
+
+{% block content %}
+    <div class="container-focused">
+
+        {{ page_header("Support Request Type") }}
+
+        <form class="mx-3" action="" method="post">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 field">
+                    <label for="model">Name</label>
+                    <input class="ctrl" name="name" required="required" value="{{ name }}">
+                </div>
+            </div>
+            <h5>Fields</h5>
+            <div id="field-list"></div>
+
+            <div class="my-2">
+                <button class="btn link success" type="button" onclick="addField()">Add Field</button>
+            </div>
+            <div class="my-2">
+                <button class="btn" type="submit">Submit</button>
+            </div>
+
+        </form>
+    </div>
+    <script>
+        var i;
+        i = 1;
+
+        function addField(field = {}) {
+            let types = ['TEXT', 'NUMBER', 'EMAIL', 'TEXTAREA']
+            let rqt = {{ id or "null" }};
+            let template = document.createElement('div');
+            template.innerHTML = `
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12 field">
+                        <input class="ctrl" name="fields[${ i }][name]" required value="${ field.name || {{ "name" }}}">
+                        <input name="fields[${ i }][order]" type="hidden" required value="${ i }"/>
+                       ${ rqt ? '<input name="fields[' + i + '][requestType]" type="hidden" required value="' + rqt + '"/>' : "" }
+                    </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12 field">
+                         <select required class="ctrl" name="fields[${ i }][type]">
+                           ${ types.map(e => `<option ${ field.type === e ? 'selected' : '' } value="${ e }">${ e }</option>`) }
+                         </select>
+                    </div>
+                </div>`
+            i++;
+            document.querySelector("#field-list").appendChild(template);
+        }
+
+    </script>
+    <script>
+        (() => {
+            let fields = [{{ fields | dump }}][0] || []
+            fields.map(addField);
+        })()
+    </script>
+{% endblock %}
+

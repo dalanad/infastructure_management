@@ -14,3 +14,7 @@ export * from "./asset/service-done-by";
 export * from "./asset/service-job";
 export * from "./auth/config.entity" ;
 export * from "./activity-feed/activity-feed"
+export * from "./support/support-request-type"
+export * from "./support/support-request.entity"
+export * from "./support/support-request-type.field"
+export { SupportRequestField } from "./support/support-request.field";

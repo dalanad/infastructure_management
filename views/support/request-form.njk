@@ -1,0 +1,25 @@
+{% extends "_layout/base.njk" %}
+
+{% block body %}
+    <div class="container-focused-md mt-5" style="max-width: 450px;">
+        {{ page_header(name) }}
+        <form class="mx-3 mb-3" method="post">
+            {% for field in fields %}
+                <div class="field">
+                    <label>{{ field.name }}</label>
+                    {% if field.type == "TEXTAREA" %}
+                        <textarea class="ctrl" name="{{ field.order }}" required> </textarea>
+                    {% else %}
+                        <input class="ctrl" name="{{ field.order }}" type="{{ field.type }}" required>
+                    {% endif %}
+                </div>
+                <!-- {{ field  | dump(1) }} !-->
+            {% endfor %}
+            <div class="my-3">
+                <button class="btn" type="submit">Submit</button>
+                <button class="btn outline danger" type="button">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

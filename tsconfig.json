@@ -2,7 +2,8 @@
 	"files": [
 		"src/main.ts",
 		"./src/lib/core/parseCookies.ts",
-		"./src/lib/core/collapseRange.ts"
+		"./src/lib/core/collapseRange.ts",
+		"./src/db/generate-migration.ts"
 	],
 	"compilerOptions": {
 		"target": "es2016",

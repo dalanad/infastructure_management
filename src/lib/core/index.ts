@@ -2,6 +2,8 @@ import { createCipheriv, createDecipheriv, scryptSync } from "crypto";
 import * as bcrypt from "bcryptjs";
 import express, { Router } from "express";
 import { validate, ValidateSchema } from "../data";
+import { orm as appORM } from "../../db/init";
+import { MikroORM } from "@mikro-orm/core";
 
 
 const algorithm = "aes-192-cbc";
@@ -75,35 +77,50 @@ export function Handle(cfg: Route) {
     };
 }
 
-export function getRouter(x): Router {
+export function generateRouter(x): Router {
     let _router = express.Router();
-    for (const route of x._routes) {
-        let handlers = []
+    if (x._routes) {
+        for (const route of x._routes) {
+            let handlers = []
 
-        if (route.middleware) {
-            handlers.push(...route.middleware)
-        }
+            if (route.middleware) {
+                handlers.push(...route.middleware)
+            }
 
-        if (route.schema) {
-            handlers.push(validate(route.schema))
-        }
-        if (route.handler && !route.template) {
-            handlers.push(x[route.handler].bind(x))
-        }
+            if (route.schema) {
+                handlers.push(validate(route.schema))
+            }
+            if (route.handler && !route.template) {
+                handlers.push(x[route.handler].bind(x))
+            }
 
-        if (route.handler && route.template) {
-            handlers.push(async (r, res, n) => {
-                await x[route.handler](r, res, n)
-                n()
-            })
-        }
+            if (route.handler && route.template) {
+                handlers.push(async (r, res, n) => {
+                    await x[route.handler](r, res, n)
+                    n()
+                })
+            }
 
-        if (route.template) {
-            handlers.push((req, res) => res.render(route.template))
-        }
+            if (route.template) {
+                handlers.push((req, res) => res.render(route.template))
+            }
 
-        _router[route.method](route.path, ...handlers)
+            _router[route.method](route.path, ...handlers)
+        }
     }
     return _router
 }
 
+export abstract class BaseRepository {
+    protected get orm() {
+        if (this._orm) {
+            return this._orm
+        } else {
+            return appORM
+        }
+    }
+
+    constructor(private _orm?: MikroORM) {
+
+    }
+}

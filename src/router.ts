@@ -4,7 +4,7 @@ import { AssetModuleRouter } from "./modules/asset/router";
 import { SettingsModuleRouter } from "./modules/settings/router";
 import { CommonModuleRouter } from "./modules/common/router";
 import { AuthModuleRouter } from "./modules/auth";
-import { SupportModuleRouter } from "./modules/support/router";
+import { SupportModuleRouter } from "./modules/support";
 
 const route = Router();
 
