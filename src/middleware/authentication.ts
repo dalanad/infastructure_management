@@ -8,8 +8,6 @@ export async function AuthGuard(req, res, next) {
             return res.redirect("/auth/login/");
         }
     }
-
     next();
-
 }
 

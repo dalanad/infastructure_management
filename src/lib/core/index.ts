@@ -79,6 +79,9 @@ export function Handle(cfg: Route) {
 
 export function generateRouter(x): Router {
     let _router = express.Router();
+    if (x.middleware) {
+        _router.use(x.middleware || [])
+    }
     if (x._routes) {
         for (const route of x._routes) {
             let handlers = []

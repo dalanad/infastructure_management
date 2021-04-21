@@ -3,7 +3,7 @@ import { SupportRequestTypeField } from "./support-request-type.field";
 
 
 @Entity()
-export class SupportRequestType {
+export class  SupportRequestType {
 
     @PrimaryKey()
     id: number;

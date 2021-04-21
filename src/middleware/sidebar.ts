@@ -1,6 +1,6 @@
 function SideBar(req, res, next) {
 	res.locals.sidebar = [
-		// { label: "Dashboard", href: "/home/", icon: "fa fa-home" },
+		{ label: "Home", href: "/home/", icon: "fa fa-home" },
 		{
 			label: "Assets",
 			href: "/assets/",

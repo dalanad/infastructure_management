@@ -5,6 +5,7 @@ import { objToQueryString } from "../../../lib/core";
 import { getNextVal, ID_SEQUENCES } from "../../../lib/data";
 import { getFeedOfEntity } from "../../common/activity-feed";
 
+
 const route = express.Router();
 
 route.use((req, res, next) => {
@@ -214,14 +215,16 @@ route.post("/create", async (req, res) => {
         res.status(400).render("asset/asset-form", { errors, ...asset });
     }
 });
+
 route.post("/:id/print-sticker", async (req, res) => {
-    let assets;
-    // let asset = await req.orm.em.findOneOrFail(Asset, Number(req.params.id));
-    // asset.stickerPrinted = new Date();
-    // await req.orm.em.flush();
+    let assets: Asset[];
     if (req.body.type == "SINGLE") {
         assets = await req.orm.em.find(Asset, { assetCode: req.body.assetCode });
-        return res.render("asset/print-stickers", {
+        for (let asset of assets) {
+            asset.stickerPrinted = new Date();
+        }
+        await req.orm.em.flush();
+        res.render("asset/print-stickers", {
             assets: assets,
             assetCode: req.body.assetCode,
             type: "SINGLE",
@@ -230,6 +233,10 @@ route.post("/:id/print-sticker", async (req, res) => {
         assets = await req.orm.em.find(Asset, {
             assetCode: { $lte: req.body.to, $gte: req.body.from },
         });
+        for (let asset of assets) {
+            asset.stickerPrinted = new Date();
+        }
+        await req.orm.em.flush();
         return res.render("asset/print-stickers", {
             assets: assets,
             assetCode: req.body.assetCode,
@@ -305,7 +312,7 @@ route.get("/:id/transfer-location", async (req: any, res) => {
 });
 
 route.post("/:id/transfer-location", async (req: any, res) => {
-    let asset:Asset = await req.orm.em.findOneOrFail(Asset, req.params.id);
+    let asset: Asset = await req.orm.em.findOneOrFail(Asset, req.params.id);
 
     if (req.body.act.toLowerCase() == 'transfer') {
         asset.location = req.body.location
@@ -314,7 +321,7 @@ route.post("/:id/transfer-location", async (req: any, res) => {
         await req.orm.em.flush()
         res.flash('success', 'Transfer Successful')
     } else if (req.body.act.toLowerCase() == 'replace') {
-        let replacementAsset:Asset = await req.orm.em.findOneOrFail(Asset, req.body.asset);
+        let replacementAsset: Asset = await req.orm.em.findOneOrFail(Asset, req.body.asset);
 
         // swap locations
         let location = asset.location;

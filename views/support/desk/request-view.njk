@@ -1,0 +1,28 @@
+{% extends "_layout/admin-base.njk" %}
+
+{% block body %}
+    <div class="container-focused-md" style="max-width: 450px;">
+        {{ page_header("Support Request") }}
+        <form class="mx-3 mb-3" method="post">
+            {% for data in request.data %}
+                <div>
+                    <div class="field">
+                        <label>{{ data.field.name }}</label>
+                        {% if  data.field.type == "TEXTAREA" %}
+                            <textarea readonly class="ctrl" name="data[{{ loop.index0 }}][data]"
+                                      required> {{ data.data }} </textarea>
+                        {% else %}
+                            <input readonly class="ctrl" name="data[{{ loop.index0 }}][data]" value="{{ data.data }}"
+                                   type="{{ data.field.type }}" required>
+                        {% endif %}
+                    </div>
+                    <!-- {{ data.field  | dump(1) }} !-->
+                </div>
+            {% endfor %}
+            <b>Activity Timeline</b>
+            <div>
+                <turbo-frame id="feed" src="/feed/Support-{{ request.requestId }}/"></turbo-frame>
+            </div>
+        </form>
+    </div>
+{% endblock %}

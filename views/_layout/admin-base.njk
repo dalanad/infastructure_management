@@ -22,9 +22,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div id="test"></div>
-
-        <div class="w-100 overflow-auto">
+        <div class="flex-fill overflow-auto">
             {%- if frame %}
             <turbo-frame id="{{ frame }}">
                 {% endif %}
@@ -33,7 +31,6 @@
             </turbo-frame>
             {%- endif -%}
         </div>
-
     </div>
 
 {%- endblock -%}

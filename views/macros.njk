@@ -7,20 +7,20 @@
 {%- endmacro %}
 
 {%- macro page_header(title) -%}
-    <div class="d-flex mx-3 mt-3 justify-content-between">
+    <div class="d-flex px-3 pt-3 justify-content-between">
         <div>
             <div class="text-nowrap">
-                {% set comma = joiner("/") %}
-                {% for item in breadcrumbs %}
+                {%- set comma = joiner("/") -%}
+                {%- for item in breadcrumbs %}
                     {{ comma() }}
                     <a {% if item.link %} href="{{ item.link }}" {% endif %}>{{ item.name }}</a>
-                {% endfor %}
+                {% endfor -%}
             </div>
             <h4>{{ title }}</h4>
         </div>
         {%- if caller -%}
             <div><span style="margin-top: .5em;">{{- caller() -}}</span></div>
-        {%- endif %}
+        {%- endif -%}
     </div>
     {% if flash_msgs.length>0 %}
         <div class="mx-3 my-1">
@@ -75,7 +75,6 @@
                     {% for option in  field.options %}
                         <option value="{{ option.value }}" {{ "selected" if option.value == field.value }}>{{ option.label }}</option>
                     {% endfor %}
-
                     </select>
                 {% elseif (field.type=='text') %}
                     <input type="search" class="ctrl" name="filter[{{ field.name }}]" value="{{ field.value }}">
@@ -134,5 +133,4 @@
             {# <div class="invalid-feedback"> Please provide a valid zip. </div> #}
         </div>
     {% endif %}
-
 {% endmacro %}

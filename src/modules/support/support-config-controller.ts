@@ -8,12 +8,12 @@ export class SupportConfigController {
     
     constructor(private reqTypeRepo: SupportRequestTypeRepository) { }
 
-    @Handle({ method: "get", path: "", template: "support/config" })
+    @Handle({ method: "get", path: "", template: "support/config/home" })
     async getConfigurationPage(req: Request, res: Response) {
         res.locals.items = await this.reqTypeRepo.getAll()
     }
 
-    @Handle({ method: "get", path: "/create", template: "support/request-type" })
+    @Handle({ method: "get", path: "/create", template: "support/config/request-type" })
     async getRequestTypeForm(req: Request, res: Response) { }
 
     @Handle({ method: "post", path: "/create" })
@@ -23,7 +23,7 @@ export class SupportConfigController {
     }
 
     @Handle({
-        method: "get", path: "/:id", template: "support/request-type",
+        method: "get", path: "/:id", template: "support/config/request-type",
         schema: {
             params: {
                 id: Joi.number().required()

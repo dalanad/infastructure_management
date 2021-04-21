@@ -3,6 +3,7 @@ import { join } from "path";
 
 import nunjucks from "nunjucks";
 
+
 const status = {
     asset_status: {
         NOT_IN_USE: "warn",
@@ -23,13 +24,12 @@ const status = {
     },
 
     ticket: {
-        OPEN: "info  stale",
+        OPEN: "info",
         BLOCKED: "danger  stale",
         RESOLVED: "success  stale",
         CLOSED: "warn  stale",
         WAITING: "info stale",
     },
-
 
     job_status: {
         DONE: 'success',
@@ -54,7 +54,9 @@ function registerViewHelpers(req, res, next) {
     var env = nunjucks.configure(join(__dirname, "../../views"), view_opts);
 
     function DateFilter(value: Date) {
-        if (!value) return "";
+        if (!value) {
+            return "";
+        }
         return new Date(value).toLocaleString("sv").substr(0, 10);
     }
 
@@ -69,10 +71,11 @@ function registerViewHelpers(req, res, next) {
     }
     env.addFilter("date", DateFilter);
     res.locals.title = "Zismith Mini ERP";
-    res.locals.tag = function name(type: string, str: string) {
-        return `<span class="tag ${ status[type][str] }">${ String(str).replace(/_/g, " ") }</span>`;
+    res.locals.tag = function name(type: string, str: string, override: string) {
+        return `<span class="tag ${ status[type][str] }">${ override || String(str).replace(/_/g, " ") }</span>`;
     };
     res.locals.breadcrumbs = [];
+    res.locals.obj_status = status
     res.locals.collapseRange = collapseRange;
     res.locals.withParam = getWithParam(req.url, req.protocol + "://" + req.headers.host);
     let _writeHead = res.writeHead

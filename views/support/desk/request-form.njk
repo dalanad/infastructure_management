@@ -4,22 +4,23 @@
     <div class="container-focused-md mt-5" style="max-width: 450px;">
         {{ page_header(name) }}
         <form class="mx-3 mb-3" method="post">
+            <input type="hidden" name="requestType" value="{{ id }}">
             {% for field in fields %}
+                <input type="hidden" name="data[{{ loop.index0 }}][order]" value="{{ field.order }}">
+                <input type="hidden" name="data[{{ loop.index0 }}][field]" value='{{ field|dump }}'>
                 <div class="field">
                     <label>{{ field.name }}</label>
                     {% if field.type == "TEXTAREA" %}
-                        <textarea class="ctrl" name="{{ field.order }}" required> </textarea>
+                        <textarea class="ctrl" name="data[{{ loop.index0 }}][data]" required> </textarea>
                     {% else %}
-                        <input class="ctrl" name="{{ field.order }}" type="{{ field.type }}" required>
+                        <input class="ctrl" name="data[{{ loop.index0 }}][data]" type="{{ field.type }}" required>
                     {% endif %}
                 </div>
-                <!-- {{ field  | dump(1) }} !-->
             {% endfor %}
             <div class="my-3">
                 <button class="btn" type="submit">Submit</button>
-                <button class="btn outline danger" type="button">Cancel</button>
+                <a class="btn outline danger" href="../">Back</a>
             </div>
         </form>
     </div>
-
 {% endblock %}

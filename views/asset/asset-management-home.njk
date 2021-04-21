@@ -1,10 +1,5 @@
 {% extends "_layout/admin-base.njk" %}
-{% import "macros.njk" as "m" with context %}
 
 {% block content %}
-    {% call m.page_header("Asset Manamgent")%}
-    {{ m.link("Edit","edit","btn link","fas fa-pen") }}
-    {{ m.link("Print Sticker","edit","btn link warn","fas fa-qrcode") }}
-    {{ m.link("Service Job","edit","btn success") }}
-    {%- endcall %}
+    {{ page_header("Assets Overview") }}
 {% endblock %}

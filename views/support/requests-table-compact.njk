@@ -1,0 +1,20 @@
+<div class="p-2">
+    <a href="#" class="btn link" onclick="params({view:null})">
+        <i class="fa fa-arrow-left"></i>&nbsp; View All / Modifiy Filters</a>
+</div>
+<div>
+    <div class="list">
+        {%- for item in requests -%}
+            <div onclick="params({view: '{{ item.requestId }}' })"
+                 class="list-item  {{ "active" if item.requestId == request.requestId else "hover" }}">
+                <div class="line">
+                    <b>{{ item.requestId }}</b>
+                    <small> {{ tag("priority", item.priority , " P-" + item.priority[0]) }}  </small>
+                    - <span style="white-space: nowrap">{{ item.requestType.name }} </span></div>
+                <div class="line">
+                    <small> {{ tag("ticket", item.status) }} &nbsp; {{ item.createdAt.toLocaleString() }} </small>
+                </div>
+            </div>
+        {%- endfor -%}
+    </div>
+</div>

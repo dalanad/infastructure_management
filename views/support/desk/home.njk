@@ -1,0 +1,35 @@
+{% extends "_layout/base.njk" %}
+
+{% block body %}
+    <div class="pt-5">
+        <div class="container-focused-md" style="max-width: 450px;">
+            <h4 class="mx-4 m-3 text-center">IT Support Desk</h4>
+            <div class="m-3 mt-4">
+                {%- for item in types -%}
+                    <a class="request-type" href="{{ item.id }}">{{ item.name }}</a>
+                {%- endfor -%}
+            </div>
+        </div>
+        <style>
+            .request-type {
+                background: var(--bg);
+                display: block;
+                padding: .5em 1em;
+                font-weight: 500;
+                text-decoration: none !important;
+                box-shadow: var(--shadow-light);
+                margin: .5em 0;
+                border-radius: 5px;
+                color: var(--color);
+                transition: background-color .2s ease-in-out;
+            }
+
+            .request-type:hover {
+                background: var(--gray-1);
+                color: var(--color);
+
+            }
+        </style>
+    </div>
+
+{% endblock %} 

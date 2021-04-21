@@ -1,35 +1,13 @@
 {% extends "_layout/admin-base.njk" %}
 
 {% block content %}
-    {% call page_header("Support Desk") %}
-        {{ link("Create a Ticket","create","btn success") }}
-        {{ link("","config","btn   outline",'fa fa-cog') }}
-    {%- endcall %}
-    <table class="table paded" role="grid">
-        <thead>
-        <tr>
-            <th data-field="assetCode">Ticket ID</th>
-            <th data-field="category][name">Asset</th>
-            <th data-field="model">Description (truncated)</th>
-            <th data-field="location][name">Location</th>
-            <th>Status</th>
-            <th>Created At</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-{#        {%- for item in items -%}#}
-{#            <tr>#}
-{#                <td><a href="{{ item.jobId }}">{{ item.jobId }}</a></td>#}
-{#                <td><a href="/assets/all/?selected={{ item.asset.id }}">{{ item.asset.assetCode }}</a></td>#}
-{#                <td>{{ item.description | truncate(50) }}</td>#}
-{#                <td>{{ item.location.name }}</td>#}
-{#                <td>{{ tag("job_status", item.status) }}</td>#}
-{#                <td>{{ item.createdAt|date }}</td>#}
-{#                <td><a class="btn link" href="{{ item.jobId }}">View</a></td>#}
-{#            </tr>#}
-{#        {%- endfor -%}#}
-        </tbody>
-    </table>
+    {% if request %}
+        <div style="display: grid;grid-template-columns: minmax(300px,2fr) 5fr;height: 100%;">
+            <div style="border-right: var(--border)">{% include "./requests-table-compact.njk" %}</div>
+            <div>{% include "./request-view.njk" %}</div>
+        </div>
+    {% else %}
+        {% include "./requests-table.njk" %}
+    {% endif %}
 {% endblock %}
 

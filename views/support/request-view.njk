@@ -1,0 +1,60 @@
+{{ page_header("Support Request") }}
+<div style="display: grid;grid-template-columns: 1fr 200px">
+
+    <form class="mx-3 mb-3" method="post">
+        {% for data in request.data %}
+            <div class="field">
+                <label>{{ data.field.name }}</label>
+                {% if  data.field.type == "TEXTAREA" %}
+                    <textarea readonly class="ctrl" name="data[{{ loop.index0 }}][data]"
+                              required> {{ data.data }} </textarea>
+                {% else %}
+                    <input readonly class="ctrl" name="data[{{ loop.index0 }}][data]" value="{{ data.data }}"
+                           type="{{ data.field.type }}" required>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <b>Activity Timeline</b>
+        <div>
+            <turbo-frame id="feed" src="/feed/SupportRequest-{{ request.requestId }}/"></turbo-frame>
+        </div>
+    </form>
+
+    <div>
+        <div class="lh-1 mb-2">
+            Created At :
+            <small class="text-nowrap"> {{ request.createdAt.toLocaleString() }} </small>
+        </div>
+        <style>
+            option.tag,
+            select.tag {
+                font-size: unset;
+                padding: 0;
+                border: none;
+            }
+        </style>
+        Status :
+        <select class="tag {{ obj_status.ticket[request.status] }}"
+                onchange="visit('/support/{{ request.requestId }}/update/?status=' + this.value)">
+            {% for status, class in obj_status.ticket %}
+                <option value="{{ status }}"
+                        class="tag {{ class }}" {{ "selected" if request.status == status }} >{{ status }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        Priority :
+        <select onchange="visit('/support/{{ request.requestId }}/update/?priority=' + this.value)"
+                class=" tag {{ obj_status.priority[request.priority] }}">
+            {% for priority, class in obj_status.priority %}
+                <option value="{{ priority }}"
+                        class="tag {{ class }}" {{ "selected" if request.priority == priority }} >{{ priority }}</option>
+            {% endfor %}
+        </select>
+{#        <hr>#}
+{#        <h6 class="mt-2 mb-0">Actions</h6>#}
+{#        <a class="btn link ">Edit Request</a>#}
+{#        <br> <a class="m-0 btn link success">Mark Resolved</a>#}
+{#        <br>#}
+{#        <a class="btn m-0 link danger">Close Request</a>#}
+    </div>
+</div>

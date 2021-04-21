@@ -1,0 +1,28 @@
+{% call page_header("Support Desk") %}
+    {{ link("Create a Ticket","/support-desk/","btn success") }}
+    {{ link("","config","btn   outline",'fa fa-cog') }}
+{%- endcall %}
+<table class="table paded" role="grid">
+    <thead>
+    <tr>
+        <th data-field="requestId">Request ID</th>
+        <th data-field="requestType][name">Request Type</th>
+        <th>Created At</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {%- for item in requests -%}
+        <tr>
+            <td><a href="{{ withParam({ view : item.requestId }) }}">{{ item.requestId }}</a></td>
+            <td><a href="/support/config/{{ item.requestType.id }}">{{ item.requestType.name }}</a></td>
+            <td>{{ item.createdAt.toLocaleString() }}</td>
+            <td>{{ tag("priority", item.priority) }}</td>
+            <td>{{ tag("ticket", item.status) }}</td>
+            <td><a class="btn link" href="{{ withParam({ view : item.requestId }) }}">View</a></td>
+        </tr>
+    {%- endfor -%}
+    </tbody>
+</table>

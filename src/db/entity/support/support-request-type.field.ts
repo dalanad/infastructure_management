@@ -24,7 +24,7 @@ export class SupportRequestTypeField {
     @PrimaryKey()
     order: number;
 
-    @ManyToOne(() => SupportRequestType, { primary: true })
+    @ManyToOne(() => SupportRequestType, { hidden: true, primary: true })
     requestType: SupportRequestType;
 
     @Property()

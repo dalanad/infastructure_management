@@ -15,8 +15,11 @@ export function validate(obj: ValidateSchema) {
             for (let key of Object.keys(obj)) {
                 if (['body', 'params', 'query'].includes(key)) {
                     const schema = Joi.object(obj[key])
-                    req[key] = Joi.attempt(req[key], schema, { abortEarly: false, convert: true })
-                    console.log(req[key])
+                    if (['body', 'params'].includes(key)) {
+                        req[key] = Joi.attempt(req[key], schema, { abortEarly: false, convert: true })
+                    } else {
+                        Joi.attempt(req[key], schema, { abortEarly: false, convert: true })
+                    }
                 }
             }
             next()

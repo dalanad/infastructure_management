@@ -1,0 +1,71 @@
+{% extends "_layout/admin-base.njk" %}
+
+{% block content %}
+<div class=" ">
+
+{{ page_header("Support Request Type") }}
+
+<form class="mx-3" action="" method="post">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-12 field">
+            <label for="model">Name</label>
+            <input class="ctrl" name="name" required="required" value="{{ name }}">
+        </div>
+    </div>
+    <h6 class="my-2">Fields</h6>
+    <div id="field-list"></div>
+    <div class="mb-2 ms-4">
+        <button class="btn success" type="button" onclick="addField()">Add Field</button>
+    </div>
+    <div class="my-4">
+        <button class="btn" type="submit">Submit</button>
+    </div>
+</form>
+</div>
+<script>
+var i;
+i = 1;
+
+function addField(field = {}) {
+    let types = ['TEXT', 'NUMBER', 'EMAIL', 'TEXTAREA']
+    let rqt = {{ id or "null" }};
+    let template = document.createElement('div');
+    template.innerHTML = `
+        <div class="row gx-2">
+               <div class="field" style="flex: 0;white-space: nowrap;display: flex;flex-direction: column;align-items: center;">
+                <label> (${ i })</label>
+               <button type="button" class="btn link pt-2 default"> <i class="fa fa-grip-vertical"></i></button>
+               </div>
+               <div class="col-4 field">
+                    <label>Name</label>
+                    <input class="ctrl" name="fields[${ i }][name]" required value="${ field.name || {{ "name" }}}">
+                    <input name="fields[${ i }][order]" type="hidden" required value="${ i }"/>
+                   ${ rqt ? '<input name="fields[' + i + '][requestType]" type="hidden" required value="' + rqt + '"/>' : "" }
+               </div>
+              <div class="col-3 field">
+                 <label>Type</label>
+                 <select required class="ctrl init-select" name="fields[${ i }][type]">
+                   ${ types.map(e => `<option ${ field.type === e ? 'selected' : '' } value="${ e }">${ e }</option>`) }
+                 </select>
+            </div>
+            <div class="field col-4 w-auto  ">
+                <label>Validation  </label>
+                <div>
+                    <label class="py-1">&nbsp; Required : <input type="checkbox" name="tasks[]" value="dv-c"> </label> &nbsp; |
+                    Pattern : <input class="ctrl" style="width:auto"/>
+                 </div>
+            </div>
+        </div>`
+    i++;
+    document.querySelector("#field-list").appendChild(template);
+}
+
+</script>
+<script>
+(() => {
+    let fields = [{{ fields | dump }}][0] || []
+    fields.map(addField);
+})()
+</script>
+{% endblock %}
+
