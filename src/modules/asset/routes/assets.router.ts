@@ -219,7 +219,7 @@ route.post("/create", async (req, res) => {
 route.post("/:id/print-sticker", async (req, res) => {
     let assets: Asset[];
     if (req.body.type == "SINGLE") {
-        assets = await req.orm.em.find(Asset, { assetCode: req.body.assetCode });
+        assets = await req.orm.em.find(Asset, { assetCode: req.body.assetCode }, { orderBy: { assetCode: "ASC" } });
         for (let asset of assets) {
             asset.stickerPrinted = new Date();
         }
@@ -232,7 +232,7 @@ route.post("/:id/print-sticker", async (req, res) => {
     } else {
         assets = await req.orm.em.find(Asset, {
             assetCode: { $lte: req.body.to, $gte: req.body.from },
-        });
+        }, { orderBy: { assetCode: "ASC" } });
         for (let asset of assets) {
             asset.stickerPrinted = new Date();
         }
