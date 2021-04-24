@@ -17,4 +17,3 @@ export class Organization {
 	@Property({ default: "/assets/static/store.svg", columnType: "varchar" })
 	logo!: any;
 }
-  

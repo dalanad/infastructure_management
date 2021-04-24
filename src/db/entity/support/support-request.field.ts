@@ -3,19 +3,17 @@ import { SupportRequestTypeField } from "./support-request-type.field";
 import { SupportRequest } from "./support-request.entity";
 import { SupportRequestType } from "./support-request-type";
 
-
 @Entity()
 export class SupportRequestField {
-    @ManyToOne(() => SupportRequest, { primary: true })
-    request: SupportRequest;
+	@ManyToOne(() => SupportRequest, { primary: true })
+	request: SupportRequest;
 
-    @PrimaryKey()
-    order: number;
+	@PrimaryKey()
+	order: number;
 
-    @Property()
-    field: SupportRequestTypeField;
+	@Property()
+	field: SupportRequestTypeField;
 
-    @Property()
-    data: string;
-
+	@Property()
+	data: string;
 }

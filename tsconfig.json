@@ -12,7 +12,10 @@
 		"esModuleInterop": true,
 		"inlineSourceMap": true,
 		"experimentalDecorators": true,
-		"typeRoots": ["@types", "./node_modules/@types"],
+		"typeRoots": [
+			"@types",
+			"./node_modules/@types"
+		],
 		"emitDecoratorMetadata": true
 	}
 }

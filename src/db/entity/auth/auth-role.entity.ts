@@ -15,7 +15,7 @@ export class AuthRole extends BaseEntity {
 	@Property({ nullable: true })
 	description: string;
 
-	@ManyToMany({ entity: () => AuthTask, cascade: [ Cascade.ALL ] })
+	@ManyToMany({ entity: () => AuthTask, cascade: [Cascade.ALL] })
 	tasks = new Collection<AuthTask>(this);
 }
 

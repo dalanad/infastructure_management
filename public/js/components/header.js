@@ -1,7 +1,8 @@
-
-customElements.define("z-app-header", class extends HTMLElement {
-    connectedCallback() {
-        this.innerHTML = `
+customElements.define(
+	"z-app-header",
+	class extends HTMLElement {
+		connectedCallback() {
+			this.innerHTML = `
         <header class="header">
             <span><i class="sidebar-toggle fa fa-bars"></i> &nbsp;<a href="/" class="btn text-white me-0 link"> Nawaloka Hospitals PLC</a> </span>
             <span class="flex-fill"></span>
@@ -17,5 +18,6 @@ customElements.define("z-app-header", class extends HTMLElement {
             </div>
         </header>
     `;
-    }
-});
+		}
+	}
+);

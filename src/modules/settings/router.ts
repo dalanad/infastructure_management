@@ -5,8 +5,8 @@ import { RolesRouter } from "./roles.router";
 const route = Router();
 
 route.use("/", (req, res, next) => {
-    res.locals.breadcrumbs.push({ name: "Settings", link: "/settings/users/" });
-    next();
+	res.locals.breadcrumbs.push({ name: "Settings", link: "/settings/users/" });
+	next();
 });
 
 route.use("/users", UsersRouter);

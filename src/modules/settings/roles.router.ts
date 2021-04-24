@@ -9,7 +9,7 @@ route.get("/", async (req, res) => {
 		size: parseInt(String(req.query.size || "10")),
 	};
 
-	let [ items, count ] = await req.orm.em.findAndCount(
+	let [items, count] = await req.orm.em.findAndCount(
 		AuthRole,
 		{},
 		{ limit: params.size, offset: params.page * params.size }
@@ -31,14 +31,14 @@ route.post("/create", async (req, res) => {
 // edit
 route.get("/edit/:id", async (req: any, res) => {
 	let data: AuthRole = await req.orm.em.findOne(AuthRole, req.params.id);
-	await data.tasks.init()
-	let active_task_ids = data.tasks.getIdentifiers()
+	await data.tasks.init();
+	let active_task_ids = data.tasks.getIdentifiers();
 	let tasks_list = await req.orm.em.find(AuthTask, {}, { orderBy: { id: "ASC" } });
 	res.render("settings/roles/role-form", { ...data, tasks_list, active_task_ids });
 });
 
 route.post("/edit/:id", async (req, res) => {
-	console.log(req.body)
+	console.log(req.body);
 	let supplier = await req.orm?.em.findOne<AuthRole>(AuthRole, Number(req.params.id));
 	supplier?.assign(req.body);
 	await req.orm?.em.flush();

@@ -6,7 +6,6 @@ import { CommonModuleRouter } from "./modules/common/router";
 import { AuthModuleRouter } from "./modules/auth";
 import { SupportModuleRouter } from "./modules/support";
 
-
 const route = Router();
 
 route.all("/home", (req, res) => res.render("home"));
@@ -17,6 +16,6 @@ route.use("/servicing", ServicingModuleRouter);
 route.use("/assets", AssetModuleRouter);
 route.use("/settings", SettingsModuleRouter);
 route.use(SupportModuleRouter);
-route.use(CommonModuleRouter)
+route.use(CommonModuleRouter);
 
 export const AppRouter = route;

@@ -8,6 +8,7 @@
     "start:dev": "npx concurrently \"npm run start:watch\"  \"npm run build:watch\"",
     "start:watch": "nodemon --delay 1 dist/main",
     "build:watch": "tsc -w",
+    "p": "prettier",
     "build": "tsc",
     "debug": "export DEBUG=* && npm run start",
     "migrations:generate": "node ./dist/db/generate-migration.js",

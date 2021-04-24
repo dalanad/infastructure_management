@@ -28,9 +28,7 @@ function SideBar(req, res, next) {
 		...x,
 		active:
 			req.url.includes(x.href) ||
-			x?.links
-				?.map((link) => ({ ...link, active: req.url.includes(link.href) }))
-				.filter((x) => x.active).length,
+			x?.links?.map((link) => ({ ...link, active: req.url.includes(link.href) })).filter((x) => x.active).length,
 		links: x?.links?.map((link) => ({ ...link, active: req.url.includes(link.href) })),
 	}));
 	next();

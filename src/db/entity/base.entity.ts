@@ -7,11 +7,10 @@ import {
 	EntityManager,
 	EventArgs,
 	Property,
-	Utils
+	Utils,
 } from "@mikro-orm/core";
 
 export abstract class BaseEntity extends S<BaseEntity, any> {
-
 	@Property({ defaultRaw: "now()" })
 	createdAt: Date;
 
@@ -20,12 +19,10 @@ export abstract class BaseEntity extends S<BaseEntity, any> {
 
 	@BeforeCreate()
 	@BeforeUpdate()
-	setOrgId(params) {
-
-	}
+	setOrgId(params) {}
 }
 
-export class AuditedEntity extends  BaseEntity {
+export class AuditedEntity extends BaseEntity {
 	@AfterCreate()
 	@AfterUpdate()
 	async audit(params: EventArgs<any>) {
@@ -40,7 +37,7 @@ export class AuditedEntity extends  BaseEntity {
 		const previousValues: any = {};
 
 		Object.keys(pl).forEach((key) => {
-			if (cs.originalEntity && cs.originalEntity[ key ]) previousValues[ key ] = cs.originalEntity[ key ];
+			if (cs.originalEntity && cs.originalEntity[key]) previousValues[key] = cs.originalEntity[key];
 		});
 
 		// await em.getConnection()
@@ -54,7 +51,6 @@ export class AuditedEntity extends  BaseEntity {
 		// `);
 	}
 }
-
 
 function serialize(obj) {
 	return typeof obj === "string" ? obj : JSON.stringify(obj);

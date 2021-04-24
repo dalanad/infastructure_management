@@ -1,3 +1,1 @@
-export class SupportService {
-    
-}
+export class SupportService {}
