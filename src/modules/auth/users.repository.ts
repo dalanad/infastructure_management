@@ -5,7 +5,7 @@ export class UsersRepository extends BaseRepository {
 	getActiveUser(username: string) {
 		return this.orm.em.findOneOrFail(AuthUser, { $or: [{ uid: username }, { email: username }], isActive: true });
 	}
-
+ 
 	async getUsers(pageSize, currentPage) {
 		const params = { page: currentPage, size: pageSize };
 		let [items, count] = await this.orm.em.findAndCount(

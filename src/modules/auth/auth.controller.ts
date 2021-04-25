@@ -33,8 +33,17 @@ export class AuthController {
 	@Handle({ method: "get", path: "/forgot", template: "auth/forgot" })
 	async getForget(req: Request, res: Response) {}
 
-	@Handle({ method: "post", path: "/forgot", template: "auth/forgot" })
-	async postForget(req: Request, res: Response) {}
+	@Handle({ method: "post", path: "/forgot" })
+	async postForget(req: Request, res: Response) {
+		await this.authService.requestUserPasswordReset(req.body.email);
+		res.redirect("/auth/forgot/success");
+	}
+
+	@Handle({ method: "post", path: "/forgot/success", template: "auth/reset-email-sent" })
+	async ForgetSuccess(req: Request, res: Response) {}
+
+	@Handle({ method: "get", path: "/reset-password", template: "auth/password-reset-form" })
+	async resetPassword(req: Request, res: Response) {}
 
 	@Handle({ method: "get", path: "/logout" })
 	async logout(req: Request, res: Response) {

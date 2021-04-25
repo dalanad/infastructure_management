@@ -2,8 +2,6 @@ import { createCipheriv, createDecipheriv, scryptSync } from "crypto";
 import * as bcrypt from "bcryptjs";
 import express, { Router } from "express";
 import { validate, ValidateSchema } from "../data";
-import { orm as appORM } from "../../db/init";
-import { MikroORM } from "@mikro-orm/core";
 
 const algorithm = "aes-192-cbc";
 const password = "9bejJHkZScfVPVhT7n5XzWxTqh9Bcj";
@@ -113,14 +111,5 @@ export function generateRouter(x): Router {
 	return _router;
 }
 
-export abstract class BaseRepository {
-	protected get orm() {
-		if (this._orm) {
-			return this._orm;
-		} else {
-			return appORM;
-		}
-	}
-
-	constructor(private _orm?: MikroORM) {}
-}
+export * from "./email.service";
+export { BaseRepository } from "./BaseRepository";
