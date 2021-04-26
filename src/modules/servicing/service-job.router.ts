@@ -10,8 +10,22 @@ router.use("/", (req, res, next) => {
 });
 
 router.get("/", async (req, res) => {
-	res.locals.items = await req.orm.em.find(ServiceJob, {});
-	res.render("servicing/jobs-home");
+	const params: any = {
+		page: parseInt(String(req.query.page || "0")),
+		size: parseInt(String(req.query.size || "10")),
+		sort: req.query.sort ? Object.assign({}, req.query.sort) : { jobId: "desc" },
+	};
+
+	let [items, count] = await req.orm.em.findAndCount(
+		ServiceJob,
+		{},
+		{
+			limit: params.size,
+			offset: params.page * params.size,
+			orderBy: { ...params.sort },
+		}
+	);
+	res.render("servicing/jobs-home", { items, total: count, ...params });
 });
 
 router.get("/create", async (req, res) => {

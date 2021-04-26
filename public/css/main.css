@@ -116,10 +116,10 @@
 textarea {
 	padding: 0.4em !important;
 }
-F
+
 .list-item {
 	border-top: 1px solid var(--gray-2);
-	padding: 0.5em 1em;
+	padding: 0.25em .5em;
 	/*transition: 0.2s ease-in-out;*/
 }
 

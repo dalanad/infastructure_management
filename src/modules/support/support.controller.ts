@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Handle } from "../../lib/core";
 import { SupportRequestRepository } from "./support-request.repository";
 import Joi from "joi";
+import { SupportRequest } from "../../db/entity";
 
 export class SupportController {
 	middleware = [
@@ -15,7 +16,25 @@ export class SupportController {
 
 	@Handle({ method: "get", path: "/", template: "support/home" })
 	async getHomePage(req: Request, res: Response) {
-		res.locals.requests = await this.supportRequestRepository.getAll();
+		const params: any = {
+			page: parseInt(String(req.query.page || "0")),
+			size: parseInt(String(req.query.size || "10")),
+			sort: req.query.sort ? Object.assign({}, req.query.sort) : { requestId: "desc" },
+		};
+
+		let [items, count] = await req.orm.em.findAndCount(
+			SupportRequest,
+			{},
+			{
+				limit: params.size,
+				offset: params.page * params.size,
+				orderBy: { ...params.sort },
+			}
+		);
+
+		Object.assign(res.locals, { total: count, ...params });
+
+		res.locals.requests = items;
 
 		if (req.query.view) {
 			res.locals.request = await this.supportRequestRepository.getOne(String(req.query.view));
