@@ -2,13 +2,7 @@ import express from "express";
 import { join } from "path";
 import { InitORM, InjectORM } from "./db/init";
 import { logger } from "./lib/logging";
-import {
-	AddTailingSlash,
-	AuthGuard,
-	CompressionMiddleware,
-	registerViewHelpers,
-	SideBar,
-} from "./middleware";
+import { AddTailingSlash, Authentication, CompressionMiddleware, registerViewHelpers, SideBar } from "./middleware";
 import { AppRouter } from "./router";
 
 (async function () {
@@ -21,7 +15,7 @@ import { AppRouter } from "./router";
 	let staticOpts = { cacheControl: true, immutable: true, maxAge: 3600000 };
 	app.use(express.static(join(__dirname, "../public"), process.env.PORT ? staticOpts : {}));
 
-	app.use(AddTailingSlash, AuthGuard, InjectORM, registerViewHelpers, SideBar);
+	app.use(AddTailingSlash, Authentication, InjectORM, registerViewHelpers, SideBar);
 	// Add Router
 	app.use(AppRouter);
 

@@ -25,7 +25,6 @@ export class NodemailerService implements IEmailService {
 	constructor() {}
 
 	send(to: string, subject: string, template: string, data: object) {
-		console.log(join(__dirname, "../../../views/emails"));
 		let html = this.env.render(template + ".njk", data);
 		this.transport.sendMail({ from: '"Zismith" <system@zismith.com>', to, subject, html });
 	}

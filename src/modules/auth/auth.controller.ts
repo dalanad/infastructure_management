@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AuthService } from "./auth.service";
 import { AuthUser } from "../../db/entity";
 import { Handle } from "../../lib/core";
+import { guard } from "../../middleware/authentication";
 
 export class AuthController {
 	constructor(private authService: AuthService) {}
@@ -11,6 +12,7 @@ export class AuthController {
 		path: "/profile",
 		template: "auth/profile",
 		schema: {},
+		middleware: [guard.authenticated],
 	})
 	async profile(req: Request, res: Response) {
 		res.locals.user = await req.orm.em.findOneOrFail(AuthUser, req.user.uid);
@@ -39,11 +41,17 @@ export class AuthController {
 		res.redirect("/auth/forgot/success");
 	}
 
-	@Handle({ method: "post", path: "/forgot/success", template: "auth/reset-email-sent" })
+	@Handle({ method: "get", path: "/forgot/success", template: "auth/reset-email-sent" })
 	async ForgetSuccess(req: Request, res: Response) {}
 
 	@Handle({ method: "get", path: "/reset-password", template: "auth/password-reset-form" })
-	async resetPassword(req: Request, res: Response) {}
+	async resetPasswordForm(req: Request, res: Response) {}
+
+	@Handle({ method: "post", path: "/reset-password" })
+	async resetPassword(req: Request, res: Response) {
+		await this.authService.passwordResetConfirmation(String(req.query.token), req.body.password);
+		res.redirect("/auth/login");
+	}
 
 	@Handle({ method: "get", path: "/logout" })
 	async logout(req: Request, res: Response) {

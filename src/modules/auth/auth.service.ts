@@ -21,14 +21,13 @@ export class AuthService {
 		this.emailService.send(user.email, "Password Reset Request", "reset-password", { user, token });
 	}
 
-	async passwordResetConfirmation(uid: string, token: string, password: string) {
-		const user = await this.usersRepository.getActiveUser(uid);
+	async passwordResetConfirmation(token: string, password: string) {
 		try {
 			const decodedToken = JSON.parse(await decrypt(token));
-			if (user.uid === decodedToken.uid) {
-				await this.usersRepository.updateUser(user.uid, { password });
-			} else throw new Error("Code DOES NOT MATCH");
+			const user = await this.usersRepository.getActiveUser(decodedToken.uid);
+			await this.usersRepository.updateUser(user.uid, { password });
 		} catch (error) {
+			console.log(error);;
 			throw new Error("Invalid Token");
 		}
 	}

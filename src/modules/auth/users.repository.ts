@@ -1,3 +1,4 @@
+import { userInfo } from "os";
 import { AuthRole, AuthUser } from "../../db/entity";
 import { BaseRepository, hash } from "../../lib/core";
 
@@ -5,7 +6,7 @@ export class UsersRepository extends BaseRepository {
 	getActiveUser(username: string) {
 		return this.orm.em.findOneOrFail(AuthUser, { $or: [{ uid: username }, { email: username }], isActive: true });
 	}
- 
+
 	async getUsers(pageSize, currentPage) {
 		const params = { page: currentPage, size: pageSize };
 		let [items, count] = await this.orm.em.findAndCount(
@@ -29,7 +30,11 @@ export class UsersRepository extends BaseRepository {
 
 	async updateUser(uid: string, payload: Partial<AuthUser>) {
 		let entity = await this.orm.em.findOneOrFail(AuthUser, { uid: uid });
-		entity?.assign({ name: payload.name, isActive: payload.isActive, email: payload.email });
+		entity?.assign({
+			name: payload?.name || entity.name,
+			isActive: payload.isActive || entity.isActive,
+			email: payload.email || entity.email,
+		});
 		if (payload.password) {
 			entity.password = await hash(payload.password);
 		}

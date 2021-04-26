@@ -5,6 +5,7 @@ import { SupportConfigController } from "./support-config-controller";
 import { SupportPublicController } from "./support-public-controller";
 import { SupportRequestRepository } from "./support-request.repository";
 import { Router } from "express";
+import { guard } from "../../middleware/authentication";
 
 let supportRequestTypeRepository = new SupportRequestTypeRepository();
 let supportRequestRepository = new SupportRequestRepository();
@@ -15,8 +16,8 @@ let supportController = new SupportController(supportRequestRepository);
 
 const router = Router();
 
-router.use("/support/", generateRouter(supportController));
-router.use("/support/config", generateRouter(supportConfigController));
+router.use("/support/", guard.authenticated, generateRouter(supportController));
+router.use("/support/config", guard.authenticated, generateRouter(supportConfigController));
 router.use("/support-desk", generateRouter(supportPublicController));
 
 export const SupportModuleRouter = router;
