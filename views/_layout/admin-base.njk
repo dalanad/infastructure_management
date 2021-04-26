@@ -1,36 +1,33 @@
 {% extends "./base.njk" %}
 
 {%- block body -%}
-    {% include "_layout/header.njk" %}
-    <div style="display:flex;height: calc(100% - 40px);">
-        <div class="sidebar">
-            <div class="nav-list">
-                {% for item in sidebar %}
-                    <div class="nav-item{{ " active" if item.active }}">
-                        <a class="nav-link{{ " collapsed" if not item.active and item.links }}" href="{{ item.href }}">
-                            <i class="fa {{ item.icon }} nav-icon"></i>
-                            <span class="nav-link-text">{{ item.label }}</span>
-                        </a>
-                        {% if item.links %}
-                            <div class="font-weight-normal sub-list">
-                                {% for l in item.links %}
-                                    <a class="nav-item {{ "active" if l.active }}" href="{{ l.href }}">{{ l.label }}</a>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="flex-fill overflow-auto">
-            {%- if frame %}
-            <turbo-frame id="{{ frame }}">
+{% include "_layout/header.njk" %}
+<div style="display:flex;height: calc(100% - 40px);">
+    <div class="sidebar" style="padding: 0;">
+        <img src="/img/logo-03.svg" style="height: 35px; padding: 0.5em;">
+        <div class="nav-list">
+            {% for item in sidebar %}
+            <div class="nav-item{{ " active" if item.active }}">
+                <a class="nav-link{{ " collapsed" if not item.active and item.links }}" href="{{ item.href }}">
+                    <i class="fa {{ item.icon }} nav-icon"></i>
+                    <span class="nav-link-text">{{ item.label }}</span>
+                </a>
+                {% if item.links %}
+                <div class="font-weight-normal sub-list">
+                    {% for l in item.links %}
+                    <a class="nav-item {{ "active" if l.active }}" href="{{ l.href }}">{{ l.label }}</a>
+                    {% endfor %}
+                </div>
                 {% endif %}
-                {%- block content -%}{%- endblock -%}
-                {% if frame %}
-            </turbo-frame>
-            {%- endif -%}
+            </div>
+            {% endfor %}
         </div>
     </div>
+    <div class="flex-fill overflow-auto">
+        {%- if frame %} <turbo-frame id="{{ frame }}"> {% endif %}
+            {%- block content -%} {%- endblock -%}
+            {% if frame %} </turbo-frame> {%- endif -%}
+    </div>
+</div>
 
 {%- endblock -%}
