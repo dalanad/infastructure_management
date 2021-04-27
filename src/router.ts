@@ -9,7 +9,7 @@ import { guard } from "./middleware/authentication";
 
 const route = Router();
 
-route.all("/home", (req, res) => res.render("home"));
+route.all("/home", guard.authenticated, (req, res) => res.render("home"));
 route.all("/", (req, res) => res.redirect("/home"));
 
 route.use("/auth", AuthModuleRouter);

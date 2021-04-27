@@ -2,96 +2,91 @@
 {% import "macros.njk" as "m" with context %}
 
 {% block content %}
-    <div class="">
-        {{ m.page_header(heading or "Service Job") }}
-        <div class="px-3">
-            <div class="row">
-                <div class="col">
-                    <div class="row">
-                        <div class="col">
-                            <div> Job ID : <b>{{ jobId }}</b></div>
-                            <div> Service Location : {{ location.name }}  </div>
-                            <div> Asset :
-                                <a href="/assets/all/?selected={{ asset.id }}"><b>{{ asset.assetCode }}</b></a>
-                                <small class="text-nowrap">(Serial No : {{ asset.serialNo }})</small>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div><small>Created At : &nbsp;{{ createdAt.toLocaleString() }} </small></div>
-                            <div> Status : &nbsp; {{ tag("job_status", status) }} </div>
-                            <div> Type &nbsp;&nbsp; : &nbsp;<span class="tag stale">{{ type }} </span></div>
+<div class="">
+    {{ m.page_header(heading or "Service Job") }}
+    <div class="px-3">
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div> Job ID : <b>{{ jobId }}</b></div>
+                        <div> Service Location : {{ location.name }} </div>
+                        <div> Asset :
+                            <a href="/assets/all/?selected={{ asset.id }}"><b>{{ asset.assetCode }}</b></a>
+                            <small class="text-nowrap">(Serial No : {{ asset.serialNo }})</small>
                         </div>
                     </div>
-
-                    <b class="my-2 d-block">Job Description / Todo</b>
-                    <div class="lh-sm" style="white-space: pre-wrap">{{ description }}</div>
-                    {% if status not in ['DISCARDED','DONE'] %}
-                        <form action="" method="post" class="my-2" style="max-width: 650px">
-                            <div class="row gx-2" {{ "disabled" if status=='DISCARDED' }}>
-                                <div class="col-lg-5 col-md-4 col-sm-12 field">
-                                    <label for="model">Start Time</label>
-                                    <input class="ctrl" name="start" required="true" type="datetime-local"
-                                           value="{{ start and start.toLocaleString("sv").replace(" ","T") }}">
-                                </div>
-                                <div class="col-lg-3 col-md-4 col-sm-12 field">
-                                    <label for="model">Total Work Duration</label>
-                                    <div class="ctrl group">
-                                        <input class="ctrl" name="duration" required type="number"
-                                               value="{{ duration }}">
-                                        <span class="static">Min.</span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-12 field">
-                                    <label for="model">Cost</label>
-                                    <div class="ctrl group">
-                                        <span class="static">Rs.</span>
-                                        <input class="ctrl text-end" name="cost" required type="number"
-                                               value="{{ cost }}">
-                                        <span class="static">.00</span>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 col-md-12 col-sm-12 field">
-                                    <label for="model">Work Done</label>
-                                    <textarea rows="5" class="ctrl" name="workDone" required>{{ done }}</textarea>
-                                </div>
-                            </div>
-                            <div class="my-1">
-                                <button class="btn" type="submit">Update</button>
-                            </div>
-                        </form>
-                    {% else %}
-                        <hr>
-                        <div class="my-2">
-                            <div> Started At : &nbsp;{{ start.toLocaleString() }}  </div>
-                            <div> Cost : &nbsp; Rs. {{ cost }}.00</div>
-                            <div> Duration &nbsp;&nbsp; : &nbsp; {{ duration }} Minutes</div>
-                        </div>
-                        <b class="my-2 d-block">Work Done</b>
-                        <div class="lh-sm" style="white-space: pre-wrap">{{ done }}</div>
-                    {% endif %}
+                    <div class="col">
+                        <div><small>Created At : &nbsp;{{ createdAt.toLocaleString() }} </small></div>
+                        <div> Status : &nbsp; {{ tag("job_status", status) }} </div>
+                        <div> Type &nbsp;&nbsp; : &nbsp;<span class="tag stale">{{ type }} </span></div>
+                    </div>
                 </div>
-                <div class="col-lg-5">
-                    {% if status not in ['DISCARDED','DONE'] %}
-                        <b class="my-2 d-block">Actions</b>
-                        <a class="btn warn link" href="/assets/{{ asset.id }}/transfer-location"><i
-                                    class="fa fa-exchange-alt"></i>&nbsp;
-                            Transfer Location
-                        </a>
-                        <a class="btn link danger" href="discard"><i class="fa fa-trash-alt"></i>&nbsp; Discard</a>
-                        {% if status=='PENDING' %}
-                            <a class="btn success" href="complete"> Complete Job </a>
-                        {% endif %}
-                    {% endif %}
 
-                    <b class="my-2 d-block">Activity / Progress</b>
-                    <div>
-                        <turbo-frame id="feed" src="/feed/ServiceJob-{{ jobId }}/"></turbo-frame>
+                <b class="my-2 d-block">Job Description / Todo</b>
+                <div class="lh-sm" style="white-space: pre-wrap">{{ description }}</div>
+                {% if status not in ['DISCARDED','DONE'] %}
+                <form action="" method="post" class="my-2" style="max-width: 650px">
+                    <div class="row gx-2" {{ "disabled" if status=='DISCARDED' }}>
+                        <div class="col-lg-5 col-md-4 col-sm-12 field">
+                            <label for="model">Start Time</label>
+                            <input class="ctrl" name="start" required="true" type="datetime-local" value="{{ start and start.toLocaleString("sv").replace(" ","T") }}">
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12 field">
+                            <label for="model">Total Work Duration</label>
+                            <div class="ctrl group">
+                                <input class="ctrl" name="duration" required type="number" value="{{ duration }}">
+                                <span class="static">Min.</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 field">
+                            <label for="model">Cost</label>
+                            <div class="ctrl group">
+                                <span class="static">Rs.</span>
+                                <input class="ctrl text-end" name="cost" required type="number" value="{{ cost }}">
+                                <span class="static">.00</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 field">
+                            <label for="model">Work Done</label>
+                            <textarea rows="5" class="ctrl" name="workDone" required>{{ done }}</textarea>
+                        </div>
                     </div>
+                    <div class="my-1">
+                        <button class="btn" type="submit">Update</button>
+                    </div>
+                </form>
+                {% else %}
+                <hr>
+                <div class="my-2">
+                    <div> Started At : &nbsp;{{ start and start.toLocaleString() }} </div>
+                    <div> Cost : &nbsp; Rs. {{ cost }}.00</div>
+                    <div> Duration &nbsp;&nbsp; : &nbsp; {{ duration }} Minutes</div>
+                </div>
+                <b class="my-2 d-block">Work Done</b>
+                <div class="lh-sm" style="white-space: pre-wrap">{{ done }}</div>
+                {% endif %}
+            </div>
+            <div class="col-lg-5">
+                {% if status not in ['DISCARDED','DONE'] %}
+                <b class="my-2 d-block">Actions</b>
+                <a class="btn warn link" href="/assets/{{ asset.id }}/transfer-location"><i class="fa fa-exchange-alt"></i>&nbsp; Transfer Location </a>
+                <a class="btn link danger" href="discard"><i class="fa fa-trash-alt"></i>&nbsp; Discard</a>
+
+                {% if status=='PENDING' %}
+                <a class="btn success" href="complete"> Complete Job </a>
+                {% endif %}
+
+                {% endif %}
+                <b class="my-2 d-block">Activity / Progress</b>
+                <div>
+                    <turbo-frame id="feed" src="/feed/ServiceJob-{{ jobId }}/"></turbo-frame>
                 </div>
             </div>
-
         </div>
+
     </div>
+</div>
 {% endblock %}
 {% block scripts %}
 
