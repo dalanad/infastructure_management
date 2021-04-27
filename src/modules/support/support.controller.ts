@@ -29,6 +29,7 @@ export class SupportController {
 				limit: params.size,
 				offset: params.page * params.size,
 				orderBy: { ...params.sort },
+				populate: ["requestType"],
 			}
 		);
 
