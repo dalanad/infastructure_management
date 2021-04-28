@@ -1,5 +1,5 @@
 import { userInfo } from "os";
-import { AuthRole, AuthUser } from "../../db/entity";
+import { AuthRole, AuthUser } from "../../lib/db/entity";
 import { BaseRepository, hash } from "../../lib/core";
 
 export class UsersRepository extends BaseRepository {

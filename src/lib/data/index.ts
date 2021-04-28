@@ -1,6 +1,6 @@
 import { LockMode } from "@mikro-orm/core";
-import { Config } from "../../db/entity";
-import { orm } from "../../db/init";
+import { Config } from "../db/entity";
+import { orm } from "../db/init";
 
 export * from "./validator";
 

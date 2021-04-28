@@ -1,5 +1,5 @@
 import express from "express";
-import { AuthRole, AuthUser } from "../../db/entity";
+import { AuthRole, AuthUser } from "../../lib/db/entity";
 import { hash } from "../../lib/core";
 import { validate } from "../../lib/data";
 import Joi from "joi";

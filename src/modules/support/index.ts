@@ -5,7 +5,7 @@ import { SupportConfigController } from "./support-config-controller";
 import { SupportPublicController } from "./support-public-controller";
 import { SupportRequestRepository } from "./support-request.repository";
 import { Router } from "express";
-import { guard } from "../../middleware/authentication";
+import { guard } from "../../lib/middleware/authentication";
 
 let supportRequestTypeRepository = new SupportRequestTypeRepository();
 let supportRequestRepository = new SupportRequestRepository();

@@ -1,5 +1,5 @@
 import { BaseRepository } from "../../lib/core";
-import { SupportRequestType } from "../../db/entity";
+import { SupportRequestType } from "../../lib/db/entity";
 import { wrap } from "@mikro-orm/core";
 
 export class SupportRequestTypeRepository extends BaseRepository {

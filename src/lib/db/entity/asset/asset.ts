@@ -19,7 +19,7 @@ import { Supplier } from "../supplier.entity";
 import { BaseEntity } from "../base.entity";
 import { orm } from "../../init";
 import { ChangeSetContent } from "../activity-feed/activity-feed";
-import { postActivity } from "../../../modules/common/activity-feed";
+import { postActivity } from "../../../../modules/common/activity-feed";
 import { AuthUser } from "../auth/auth-user.entity";
 
 export enum AssetStatus {

@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { AuthService } from "./auth.service";
-import { AuthUser } from "../../db/entity";
+import { AuthUser } from "../../lib/db/entity";
 import { Handle } from "../../lib/core";
-import { guard } from "../../middleware/authentication";
+import { guard } from "../../lib/middleware/authentication";
 
 export class AuthController {
 	constructor(private authService: AuthService) {}

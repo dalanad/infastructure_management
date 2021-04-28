@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Asset, JobStatus, ServiceJob, ServiceType } from "../../db/entity";
+import { Asset, JobStatus, ServiceJob, ServiceType } from "../../lib/db/entity";
 import { getNextVal, ID_SEQUENCES } from "../../lib/data";
 
 const router = Router();

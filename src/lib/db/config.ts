@@ -24,7 +24,7 @@ import {
 	SupportRequestTypeField,
 	SupportRequestType,
 } from "./entity";
-import { Logger } from "../lib/logging";
+import { Logger } from "../logging";
 
 const ORMLogger = new Logger("orm");
 

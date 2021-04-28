@@ -1,7 +1,7 @@
 import { decrypt, encrypt, IEmailService } from "../../lib/core";
 import * as bcrypt from "bcryptjs";
 import { UsersRepository } from "./users.repository";
-import { AuthUser } from "../../db/entity";
+import { AuthUser } from "../../lib/db/entity";
 
 export class AuthService {
 	constructor(private usersRepository: UsersRepository, private emailService: IEmailService) {}

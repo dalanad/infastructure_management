@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Handle } from "../../lib/core";
 import { SupportRequestRepository } from "./support-request.repository";
 import Joi from "joi";
-import { SupportRequest } from "../../db/entity";
+import { SupportRequest } from "../../lib/db/entity";
 
 export class SupportController {
 	middleware = [

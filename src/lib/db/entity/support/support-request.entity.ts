@@ -16,7 +16,7 @@ import { SupportRequestField } from "./support-request.field";
 import { ChangeSetContent } from "../activity-feed/activity-feed";
 import { orm } from "../../init";
 import { AuthUser } from "../auth/auth-user.entity";
-import { postActivity } from "../../../modules/common/activity-feed";
+import { postActivity } from "../../../../modules/common/activity-feed";
 
 export enum RequestStatus {
 	OPEN = "OPEN",

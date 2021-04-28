@@ -1,8 +1,8 @@
 import express from "express";
 import { join } from "path";
-import { InitORM, InjectORM } from "./db/init";
+import { InitORM, InjectORM } from "./lib/db/init";
 import { logger } from "./lib/logging";
-import { AddTailingSlash, Authentication, CompressionMiddleware, registerViewHelpers, SideBar } from "./middleware";
+import { AddTailingSlash, Authentication, CompressionMiddleware, registerViewHelpers, SideBar } from "./lib/middleware";
 import { AppRouter } from "./router";
 
 (async function () {

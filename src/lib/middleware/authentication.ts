@@ -1,4 +1,4 @@
-import { decrypt, parseCookies } from "../lib/core";
+import { decrypt, parseCookies } from "../core";
 
 export async function Authentication(req, res, next) {
 	try {

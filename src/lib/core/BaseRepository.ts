@@ -1,4 +1,4 @@
-import { orm as appORM } from "../../db/init";
+import { orm as appORM } from "./../db/init";
 import { MikroORM } from "@mikro-orm/core";
 
 export abstract class BaseRepository {

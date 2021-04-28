@@ -1,5 +1,5 @@
 import express from "express";
-import { Category } from "../../../db/entity";
+import { Category } from "../../../lib/db/entity";
 
 const route = express.Router();
 

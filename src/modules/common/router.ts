@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { ActivityFeedRouter } from "./activity-feed.router";
 import { SuppliersRouter } from "./suppliers.router";
-import { guard } from "./../../middleware/authentication";
+import { guard } from "./../../lib/middleware/authentication";
 
 const router = Router();
 

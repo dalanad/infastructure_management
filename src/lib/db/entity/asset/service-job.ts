@@ -16,7 +16,7 @@ import {
 import { BaseEntity } from "./../base.entity";
 import { orm } from "../../init";
 import { ChangeSetContent } from "../activity-feed/activity-feed";
-import { postActivity } from "../../../modules/common/activity-feed";
+import { postActivity } from "../../../../modules/common/activity-feed";
 
 export enum JobStatus {
 	CREATED = "CREATED",

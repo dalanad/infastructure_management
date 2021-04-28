@@ -1,5 +1,5 @@
 import { BaseRepository } from "../../lib/core";
-import { SupportRequest, SupportRequestField } from "../../db/entity";
+import { SupportRequest, SupportRequestField } from "../../lib/db/entity";
 import { wrap } from "@mikro-orm/core";
 import { getNextVal, ID_SEQUENCES } from "../../lib/data";
 

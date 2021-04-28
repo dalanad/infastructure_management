@@ -5,7 +5,7 @@ import { SettingsModuleRouter } from "./modules/settings/router";
 import { CommonModuleRouter } from "./modules/common/router";
 import { AuthModuleRouter } from "./modules/auth";
 import { SupportModuleRouter } from "./modules/support";
-import { guard } from "./middleware/authentication";
+import { guard } from "./lib/middleware/authentication";
 
 const route = Router();
 

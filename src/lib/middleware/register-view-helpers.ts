@@ -1,4 +1,4 @@
-import { collapseRange, parseCookies } from "../lib/core";
+import { collapseRange, parseCookies } from "../core";
 import { join } from "path";
 
 import nunjucks from "nunjucks";

@@ -1,6 +1,6 @@
 import express from "express";
-import { orm } from "../../db/init";
-import { ActivityFeed, AuthUser } from "../../db/entity";
+import { orm } from "../../lib/db/init";
+import { ActivityFeed, AuthUser } from "../../lib/db/entity";
 import { postActivity } from "./activity-feed";
 
 const route = express.Router();
