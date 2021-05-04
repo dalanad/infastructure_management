@@ -20,19 +20,6 @@ function InitSidebar() {
 			sidebar.classList.toggle("collapsed");
 		});
 	}
-	sidebar.addEventListener("mouseenter", function name(params) {
-		if (localStorage.getItem("sidebar-mode") === "collapsed") {
-			sidebar.classList.remove("collapsed");
-		}
-	});
-	sidebar.addEventListener("mouseleave", function name(params) {
-		if (localStorage.getItem("sidebar-mode") === "collapsed") {
-			sidebar.classList.add("collapsed");
-		}
-	});
-	sidebar.addEventListener("transitionend", function () {
-		window.dispatchEvent(new Event("resize"));
-	});
 }
 
 function InitSortHeaders() {

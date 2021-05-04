@@ -50,7 +50,7 @@ function registerViewHelpers(req, res, next) {
 		express: req.app,
 		watch: true,
 	};
-	var env = nunjucks.configure(join(__dirname, "../../views"), view_opts);
+	var env = nunjucks.configure(join(__dirname, "./../../../views"), view_opts);
 
 	function DateFilter(value: Date) {
 		if (!value) {

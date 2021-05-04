@@ -42,31 +42,6 @@
 	opacity: 0.3;
 }
 
-.sidebar .nav-list {
-	padding: 0;
-}
-
-.nav-link {
-	padding: 0.5em 1.5em;
-	border-top: var(--border);
-}
-
-.sidebar {
-}
-
-.nav-list > .nav-item {
-	border-right: var(--border);
-}
-
-.nav-list > .nav-item.active {
-	border-right: 3px solid currentColor;
-}
-
-.sidebar .nav-item {
-	border-radius: 0;
-	margin-bottom: 0 !important;
-}
-
 @keyframes slidein {
 	from {
 		border-left: 0.2em solid var(--bg);
@@ -119,7 +94,7 @@ textarea {
 
 .list-item {
 	border-top: 1px solid var(--gray-2);
-	padding: 0.25em .5em;
+	padding: 0.25em 0.5em;
 	/*transition: 0.2s ease-in-out;*/
 }
 
@@ -215,34 +190,6 @@ a:hover {
 	text-decoration: underline;
 }
 
-.alert i {
-	color: var(--primary);
-	margin-left: -0.4em;
-}
-
-.alert::before {
-	position: absolute;
-	background: var(--primary);
-	content: " ";
-	display: block;
-	height: 100%;
-	width: 100%;
-	top: 0;
-	left: 0;
-	opacity: 0.05;
-}
-
-.alert {
-	position: relative;
-	display: block;
-	border-radius: 4px;
-	line-height: 1;
-	padding: 0.5em;
-	font-size: 0.9em;
-	/*font-weight: 500;*/
-	border: 1px solid var(--primary);
-}
-
 .overlay-container {
 	position: absolute;
 	top: 0;
@@ -307,102 +254,8 @@ a:hover {
 	}
 }
 
-/**************************\
-  Basic Modal Styles
-\**************************/
-
-.modal__overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: rgba(0, 0, 0, 0.6);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.modal__container {
-	background-color: var(--bg);
-	padding: 20px;
-	max-width: 500px;
-	max-height: 100vh;
-	border-radius: 4px;
-	overflow-y: auto;
-	box-sizing: border-box;
-}
-
-.modal__content {
-	margin-top: 1rem;
-	margin-bottom: 1rem;
-}
-
 :root {
 	--border: 1px solid var(--gray-3);
-}
-
-/**************************\
-  Demo Animation Style
-\**************************/
-@keyframes mmfadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
-@keyframes mmfadeOut {
-	from {
-		opacity: 1;
-	}
-	to {
-		opacity: 0;
-	}
-}
-
-@keyframes mmslideIn {
-	from {
-		transform: translateY(15%);
-	}
-	to {
-		transform: translateY(0);
-	}
-}
-
-@keyframes mmslideOut {
-	from {
-		transform: translateY(0);
-	}
-	to {
-		transform: translateY(-10%);
-	}
-}
-
-.micromodal-slide {
-	display: none;
-}
-
-.micromodal-slide.is-open {
-	display: block;
-}
-
-.micromodal-slide[aria-hidden="false"] .modal__overlay {
-	animation: mmfadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);
-}
-
-.micromodal-slide[aria-hidden="false"] .modal__container {
-	animation: mmslideIn 0.3s cubic-bezier(0, 0, 0.2, 1);
-}
-
-.micromodal-slide[aria-hidden="true"] .modal__overlay {
-	animation: mmfadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);
-}
-
-.micromodal-slide[aria-hidden="true"] .modal__container {
-	animation: mmslideOut 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
 .dropdown,
