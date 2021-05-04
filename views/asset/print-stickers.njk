@@ -1,17 +1,18 @@
 {% extends "_layout/admin-base.njk" %}
 {% import "macros.njk" as "m" with context %}
 {% block content %}
-<div class="px-4" style="max-width:600px;margin: 0 auto;">
-    <h4>Print Stickers</h4>
+<div class="p-4" style="max-width:600px;margin: 0 auto;">
+    <h4> <i class="fa fa-print"></i> &nbsp; Print Stickers</h4>
+    <h6>Print by Asset Code</h6>
     <form method="post" class="row gx-2" data-turbo="false">
-        <div class="field col-6">
+        <div class="field col-3">
             <label>Print Amount</label>
             <select class="ctrl" name="type">
-                <option value="SINGLE" {{"selected" if (type=="SINGLE" or not type)}}>SINGLE</option>
+                <option value="SINGLE" {{ "selected" if (type=="SINGLE" or not type)}}>SINGLE</option>
                 <option value='BULK' {{"selected" if type=="BULK" }}>BULK</option>
             </select>
         </div>
-        <div class="field col-6" id="range">
+        <div class="field col-7" id="range">
             <label>Asset Code Range </label>
             <div class="ctrl group">
                 <span class="static">From</span>
@@ -20,12 +21,28 @@
                 <input name="to" class="ctrl" value="{{to}}" />
             </div>
         </div>
-        <div class="field col-6" id="single">
+        <div class="field col-7" id="single">
             <label>Asset Code</label>
             <input required class="ctrl" name="assetCode" value="{{assetCode}}" />
         </div>
-        <div>
-            <button class="btn success" type="submit"> <i class="fa fa-print"></i> &nbsp; Print </button>
+        <div class="col-2 field">
+            <label>&nbsp;</label>
+            <button class="btn success" type="submit"> Print </button>
+        </div>
+    </form>    
+    <hr class="mt-3">
+    <form method="post" class="row gx-2" data-turbo="false">    <h6>Print by Location</h6>
+        <div class="field col-7" id="single">
+            <label>Location</label>
+            <select   required data-url="/assets/location/options/" name="location" class="ctrl init-select"> 
+                {% if location %}
+                <option value="{{location }}" selected></option>
+                {% endif %}
+            </select>
+        </div>
+        <div class="col-2 field">
+            <label>&nbsp;</label>
+            <input type="submit" name="print_location" value="Print" class="btn success" />
         </div>
         <div id="status" class="mt-2"> </div>
     </form>
@@ -35,7 +52,8 @@
 {% block script%}
 <script src="https://cdn.jsdelivr.net/npm/qz-tray@2.1.2/qz-tray.min.js"></script>
 <script>
-
+    let assets;
+    assets = [ {{ assets | dump }} ]
 </script>
 <script>
     function getStickerCmd(asset) {
@@ -54,33 +72,32 @@
     printSticker();
     function printSticker() {
 
-        let assets;
-        assets = [ {{ assets | dump }} ]
 
-    let status = document.getElementById("status")
-    if (assets.length > 0) {
-        status.classList.remove("danger")
-        status.classList.add("success", 'alert')
-        status.innerText = "Connecting to Printer"
-        qz.websocket.connect().then(v => qz.printers.find('Barcode'))
-            .then(async (printer) => {
-                status.innerText = "Printing"
-                const config = qz.configs.create(printer);
-                for (const asset of assets[0]) {
-                    console.log(getStickerCmd(asset))
-                    await qz.print(config, [ getStickerCmd(asset) ]);
-                }
-            })
-            .then(() => {
-                qz.websocket.disconnect();
-                status.innerText = "Print Successful"
-            })
-            .catch((err) => {
-                status.innerText = 'Printing Failed';
-                status.classList.add("danger")
-                return qz.websocket.disconnect();
-            });
-    }
+
+        let status = document.getElementById("status")
+        if (assets.length > 0) {
+            status.classList.remove("danger")
+            status.classList.add("success", 'alert')
+            status.innerText = "Connecting to Printer"
+            qz.websocket.connect().then(v => qz.printers.find('Barcode'))
+                .then(async (printer) => {
+                    status.innerText = "Printing"
+                    const config = qz.configs.create(printer);
+                    for (const asset of assets[ 0 ]) {
+                        console.log(getStickerCmd(asset))
+                        await qz.print(config, [ getStickerCmd(asset) ]);
+                    }
+                })
+                .then(() => {
+                    qz.websocket.disconnect();
+                    status.innerText = "Print Successful"
+                })
+                .catch((err) => {
+                    status.innerText = 'Printing Failed';
+                    status.classList.add("danger")
+                    return qz.websocket.disconnect();
+                });
+        }
 
 
     }
