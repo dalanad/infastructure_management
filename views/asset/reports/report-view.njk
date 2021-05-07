@@ -1,0 +1,65 @@
+{% extends "_layout/admin-base.njk" %}
+<!--  -->
+{% block content %}
+<div class="m-3">
+	<h5>
+		{{ name }}
+		<button class="btn float-end" onclick="download_table_as_csv('report')">Download as CSV</button>
+	</h5>
+</div>
+<style>
+	tbody,
+	td,
+	tfoot,
+	th,
+	thead,
+	tr {
+		border: 1px solid;
+		border-color: var(--muted);
+	}
+	th {
+		vertical-align: baseline;
+	}
+	th,
+	td {
+		padding: 4px;
+		line-height: 1;
+	}
+	{% if config.verticalHeaders %}
+	.vertical {
+		writing-mode: vertical-lr;
+		transform: rotate(180deg);
+	}
+	{% endif %}
+	tbody tr:hover {
+		background: var(--gray-2);
+	}
+	th {
+		position: sticky;
+		top: 0;
+		background: white;
+	}
+</style>
+<div class="m-3">
+	<table class="paded" id="report">
+		<thead>
+			<tr>
+				{% for key, value in data[0] %}
+				<th>
+					<div class="vertical">{{ key }}</div>
+				</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			{% for item in data %}
+			<tr>
+				{% for key, value in item %}
+				<td>{{ value }}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

@@ -11,6 +11,7 @@ function SideBar(req, res, next) {
 				{ label: "Category", href: "/assets/category/" },
 				{ label: "Manufacturer", href: "/assets/manufacturer/" },
 				{ label: "Suppliers", href: "/suppliers/" },
+				{ label: "Reports", href: "/assets/reports/" },
 			],
 		},
 		{ label: "Support", href: "/support/", icon: "fa fa-headset", links: undefined },
