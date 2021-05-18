@@ -5,14 +5,14 @@
         <div class="border-end">{% include "./asset-list-compact.njk" %}</div>
         <div class="h-100 overflow-auto">
             {% call page_header("Asset Summery") %}
-                <a class="btn link" href="../{{ asset.id }}/edit/"> <i class="fas fa-pen"></i>&nbsp; &nbsp;Edit</a>
-                <button class="btn link dropdown-toggle" data-bs-toggle="dropdown"> Actions</button>
+                <a class="btn outline" href="../{{ asset.id }}/edit/"> <i class="fas fa-pen"></i>&nbsp; &nbsp;Edit</a>
+                <button class="btn dropdown-toggle" data-bs-toggle="dropdown"> Actions</button>
                 <ul class="dropdown-menu">
                     <div><a class="dropdown-item " href="/servicing/jobs/create/?assetCode={{ asset.assetCode }}">
-                            <i class="fas fa-wrench"></i> &nbsp; Create Service Job</a></div>
+                            <i class="fas fa-wrench text-success"></i> &nbsp; Create Service Job</a></div>
                     <div>
-                        <a class="dropdown-item text-warning" href="../{{ asset.assetCode }}/print-sticker">
-                            <i  class="fas fa-qrcode"></i> &nbsp; Print Sticker </a>
+                        <a class="dropdown-item" href="../{{ asset.assetCode }}/print-sticker">
+                            <i  class="fas fa-qrcode text-warning"></i> &nbsp; Print Sticker </a>
                     </div>
                     {% if asset.status == "IN_USE" %}
                         <div><a class="dropdown-item " href="../{{ asset.id }}/status/?to=backup">
@@ -25,8 +25,8 @@
                                 Use </a></div>
                     {% endif %}
                     {% if asset.status != "DISCARDED" %}
-                        <div><a class="dropdown-item text-danger" href="../{{ asset.id }}/discard/"> <i
-                                        class="far fa-trash-alt"></i> &nbsp; Discard </a>
+                        <div><a class="dropdown-item " href="../{{ asset.id }}/discard/"> <i
+                                        class="far fa-trash-alt text-danger"></i> &nbsp; Discard </a>
                         </div>
                     {% endif %}
                 </ul>
@@ -58,13 +58,7 @@
                     </div>
                 </div>
 
-                <table class="compact">
-                    <thead>
-                    <tr>
-                        <th>Param</th>
-                        <th>Value</th>
-                    </tr>
-                    </thead>
+                <table class="compact lh-1 border">
                     <tbody>
                     <tr>
                         <td>Specification</td>
