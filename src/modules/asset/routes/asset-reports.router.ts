@@ -39,6 +39,32 @@ route.get("/asset-count-category", async (req, res) => {
 	});
 });
 
+route.get("/asset-list", async (req, res) => {
+ 
+	let data = await req.orm.em.getConnection("read").execute(`
+        select 
+            l.name "Location", a.asset_code, c.name "Category", m.name "Manufacturer", a.model "model", a.serial_no "Serial Number",
+            (a.computer_ram::text  || 'GB' )"Computer RAM", a.computer_cpu "Computer CPU", (a.computer_hdd_capacity::text  || 'GB') "Computer HDD",
+            a.net_ip, a.net_gateway, a.owner, s.company_name "Supplier" ,
+            (
+                SELECT string_agg( (JsonString::json -> 'name')::text,  ', ')
+                FROM jsonb_array_elements(a.software) JsonString
+            ) 
+            "software"
+        from asset a 
+            inner join device_location l on l.id= a.location_id
+            inner join device_category c on c.id= a.category_id
+            inner join device_manufacturer m on m.id= a.manufacturer_id
+            inner join supplier s on s.id= a.supplier_id
+        order by a.asset_code
+        `);
+	res.render("asset/reports/report-view", {
+		data: data,
+		name: `Asset List`,
+		config: { verticalHeaders: false },
+	});
+});
+
 route.get("/asset-user-ip", async (req, res) => {
 	let asset_categories = await req.orm.em
 		.getConnection("read")
