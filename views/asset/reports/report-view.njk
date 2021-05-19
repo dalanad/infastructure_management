@@ -4,9 +4,19 @@
 <div class="m-3">
 	<h5>
 		{{ name }}
-		<button class="btn float-end" onclick="download_table_as_csv('report')">Download as CSV</button>
+		<div class=" float-end">
+			<button class="btn link" onclick="toggleWrap() "> Toggle Wrap</button>
+			<button class="btn" onclick="download_table_as_csv('report')">Download as CSV</button>
+		</div>
 	</h5>
+
 </div>
+<script>
+	function toggleWrap() {
+		let table = document.querySelector("table")
+		table.style.whiteSpace = table.style.whiteSpace == 'nowrap' ? null : 'nowrap'
+	}
+</script>
 <style>
 	tbody,
 	td,
@@ -14,39 +24,58 @@
 	th,
 	thead,
 	tr {
-		border: 1px solid;
+		border: 1px solid var(--muted);
 		border-color: var(--muted);
 	}
+
+	.box {
+		overflow: auto;
+		max-height: calc(100% - 75px);
+		border: 1px solid var(--muted);
+
+	}
+
+	.box::-webkit-scrollbar {
+		background: #eee;
+		width: unset;
+	}
+
+	.box::-webkit-scrollbar-thumb {
+		background: #aaa
+	}
+
 	th {
 		vertical-align: baseline;
 	}
+
 	th,
 	td {
 		padding: 4px;
 		line-height: 1;
 	}
-	{% if config.verticalHeaders %}
+
 	.vertical {
 		writing-mode: vertical-lr;
 		transform: rotate(180deg);
 	}
-	{% endif %}
+
 	tbody tr:hover {
 		background: var(--gray-2);
 	}
+
 	th {
 		position: sticky;
 		top: 0;
 		background: white;
 	}
 </style>
-<div class="m-3">
+<div class="m-3 box">
 	<table class="paded" id="report">
 		<thead>
 			<tr>
 				{% for key, value in data[0] %}
 				<th>
-					<div class="vertical">{{ key }}</div>
+					<div class=" {{ "vertical" if config.verticalHeaders }} ">{{ key }}</div>
 				</th>
 				{% endfor %}
 			</tr>
