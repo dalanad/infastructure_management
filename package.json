@@ -1,8 +1,9 @@
 {
-  "name": "framework",
+  "name": "application",
   "version": "1.0.0",
-  "description": "",
-  "main": "src\\main.ts",
+  "description": "IT Infrastructure Management Platform",
+  "main": "src/main.ts",  
+  "author": "Dalana Dharmathilake",
   "scripts": {
     "start": "node dist/main",
     "start:watch": "nodemon --delay 1 dist/main",
@@ -13,7 +14,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "bundle:js": "esbuild --bundle ./public/js/main.js --outfile=./public/main.bundle.js  --minify --watch --format=esm --sourcemap --target=es6"
   },
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "@mikro-orm/core": "^4.4.1",

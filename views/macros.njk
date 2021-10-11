@@ -61,63 +61,6 @@
     {% endif %}
 {%- endmacro -%}
 
-{% macro filter_sbar(cfg) %}
-    <form class="mb-2 px-3 d-flex flex-wrap" action="">
-        {% for field in cfg %}
-            <div class="me-2 mb-2 field">
-                <label class="text-nowrap">{{ field.label }}</label>
-                {% if (field.type=='select') %}
-                    <select data-url="{{ field.url }}" name="filter[{{ field.name }}]" data-allow-clear="true"
-                            class="ctrl {{ "init-select" if field.multiple }}" {{ "data-multiple='true'" if field.multiple }}">
-                    {% if field.value and field.multiple %}
-                        <option value="{{ field.value }}" selected></option>
-                    {% endif %}
-                    {% for option in  field.options %}
-                        <option value="{{ option.value }}" {{ "selected" if option.value == field.value }}>{{ option.label }}</option>
-                    {% endfor %}
-                    </select>
-                {% elseif (field.type=='text') %}
-                    <input type="search" class="ctrl" name="filter[{{ field.name }}]" value="{{ field.value }}">
-                {% endif %}
-            </div>
-        {% endfor %}
-        <div class="field">
-            <label>&nbsp;</label>
-            <div>
-                <button class="btn">Search</button>
-                <a href="./" class="btn link danger">Reset</a>
-            </div>
-        </div>
-    </form>
-    <script>
-        document.querySelectorAll("#fiwlter-bar").forEach(el => {
-            new Vue({
-                el, data: function () {
-                    return { filter: {} };
-                }, methods: {
-                    search: function () {
-                        let filterx = this.filter;
-                        Object.keys(filterx).forEach((key) => filterx[key] === undefined || filterx[key] === null ? delete filterx[key] : {});
-
-                        if ("Turbo" in window) {
-                            let url = new URL(window.location.href);
-                            url.search = objToQueryString({ filter: filterx });
-                            Turbo.visit(url.href);
-                        } else {
-                            window.location.search = objToQueryString({ filter: filterx });
-                        }
-                    },
-                }, mounted: function () {
-                    let query = Qs.parse(location.search.replace("?", ""));
-                    if (query.filter) {
-                        this.filter = query.filter;
-                    }
-                }
-            })
-        })
-    </script>
-{% endmacro %}
-
 {% macro filter_bar(cfg) %}
     <filter-bar class="mx-3 d-block" style="min-height: 66px;" fields_data='{{ cfg | dump | replace("'", "") }}'></filter-bar>
 {% endmacro %}

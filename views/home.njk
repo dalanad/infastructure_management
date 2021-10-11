@@ -1,7 +1,43 @@
 {% extends "_layout/admin-base.njk" %}
 
 {% block content %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
     <div class="p-3">
-        <h4>Coming soon</h4>
+      <h3>Overview</h3>
+       <div style=" width:400px">
+        <canvas id="asset_status"></canvas>
+        <canvas id="asset_status"></canvas>
+        <canvas id="asset_status"></canvas>
+       </div>
     </div>
+    <script>
+       
+        var ctx = document.getElementById('asset_status').getContext('2d');
+        var asset_status = new Chart(ctx, 
+        {
+            type: 'pie',
+            options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                     position: 'top',
+                },
+                title: {
+                display: true,
+                text: 'Devise Status'
+                }
+            }
+            },
+            data: {
+                labels: {{ asset_status[0] | dump }},
+                datasets: [
+                    {
+                        data: [{{ asset_status[1]  }}],
+                        backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56']  
+                    }
+                ]
+            }
+        });
+    </script>
+
 {% endblock %}
