@@ -4,9 +4,29 @@ import { InitORM, InjectORM } from "./lib/db/init";
 import { logger } from "./lib/logging";
 import { AddTailingSlash, Authentication, CompressionMiddleware, registerViewHelpers, SideBar } from "./lib/middleware";
 import { AppRouter } from "./router";
+import nunjucks from "nunjucks";
 
 (async function () {
 	const app = express();
+	// configure views
+	app.set("view engine", "njk");
+
+	let view_opts = {
+		autoescape: false,
+		lstripBlocks: true,
+		trimBlocks: true,
+		express: app,
+		watch: true,
+	};
+	var env = nunjucks.configure(join(__dirname, "./../views"), view_opts);
+
+	function DateFilter(value: Date) {
+		if (!value) {
+			return "";
+		}
+		return new Date(value).toLocaleString("sv").substr(0, 10);
+	}
+	env.addFilter("date", DateFilter);
 
 	app.use(express.urlencoded({ extended: true }));
 	app.disable("x-powered-by");
