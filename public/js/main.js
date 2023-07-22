@@ -151,7 +151,7 @@ function selectBoxes() {
 						option.value = this.val;
 						select.appendChild(option);
 					}
-					select.value = this.val;
+					select.value = this.val || "";
 				},
 			},
 			el: container,

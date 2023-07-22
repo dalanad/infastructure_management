@@ -54,7 +54,12 @@ route.get("/all", async (req, res) => {
 
 	if (params.filter.location) {
 		params.filter.location = params.filter.location.map((x) => Number(x));
-		filter["location"] = params.filter.location;
+		filter["location"] = { id: params.filter.location };
+	}
+
+	if (params.filter.parent_location) {
+		params.filter.parent_location = params.filter.parent_location.map((x) => Number(x));
+		filter["location"] = { ...filter["location"], parent: params.filter.parent_location };
 	}
 
 	let [items, count] = await req.orm.em.findAndCount(Asset, filter, {
@@ -99,6 +104,15 @@ route.get("/all", async (req, res) => {
 			type: "select",
 			multiple: true,
 			value: params.filter.category,
+		},
+		{
+			label: "Main Location",
+			name: "parent_location",
+			url: "/assets/parent-location/options/",
+			options: [],
+			type: "select",
+			multiple: true,
+			value: params.filter.parent_location,
 		},
 		{
 			label: "Location",

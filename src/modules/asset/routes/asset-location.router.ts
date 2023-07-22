@@ -54,6 +54,9 @@ route.get("/:id/edit", async (req: any, res) => {
 route.post("/:id/edit", async (req, res) => {
 	let supplier = await req.orm?.em.findOne<AssetLocation>(AssetLocation, Number(req.params.id));
 	supplier?.assign(req.body);
+	if (!req.body.parent) {
+		supplier.parent = null;
+	}
 	await req.orm?.em.flush();
 	res.redirect(303, req.baseUrl);
 });
