@@ -1,7 +1,7 @@
 {
   "name": "application",
   "version": "1.0.0",
-  "description": "IT Infrastructure Management Platform",
+  "description": "IT Asset Management Platform",
   "main": "src/main.ts",
   "author": "Dalana Dharmathilake",
   "scripts": {
@@ -10,7 +10,7 @@
     "build:watch": "tsc -w",
     "build": "tsc",
     "debug": "export DEBUG=* && npm run start",
-    "migrations:generate": "node ./dist/db/generate-migration.js",
+    "migrations:generate": "node ./dist/lib/db/generate-migration.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "bundle:js": "esbuild --bundle ./public/js/main.js --outfile=./public/main.bundle.js  --minify --watch --format=esm --sourcemap --target=es6"
   },

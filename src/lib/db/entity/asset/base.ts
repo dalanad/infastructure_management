@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { Cascade, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { BaseEntity } from "./../base.entity";
 
 @Entity({ tableName: "device_category" })
@@ -15,10 +15,22 @@ export class Manufacturer extends BaseEntity {
 	@Property() name: string;
 }
 
+@Entity({ tableName: "device_location_parent" })
+export class AssetLocationParent extends BaseEntity {
+	@PrimaryKey() id: number;
+	@Property() name: string;
+	@Property() description: string;
+
+}
+
 @Entity({ tableName: "device_location" })
 export class AssetLocation extends BaseEntity {
 	@PrimaryKey() id: number;
 	@Property() name: string;
 	@Property() floor: string;
 	@Property() wing: string;
+
+	@ManyToOne((_) => AssetLocationParent, { cascade: [Cascade.ALL], nullable: true, eager: true, })
+	parent?: AssetLocationParent;
+
 }

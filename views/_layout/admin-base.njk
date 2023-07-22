@@ -23,7 +23,7 @@
             {% endfor %}
         </div>
     </div>
-    <div class="flex-fill overflow-auto">
+    <div class="flex-fill px-4 overflow-auto">
         {%- if frame %} <turbo-frame id="{{ frame }}"> {% endif %}
             {%- block content -%} {%- endblock -%}
             {% if frame %} </turbo-frame> {%- endif -%}

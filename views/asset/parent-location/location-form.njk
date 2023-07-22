@@ -1,0 +1,21 @@
+{% extends "_layout/admin-base.njk" %}
+{% import "macros.njk" as "m"  with context %}
+
+{% block content %}
+
+    {{ m.page_header("Asset Main Location") }}
+    <form action="" method="post" class="mx-3">
+        <div class="row g-2">
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label>Name</label>
+                <input class="ctrl" name="name" value="{{ name }}" required>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12 field">
+                <label>Description</label>
+                <input class="ctrl" name="description" value="{{ description }}" required>
+            </div>
+        </div>
+        <button type="submit" class="btn mt-3">Submit</button>
+        <a type="button" class="btn outline danger mt-3" href="/assets/parent-location/">Back</a>
+    </form>
+{% endblock %}

@@ -124,15 +124,17 @@ function selectBoxes() {
             </v-select>`;
 		select.parentNode.insertBefore(container, select);
 		let options = Array.from(select.options).map((o) => ({ value: o.value, label: o.innerHTML }));
-		let selected = select.value;
+		let selected = select.value || select.dataset.selected;
 		select.style.display = "none";
 		app = new Vue({
 			mounted: function () {
 				if (select.dataset.url) {
+					console.log(select)
 					fetch(select.dataset.url)
 						.then((res) => res.json())
 						.then((e) => {
 							this.options = e.content;
+							this.val = parseInt(select.dataset.selected)
 						});
 				}
 				if (select.dataset["allowClear"]) {
@@ -144,7 +146,7 @@ function selectBoxes() {
 			},
 			methods: {
 				setSelected: function () {
-					if (Array.from(select.options).filter((o) => o.value === this.val).length === 0) {
+					if (Array.from(select.options).filter((o) => o.value  === this.val).length === 0) {
 						let option = document.createElement("option");
 						option.value = this.val;
 						select.appendChild(option);

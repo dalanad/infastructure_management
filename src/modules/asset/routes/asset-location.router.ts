@@ -7,13 +7,18 @@ route.get("/", async (req, res) => {
 	const params = {
 		page: parseInt(String(req.query.page || "0")),
 		size: parseInt(String(req.query.size || "10")),
+		sort: Object(req.query.sort ? Object.assign({}, req.query.sort) : { id: "DESC" }),
 	};
 
-	// Object.assign(params, req.query);
 	let [items, count] = await req.orm.em.findAndCount(
 		AssetLocation,
 		{},
-		{ limit: params.size, offset: params.page * params.size }
+		{
+			populate: ['parent'],
+			limit: params.size,
+			offset: params.page * params.size,
+			orderBy: { ...params.sort },
+		}
 	);
 	res.render("asset/location/location-home", { items, total: count, ...params });
 });

@@ -52,7 +52,7 @@ function registerViewHelpers(req, res, next) {
 	};
 
 
-	res.locals.title = "Zismith Mini ERP";
+	res.locals.title = "Zismith | IT Asset Management";
 	res.locals.tag = function name(type: string, str: string, override: string) {
 		return `<span class="tag ${status[ type ][ str ]}">${override || String(str).replace(/_/g, " ")}</span>`;
 	};
